@@ -1,2 +1,10 @@
-# Ignora sempre o csv que é baixado
-EstudodeCaso/data/databaseFraude.csv
+# Ignora bases de dados grandes demais para o Github
+# Individualmente:
+#data/databaseApartamentos.csv
+data/databaseFraude.csv
+#data/databaseCovid.csv
+#data/databaseHotel.csv
+
+# Para remover todas as bases de dados:
+#data/*.csv
+
