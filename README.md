@@ -6,7 +6,7 @@ Este repositório contém estudos de caso e atividades práticas em Ciência de 
 
 - `data/`: Contém as bases de dados utilizadas nos estudos e atividades.
 - `notebooks/`: Jupyter Notebooks com análises e visualizações.
-- `docs/`: Documentação e PDF dos estudos e atividades.
+- `docs/`: Documentação com PDFs utilizados e relatórios .
 
 ## 📚 Atividades
 
@@ -70,7 +70,8 @@ As bases de dados utilizadas estão disponíveis em:
 
 ## 🛠️ Tecnologias Utilizadas
 
-- Python 3.x
+- Jupyter Notebook
+- Python 3.10 ou superior
 - Bibliotecas:
   - pandas
   - numpy
