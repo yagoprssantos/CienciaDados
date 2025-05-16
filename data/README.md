@@ -7,9 +7,31 @@ Aqui estão reunidas as bases de dados públicas utilizadas em estudos e ativida
 As bases de dados não disponíveis no Kaggle _muito provavelmente_ podem ser encontradas nas seguintes pastas do Google Drive:
 
 1. [Bases de Dados - Pasta 1](https://drive.google.com/drive/folders/1HmdzPslXIvonThOhICcPPS6Y-rzojfTJ?usp=sharing)
-2. [Bases de Dados - Pasta 2](https://drive.google.com/drive/folders/1HmdzPslXIvonThOhICcPPS6Y-rzojfTJ?usp=sharing)
+2. [Bases de Dados - Pasta 2](https://drive.google.com/drive/folders/19A2EeX_NTU4-67kEd2VO9Xy-M4uUAn9T?usp=sharing)
 
 ## Atividades
+
+### Regressão Linear
+
+- **California Housing Dataset**: Utilizado na atividade de regressão linear para prever valores de casas
+  - `databaseCasas.csv` - Conjunto de treinamento
+  - `databaseCasasTest.csv` - Conjunto de teste
+  - Também disponível via: `from sklearn.datasets import fetch_california_housing`
+
+### Classificação
+
+- **Titanic Dataset**: Utilizado na atividade de aprendizado de máquina para classificação de sobreviventes
+  - `databaseTitanic.csv` - Conjunto de treinamento
+  - `databaseTitanicTest.csv` - Conjunto de teste
+  - [Kaggle - Titanic: Machine Learning from Disaster](https://www.kaggle.com/c/titanic)
+
+### Análise Exploratória
+
+- Consulte os notebooks `Analise_Exploratoria.ipynb`, `Analise-Exploratoria-Financeira.ipynb` e `Analise-Exploratoria-Parte2.ipynb` para detalhes sobre os datasets utilizados nestas atividades.
+
+### Aprendizado Não Supervisionado
+
+- Consulte o notebook `K_Means_Aprendizado_Nao_Supervisionado.ipynb` para detalhes sobre os datasets utilizados em atividades de clustering.
 
 ---
 

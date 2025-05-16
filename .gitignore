@@ -1,9 +1,13 @@
 # Ignora bases de dados grandes demais para o Github
 # Individualmente:
 #data/databaseApartamentos.csv
-data/databaseFraude.csv
+#data/databaseCasas.csv
+#data/databaseCasasTest.csv
 #data/databaseCovid.csv
-#data/databaseHotel.csv
+data/databaseFraude.csv
+data/databaseHotel.csv
+#data/databaseTitanic.csv
+#data/databaseTitanicTest.csv
 
 # Para remover todas as bases de dados:
 #data/*.csv
