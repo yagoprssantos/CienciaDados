@@ -60,6 +60,11 @@ As bases de dados não disponíveis no Kaggle _muito provavelmente_ podem ser en
 
 - Google Drive - _databaseCovid_ nas [pastas do Google Drive](#acesso-às-bases-no-google-drive)
 
+### Estudo de Caso 4: Sistema de Recomendação de Produtos Online
+
+- [Kaggle - Amazon electronics Rating Dataset](https://www.kaggle.com/datasets/vibivij/amazon-electronics-rating-datasetrecommendation)
+- Google Drive - _databaseEletronicos_ nas [pastas do Google Drive](#acesso-às-bases-no-google-drive)
+
 ---
 
 > **Atenção:**  

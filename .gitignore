@@ -4,6 +4,7 @@
 #data/databaseCasas.csv
 #data/databaseCasasTest.csv
 #data/databaseCovid.csv
+data/databaseEletronicos.csv
 data/databaseFraude.csv
 data/databaseHotel.csv
 #data/databaseTitanic.csv
