@@ -7,6 +7,8 @@
 data/databaseEletronicos.csv
 data/databaseFraude.csv
 data/databaseHotel.csv
+data/databaseIMDB.csv
+#data/databaseIriscsv
 #data/databaseTitanic.csv
 #data/databaseTitanicTest.csv
 

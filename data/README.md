@@ -31,7 +31,16 @@ As bases de dados não disponíveis no Kaggle _muito provavelmente_ podem ser en
 
 ### Aprendizado Não Supervisionado
 
-- Consulte o notebook `K_Means_Aprendizado_Nao_Supervisionado.ipynb` para detalhes sobre os datasets utilizados em atividades de clustering.
+- **Iris Dataset**: Utilizado na atividade de clustering com K-Means
+  - `databaseIris.csv` - Dataset clássico com medidas de pétalas e sépalas de íris
+  - Também disponível via: `from sklearn.datasets import load_iris`
+  - Consulte o notebook `K_Means_Aprendizado_Nao_Supervisionado.ipynb` para detalhes
+
+### Sistema de Recomendação
+
+- **IMDB Movies Dataset**: Utilizado para sistema de recomendação de filmes
+  - `databaseIMDB.csv` - Dataset com informações de filmes e avaliações
+  - Consulte os notebooks `SistemaRecomendacaoPythonCEUB_KNN.ipynb` e `SistemaRecomendacaoPythonCEUB_KNN_e_KMeans.ipynb`
 
 ---
 
@@ -64,6 +73,20 @@ As bases de dados não disponíveis no Kaggle _muito provavelmente_ podem ser en
 
 - [Kaggle - Amazon electronics Rating Dataset](https://www.kaggle.com/datasets/vibivij/amazon-electronics-rating-datasetrecommendation)
 - Google Drive - _databaseEletronicos_ nas [pastas do Google Drive](#acesso-às-bases-no-google-drive)
+
+### Estudo de Caso 5: Análise e Classificação de Flores Iris
+
+- **Iris Dataset**: Dataset clássico para análise de classificação multiclasse
+  - `databaseIris.csv` - Dataset com características morfológicas de três espécies de íris
+  - [Kaggle - Iris Species](https://www.kaggle.com/datasets/uciml/iris)
+  - Também disponível via: `from sklearn.datasets import load_iris`
+
+### Estudo de Caso 6: Sistema de Recomendação e Análise de Filmes
+
+- **IMDB Movies Dataset**: Base de dados abrangente sobre filmes e avaliações
+  - `databaseIMDB.csv` - Dataset com informações detalhadas de filmes, gêneros, avaliações e metadados
+  - [Kaggle - IMDB Movie Dataset](https://www.kaggle.com/datasets/harshitshankhdhar/imdb-dataset-of-top-1000-movies-and-tv-shows)
+  - Google Drive - _databaseIMDB_ nas [pastas do Google Drive](#acesso-às-bases-no-google-drive)
 
 ---
 
