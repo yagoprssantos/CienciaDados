@@ -1,0 +1,2047 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce &#8212; CienciaDados</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/estudos_caso/EstudodeCaso4';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais" href="EstudodeCaso5.html" />
+    <link rel="prev" title="Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19" href="EstudodeCaso3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CienciaDados</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    CienciaDados
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Atividades</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../atividades/A_Regressao_Linear.html">A Regressão Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise-Exploratoria-Financeira.html">Mentoria DATAUP - Aula02</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise-Exploratoria-Parte2.html">Análise Exploratória dos Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise_Exploratoria.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Aprendizado_Maquinas_Classificacao.html">Modelos de Classificação</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Classificacao_MLP.html">Multi Layer Perceptron ( MLP )  __________________________________</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/K_Means_Aprendizado_Nao_Supervisionado.html">Aprendizado Não Supervisionado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/O_Perceptron.html">O Perceptron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Processamento_para_NLP_CEUB.html">Introdução</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/SistemaRecomendacaoPythonCEUB_KNN.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/SistemaRecomendacaoPythonCEUB_KNN_e_KMeans.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Tratamento_de_Dados.html">Tratamento de dados</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Estudos de Caso</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso1.html">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso2.html">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso3.html">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso5.html">Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso6.html">Estudo de Caso 6: Análise de Sentimentos em Avaliações de Produtos com NLP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/estudos_caso/EstudodeCaso4.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-do-estudo">🎯 Objetivos do Estudo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal">Objetivo Principal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos Específicos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">📊 Metodologia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-notebook">🚀 Estrutura do Notebook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrantes">Integrantes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitetura-do-sistema">Arquitetura do Sistema:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-1-fundacao-e-analise"><strong>🔍 Fase 1: Fundação e Análise</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-2-implementacao-knn"><strong>🤖 Fase 2: Implementação KNN</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-3-implementacao-k-means"><strong>🎲 Fase 3: Implementação K-Means</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-4-comparacao-e-conclusoes"><strong>⚖️ Fase 4: Comparação e Conclusões</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carregamento-e-exploracao-dos-dados">1. Carregamento e Exploração dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processamento-dos-dados">2. Pré-processamento dos Dados</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-1-sistema-de-recomendacao-usando-knn">PARTE 1: SISTEMA DE RECOMENDAÇÃO USANDO KNN</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceito-do-knn-para-recomendacao">Conceito do KNN para Recomendação</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-performance-do-knn">Análise de Performance do KNN</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-2-sistema-de-recomendacao-usando-k-means">PARTE 2: SISTEMA DE RECOMENDAÇÃO USANDO K-MEANS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceito-do-k-means-para-recomendacao">Conceito do K-Means para Recomendação</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-performance-do-k-means">Análise de Performance do K-Means</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-3-comparacao-entre-knn-e-k-means">PARTE 3: COMPARAÇÃO ENTRE KNN E K-MEANS</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-final-e-conclusoes">ANÁLISE FINAL E CONCLUSÕES</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diferencas-entre-as-abordagens-knn-e-k-means">🔍 Diferenças entre as Abordagens KNN e K-Means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbors-knn"><strong>K-Nearest Neighbors (KNN)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-clustering"><strong>K-Means Clustering</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais">🏆 Conclusões Finais</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qual-abordagem-apresentou-melhores-resultados"><strong>Qual Abordagem Apresentou Melhores Resultados?</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#knn-e-superior-quando"><strong>KNN é superior quando:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-e-superior-quando"><strong>K-Means é superior quando:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacao-geral"><strong>Recomendação Geral:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-em-producao"><strong>Implementação em Produção:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-final-do-estudo-de-caso">Conclusão Final do Estudo de Caso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-da-analise">Resultados da Análise:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-knn-item-based"><strong>Sistema KNN (Item-based)</strong>:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-k-means-user-based"><strong>Sistema K-Means (User-based)</strong>:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-geral">Comparação Geral:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacao-de-uso">Recomendação de Uso:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-hibrido-implementado">Sistema Híbrido Implementado:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="estudo-de-caso-4-sistema-de-recomendacao-inteligente-para-e-commerce">
+<h1>Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce<a class="headerlink" href="#estudo-de-caso-4-sistema-de-recomendacao-inteligente-para-e-commerce" title="Link to this heading">#</a></h1>
+<p>Este notebook apresenta a implementação e comparação de dois algoritmos diferentes para sistemas de recomendação: K-Nearest Neighbors (KNN) e K-Means Clustering, avaliando suas aplicabilidades e performance.</p>
+<section id="objetivos-do-estudo">
+<h2>🎯 Objetivos do Estudo<a class="headerlink" href="#objetivos-do-estudo" title="Link to this heading">#</a></h2>
+<section id="objetivo-principal">
+<h3>Objetivo Principal<a class="headerlink" href="#objetivo-principal" title="Link to this heading">#</a></h3>
+<p>Desenvolver e comparar dois sistemas de recomendação utilizando algoritmos KNN e K-Means, analisando suas vantagens e desvantagens para diferentes cenários de e-commerce.</p>
+</section>
+<section id="objetivos-especificos">
+<h3>Objetivos Específicos<a class="headerlink" href="#objetivos-especificos" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Implementar sistema de recomendação baseado em K-Nearest Neighbors (KNN)</p></li>
+<li><p>Desenvolver sistema de recomendação baseado em K-Means Clustering</p></li>
+<li><p>Comparar a performance e aplicabilidade de ambos os algoritmos</p></li>
+<li><p>Analisar diferentes métricas de avaliação para sistemas de recomendação</p></li>
+<li><p>Propor cenários ideais para cada abordagem</p></li>
+</ul>
+</section>
+</section>
+<section id="metodologia">
+<h2>📊 Metodologia<a class="headerlink" href="#metodologia" title="Link to this heading">#</a></h2>
+<p><strong>Dataset</strong>: Avaliações de produtos eletrônicos da Amazon
+<strong>Algoritmos</strong>: K-Nearest Neighbors (KNN) e K-Means Clustering
+<strong>Métricas</strong>: Similaridade cosseno, Silhouette score, tempo de processamento
+<strong>Abordagem</strong>: Implementação comparativa com análise de casos de uso</p>
+</section>
+<section id="estrutura-do-notebook">
+<h2>🚀 Estrutura do Notebook<a class="headerlink" href="#estrutura-do-notebook" title="Link to this heading">#</a></h2>
+<section id="integrantes">
+<h3>Integrantes:<a class="headerlink" href="#integrantes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><em>João Victor Azevedo dos Santos</em></p></li>
+<li><p><em>Nathan Maurício Rodrigues Lopes</em></p></li>
+<li><p><em>Paulo Vinícius Isidro Batista</em></p></li>
+<li><p><em>Yago Péres dos Santos</em></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="arquitetura-do-sistema">
+<h2>Arquitetura do Sistema:<a class="headerlink" href="#arquitetura-do-sistema" title="Link to this heading">#</a></h2>
+<section id="fase-1-fundacao-e-analise">
+<h3><strong>🔍 Fase 1: Fundação e Análise</strong><a class="headerlink" href="#fase-1-fundacao-e-analise" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Carregamento e Exploração dos Dados</strong></p></li>
+<li><p><strong>Pré-processamento e Criação de Matriz Esparsa</strong></p></li>
+<li><p><strong>Análise Exploratória de Padrões de Avaliação</strong></p></li>
+</ol>
+</section>
+<section id="fase-2-implementacao-knn">
+<h3><strong>🤖 Fase 2: Implementação KNN</strong><a class="headerlink" href="#fase-2-implementacao-knn" title="Link to this heading">#</a></h3>
+<ol class="arabic simple" start="4">
+<li><p><strong>Configuração e Treinamento do Modelo KNN</strong></p></li>
+<li><p><strong>Sistema de Recomendação Item-based</strong></p></li>
+<li><p><strong>Análise de Performance e Similaridades</strong></p></li>
+</ol>
+</section>
+<section id="fase-3-implementacao-k-means">
+<h3><strong>🎲 Fase 3: Implementação K-Means</strong><a class="headerlink" href="#fase-3-implementacao-k-means" title="Link to this heading">#</a></h3>
+<ol class="arabic simple" start="7">
+<li><p><strong>Otimização do Número de Clusters</strong></p></li>
+<li><p><strong>Sistema de Recomendação por Clusters de Usuário</strong></p></li>
+<li><p><strong>Análise de Agrupamentos e Padrões</strong></p></li>
+</ol>
+</section>
+<section id="fase-4-comparacao-e-conclusoes">
+<h3><strong>⚖️ Fase 4: Comparação e Conclusões</strong><a class="headerlink" href="#fase-4-comparacao-e-conclusoes" title="Link to this heading">#</a></h3>
+<ol class="arabic simple" start="10">
+<li><p><strong>Análise Comparativa de Performance</strong></p></li>
+<li><p><strong>Casos de Uso Recomendados para Cada Algoritmo</strong></p></li>
+<li><p><strong>Conclusões e Recomendações Finais</strong></p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importando as bibliotecas necessárias</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">csr_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NearestNeighbors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configuração dos gráficos</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-v0_8&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="carregamento-e-exploracao-dos-dados">
+<h2>1. Carregamento e Exploração dos Dados<a class="headerlink" href="#carregamento-e-exploracao-dos-dados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Carregando o dataset</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;databaseEletronicos.csv&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset carregado com sucesso!&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Arquivo não encontrado. Criando dataset sintético para demonstração...&quot;</span><span class="p">)</span>
+    <span class="c1"># Criando um dataset sintético para demonstração</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">n_users</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">n_products</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="n">n_ratings</span> <span class="o">=</span> <span class="mi">10000</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s1">&#39;userId&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_users</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_ratings</span><span class="p">),</span>
+        <span class="s1">&#39;productId&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_products</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_ratings</span><span class="p">),</span>
+        <span class="s1">&#39;Rating&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">n_ratings</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="n">n_ratings</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;1H&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+    
+    <span class="c1"># Removendo duplicatas</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">([</span><span class="s1">&#39;userId&#39;</span><span class="p">,</span> <span class="s1">&#39;productId&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset sintético criado com </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> avaliações&quot;</span><span class="p">)</span>
+
+<span class="c1"># Visualizando as primeiras linhas</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Primeiras 5 linhas do dataset:&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Arquivo não encontrado. Criando dataset sintético para demonstração...
+Dataset sintético criado com 9910 avaliações
+
+Primeiras 5 linhas do dataset:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>userId</th>
+      <th>productId</th>
+      <th>Rating</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>103</td>
+      <td>442</td>
+      <td>4</td>
+      <td>2020-01-01 00:00:00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>436</td>
+      <td>279</td>
+      <td>3</td>
+      <td>2020-01-01 01:00:00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>861</td>
+      <td>251</td>
+      <td>5</td>
+      <td>2020-01-01 02:00:00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>271</td>
+      <td>310</td>
+      <td>4</td>
+      <td>2020-01-01 03:00:00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>107</td>
+      <td>208</td>
+      <td>5</td>
+      <td>2020-01-01 04:00:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Informações básicas do dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Informações do Dataset:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Formato: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Usuários únicos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;userId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Produtos únicos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;productId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Avaliações totais: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estatísticas das avaliações:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Informações do Dataset:
+Formato: (9910, 4)
+Usuários únicos: 1000
+Produtos únicos: 500
+Avaliações totais: 9910
+
+Estatísticas das avaliações:
+count    9910.000000
+mean        3.617861
+std         1.281770
+min         1.000000
+25%         3.000000
+50%         4.000000
+75%         5.000000
+max         5.000000
+Name: Rating, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificando valores nulos</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valores nulos por coluna:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># Removendo valores nulos se existirem</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dataset após remoção de nulos: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valores nulos por coluna:
+userId       0
+productId    0
+Rating       0
+timestamp    0
+dtype: int64
+
+Dataset após remoção de nulos: (9910, 4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualização da distribuição das avaliações</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Distribuição das avaliações</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Rating&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distribuição das Avaliações&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Rating&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frequência&#39;</span><span class="p">)</span>
+
+<span class="c1"># Número de avaliações por usuário</span>
+<span class="n">user_ratings</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;userId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">user_ratings</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightcoral&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distribuição de Avaliações por Usuário&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Número de Avaliações&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Número de Usuários&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b9ada502d53b1d4b393e8bfeb544e0ec402508861932f243614cf4ec42bd6354.png" src="../../_images/b9ada502d53b1d4b393e8bfeb544e0ec402508861932f243614cf4ec42bd6354.png" />
+</div>
+</div>
+</section>
+<section id="pre-processamento-dos-dados">
+<h2>2. Pré-processamento dos Dados<a class="headerlink" href="#pre-processamento-dos-dados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrando usuários com pelo menos 5 avaliações para garantir dados significativos</span>
+<span class="n">user_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;userId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">active_users</span> <span class="o">=</span> <span class="n">user_counts</span><span class="p">[</span><span class="n">user_counts</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;userId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">active_users</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Usuários ativos (&gt;=5 avaliações): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">active_users</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset filtrado: </span><span class="si">{</span><span class="n">df_filtered</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Filtrando produtos com pelo menos 3 avaliações</span>
+<span class="n">product_counts</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="p">[</span><span class="s1">&#39;productId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">popular_products</span> <span class="o">=</span> <span class="n">product_counts</span><span class="p">[</span><span class="n">product_counts</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="p">[</span><span class="n">df_filtered</span><span class="p">[</span><span class="s1">&#39;productId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">popular_products</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Produtos populares (&gt;=3 avaliações): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">popular_products</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset final: </span><span class="si">{</span><span class="n">df_filtered</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Usuários ativos (&gt;=5 avaliações): 965
+Dataset filtrado: (9790, 4)
+Produtos populares (&gt;=3 avaliações): 500
+Dataset final: (9790, 4)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Criando a matriz de usuário-produto</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Criando matriz de usuário-produto...&quot;</span><span class="p">)</span>
+<span class="n">user_product_matrix</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;userId&#39;</span><span class="p">,</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;productId&#39;</span><span class="p">,</span> 
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Rating&#39;</span><span class="p">,</span> 
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matriz criada: </span><span class="si">{</span><span class="n">user_product_matrix</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Densidade da matriz: </span><span class="si">{</span><span class="p">(</span><span class="n">user_product_matrix</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">user_product_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">user_product_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Criando matriz de usuário-produto...
+Matriz criada: (965, 500)
+Densidade da matriz: 0.0203
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="parte-1-sistema-de-recomendacao-usando-knn">
+<h1>PARTE 1: SISTEMA DE RECOMENDAÇÃO USANDO KNN<a class="headerlink" href="#parte-1-sistema-de-recomendacao-usando-knn" title="Link to this heading">#</a></h1>
+<section id="conceito-do-knn-para-recomendacao">
+<h2>Conceito do KNN para Recomendação<a class="headerlink" href="#conceito-do-knn-para-recomendacao" title="Link to this heading">#</a></h2>
+<p>O algoritmo K-Nearest Neighbors identifica produtos similares baseado no padrão de avaliações dos usuários. Produtos que foram avaliados de forma similar por diferentes usuários são considerados próximos no espaço de características.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transpondo a matriz para ter produtos como linhas (para recomendação item-based)</span>
+<span class="n">product_user_matrix</span> <span class="o">=</span> <span class="n">user_product_matrix</span><span class="o">.</span><span class="n">T</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matriz produto-usuário: </span><span class="si">{</span><span class="n">product_user_matrix</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convertendo para matriz esparsa para eficiência</span>
+<span class="n">product_sparse</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">product_user_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matriz esparsa criada: </span><span class="si">{</span><span class="n">product_sparse</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matriz produto-usuário: (500, 965)
+Matriz esparsa criada: (500, 965)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Treinando o modelo KNN</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Treinando modelo KNN...&quot;</span><span class="p">)</span>
+<span class="n">knn_model</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span>
+    <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>  <span class="c1"># 5 recomendações + o próprio produto</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;brute&#39;</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span>
+<span class="p">)</span>
+<span class="n">knn_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">product_sparse</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Modelo KNN treinado com sucesso!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Treinando modelo KNN...
+Modelo KNN treinado com sucesso!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Função de recomendação KNN</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">recomendar_produtos_knn</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">n_recomendacoes</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Verificando se o produto existe na matriz</span>
+        <span class="k">if</span> <span class="n">product_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Produto </span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2"> não encontrado no dataset&quot;</span>
+        
+        <span class="c1"># Encontrando o índice do produto</span>
+        <span class="n">product_idx</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span>
+        
+        <span class="c1"># Encontrando produtos similares</span>
+        <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">knn_model</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span>
+            <span class="n">product_sparse</span><span class="p">[</span><span class="n">product_idx</span><span class="p">:</span><span class="n">product_idx</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_recomendacoes</span><span class="o">+</span><span class="mi">1</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Preparando resultados (excluindo o próprio produto)</span>
+        <span class="n">recomendacoes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="n">produto_recomendado</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">similaridade</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># Convertendo distância em similaridade</span>
+            <span class="n">recomendacoes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">produto_recomendado</span><span class="p">,</span> <span class="n">similaridade</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">recomendacoes</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Erro na recomendação: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Testando a função de recomendação KNN</span>
+<span class="n">produto_teste</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Primeiro produto disponível</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== RECOMENDAÇÕES KNN PARA PRODUTO </span><span class="si">{</span><span class="n">produto_teste</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+<span class="n">recomendacoes_knn</span> <span class="o">=</span> <span class="n">recomendar_produtos_knn</span><span class="p">(</span><span class="n">produto_teste</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recomendacoes_knn</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">similaridade</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recomendacoes_knn</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Produto </span><span class="si">{</span><span class="n">produto</span><span class="si">}</span><span class="s2"> - Similaridade: </span><span class="si">{</span><span class="n">similaridade</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">recomendacoes_knn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== RECOMENDAÇÕES KNN PARA PRODUTO 1 ===
+1. Produto 294 - Similaridade: 0.1785
+2. Produto 175 - Similaridade: 0.1460
+3. Produto 337 - Similaridade: 0.1388
+4. Produto 309 - Similaridade: 0.1308
+5. Produto 261 - Similaridade: 0.1297
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analise-de-performance-do-knn">
+<h2>Análise de Performance do KNN<a class="headerlink" href="#analise-de-performance-do-knn" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analisando a distribuição de similaridades</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">analisar_similaridades_knn</span><span class="p">(</span><span class="n">n_produtos</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">similaridades</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">produtos_testados</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="n">n_produtos</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">produto</span> <span class="ow">in</span> <span class="n">produtos_testados</span><span class="p">:</span>
+        <span class="n">recs</span> <span class="o">=</span> <span class="n">recomendar_produtos_knn</span><span class="p">(</span><span class="n">produto</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recs</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">recs</span><span class="p">:</span>
+                <span class="n">similaridades</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">similaridades</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribuição de Similaridades - KNN&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Similaridade&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequência&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">similaridades</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> 
+                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Média: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">similaridades</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estatísticas das similaridades KNN:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Média: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">similaridades</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mediana: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">similaridades</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Desvio padrão: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">similaridades</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">analisar_similaridades_knn</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/76e95f64117ceddf7cb7d6aa9eca125446d6cd4a8329705e513ad3d81c5befac.png" src="../../_images/76e95f64117ceddf7cb7d6aa9eca125446d6cd4a8329705e513ad3d81c5befac.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estatísticas das similaridades KNN:
+Média: 0.1488
+Mediana: 0.1459
+Desvio padrão: 0.0270
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="parte-2-sistema-de-recomendacao-usando-k-means">
+<h1>PARTE 2: SISTEMA DE RECOMENDAÇÃO USANDO K-MEANS<a class="headerlink" href="#parte-2-sistema-de-recomendacao-usando-k-means" title="Link to this heading">#</a></h1>
+<section id="conceito-do-k-means-para-recomendacao">
+<h2>Conceito do K-Means para Recomendação<a class="headerlink" href="#conceito-do-k-means-para-recomendacao" title="Link to this heading">#</a></h2>
+<p>O algoritmo K-Means agrupa produtos em clusters baseado em suas características de avaliação. Produtos no mesmo cluster tendem a ter padrões similares de avaliação e podem ser recomendados entre si.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preparando dados para clustering</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Preparando dados para K-Means...&quot;</span><span class="p">)</span>
+
+<span class="c1"># Normalizando os dados</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">product_features_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">product_user_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dados normalizados: </span><span class="si">{</span><span class="n">product_features_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preparando dados para K-Means...
+Dados normalizados: (500, 965)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="c1"># Configurações para evitar warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOKY_MAX_CPU_COUNT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;4&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">encontrar_k_ideal</span><span class="p">(</span><span class="n">max_k</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">plot_elbow_point</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Versão melhorada que inclui detecção automática do cotovelo</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inercias</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">silhouette_scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">k_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calculando métricas para diferentes valores de k...&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_range</span><span class="p">:</span>
+        <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">product_features_scaled</span><span class="p">)</span>
+        
+        <span class="n">inercias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+        <span class="n">silhouette_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">product_features_scaled</span><span class="p">,</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: Inércia=</span><span class="si">{</span><span class="n">kmeans</span><span class="o">.</span><span class="n">inertia_</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Silhouette=</span><span class="si">{</span><span class="n">silhouette_scores</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Detectando cotovelo automaticamente usando método da derivada segunda</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">detectar_cotovelo</span><span class="p">(</span><span class="n">valores</span><span class="p">):</span>
+        <span class="c1"># Normalizar valores</span>
+        <span class="n">valores_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">valores</span><span class="p">)</span>
+        <span class="n">valores_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">valores_norm</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">valores_norm</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">valores_norm</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">valores_norm</span><span class="p">))</span>
+        
+        <span class="c1"># Calcular derivadas</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">valores_norm</span><span class="p">))</span>
+        <span class="n">primeira_derivada</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">valores_norm</span><span class="p">)</span>
+        <span class="n">segunda_derivada</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">primeira_derivada</span><span class="p">)</span>
+        
+        <span class="c1"># Ponto de cotovelo é onde a segunda derivada é máxima</span>
+        <span class="n">cotovelo_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">segunda_derivada</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Evitar extremos</span>
+        <span class="k">return</span> <span class="n">cotovelo_idx</span>
+    
+    <span class="n">cotovelo_idx</span> <span class="o">=</span> <span class="n">detectar_cotovelo</span><span class="p">(</span><span class="n">inercias</span><span class="p">)</span>
+    <span class="n">k_cotovelo</span> <span class="o">=</span> <span class="n">k_range</span><span class="p">[</span><span class="n">cotovelo_idx</span><span class="p">]</span>
+    
+    <span class="c1"># Visualizando os resultados</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    
+    <span class="c1"># Método do cotovelo</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_range</span><span class="p">,</span> <span class="n">inercias</span><span class="p">,</span> <span class="s1">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_elbow_point</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">k_cotovelo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> 
+                       <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Cotovelo detectado: k=</span><span class="si">{</span><span class="n">k_cotovelo</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Método do Cotovelo&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Número de Clusters (k)&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Inércia&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    
+    <span class="c1"># Silhouette Score</span>
+    <span class="n">melhor_k_silhouette</span> <span class="o">=</span> <span class="n">k_range</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">silhouette_scores</span><span class="p">)]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_range</span><span class="p">,</span> <span class="n">silhouette_scores</span><span class="p">,</span> <span class="s1">&#39;ro-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">melhor_k_silhouette</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Melhor k: </span><span class="si">{</span><span class="n">melhor_k_silhouette</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Número de Clusters (k)&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    
+    <span class="c1"># Gráfico combinado normalizado</span>
+    <span class="n">inercias_norm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">inercias</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">inercias</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">inercias</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">inercias</span><span class="p">))</span>
+    <span class="n">silhouette_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">silhouette_scores</span><span class="p">)</span>
+    
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_range</span><span class="p">,</span> <span class="n">inercias_norm</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Inércia (normalizada)&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_range</span><span class="p">,</span> <span class="n">silhouette_norm</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Comparação Normalizada&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Número de Clusters (k)&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Score Normalizado&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="c1"># Análise dos resultados</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">50</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ANÁLISE DOS RESULTADOS&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">50</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cotovelo detectado automaticamente: k=</span><span class="si">{</span><span class="n">k_cotovelo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Melhor k por Silhouette Score: </span><span class="si">{</span><span class="n">melhor_k_silhouette</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Silhouette Score máximo: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">silhouette_scores</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Sugestão final</span>
+    <span class="k">if</span> <span class="n">k_cotovelo</span> <span class="o">==</span> <span class="n">melhor_k_silhouette</span><span class="p">:</span>
+        <span class="n">k_sugerido</span> <span class="o">=</span> <span class="n">k_cotovelo</span>
+        <span class="n">razao</span> <span class="o">=</span> <span class="s2">&quot;Ambos os métodos convergem para o mesmo valor&quot;</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">k_cotovelo</span> <span class="o">-</span> <span class="n">melhor_k_silhouette</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">k_sugerido</span> <span class="o">=</span> <span class="n">melhor_k_silhouette</span>
+        <span class="n">razao</span> <span class="o">=</span> <span class="s2">&quot;Valores próximos, priorizando Silhouette Score&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">k_sugerido</span> <span class="o">=</span> <span class="n">melhor_k_silhouette</span>
+        <span class="n">razao</span> <span class="o">=</span> <span class="s2">&quot;Silhouette Score geralmente mais confiável para clusters bem separados&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">K RECOMENDADO: </span><span class="si">{</span><span class="n">k_sugerido</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Justificativa: </span><span class="si">{</span><span class="n">razao</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">k_sugerido</span><span class="p">,</span> <span class="n">k_cotovelo</span><span class="p">,</span> <span class="n">melhor_k_silhouette</span>
+
+<span class="c1"># Testando a versão melhorada</span>
+<span class="n">k_ideal</span><span class="p">,</span> <span class="n">k_cotovelo</span><span class="p">,</span> <span class="n">k_silhouette</span> <span class="o">=</span> <span class="n">encontrar_k_ideal</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calculando métricas para diferentes valores de k...
+k=2: Inércia=480813.56, Silhouette=0.1499
+k=3: Inércia=479759.06, Silhouette=0.0444
+k=4: Inércia=478137.67, Silhouette=0.0062
+k=5: Inércia=476616.17, Silhouette=0.0095
+k=6: Inércia=475247.35, Silhouette=0.0020
+k=7: Inércia=474287.56, Silhouette=-0.0175
+k=8: Inércia=472904.80, Silhouette=-0.0019
+k=9: Inércia=471491.95, Silhouette=-0.0103
+k=10: Inércia=469792.29, Silhouette=0.0045
+k=11: Inércia=468961.24, Silhouette=-0.0097
+k=12: Inércia=467197.61, Silhouette=0.0074
+k=13: Inércia=465781.75, Silhouette=-0.0001
+k=14: Inércia=465354.05, Silhouette=0.0002
+k=15: Inércia=463531.70, Silhouette=-0.0041
+</pre></div>
+</div>
+<img alt="../../_images/f8b857fb6e5e1e3932e24ab0ec173a322cae31e3fcab5a0719eeb926bc134ae5.png" src="../../_images/f8b857fb6e5e1e3932e24ab0ec173a322cae31e3fcab5a0719eeb926bc134ae5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==================================================
+ANÁLISE DOS RESULTADOS
+==================================================
+Cotovelo detectado automaticamente: k=13
+Melhor k por Silhouette Score: 2
+Silhouette Score máximo: 0.1499
+
+K RECOMENDADO: 2
+Justificativa: Silhouette Score geralmente mais confiável para clusters bem separados
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aplicando K-Means com o número ideal de clusters</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Aplicando K-Means com k=</span><span class="si">{</span><span class="n">k_ideal</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k_ideal</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">product_features_scaled</span><span class="p">)</span>
+
+<span class="c1"># Adicionando labels de cluster à matriz</span>
+<span class="n">product_clusters</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">product_clusters</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster_labels</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clustering concluído!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribuição de produtos por cluster:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product_clusters</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Aplicando K-Means com k=2...
+Clustering concluído!
+Distribuição de produtos por cluster:
+Cluster
+0    499
+1      1
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizando os clusters</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">visualizar_clusters</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+    
+    <span class="c1"># Reduzindo dimensionalidade para visualização</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">product_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">product_features_scaled</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">product_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">product_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> 
+                         <span class="n">c</span><span class="o">=</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Visualização dos Clusters de Produtos (PCA)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PC1 (</span><span class="si">{</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1"> da variância)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PC2 (</span><span class="si">{</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1"> da variância)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cluster&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variância explicada total: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">visualizar_clusters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c11da1a1d29720d3bf2505987a541edede63ab52c3e9d22aeed13bd365d1f662.png" src="../../_images/c11da1a1d29720d3bf2505987a541edede63ab52c3e9d22aeed13bd365d1f662.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variância explicada total: 1.13%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Função de recomendação K-Means</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">recomendar_produtos_kmeans</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">n_recomendacoes</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">product_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Produto </span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2"> não encontrado no dataset&quot;</span>
+        
+        <span class="c1"># Encontrando o cluster do produto</span>
+        <span class="n">cluster_produto</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">product_id</span><span class="p">,</span> <span class="s1">&#39;Cluster&#39;</span><span class="p">]</span>
+        
+        <span class="c1"># Produtos do mesmo cluster (excluindo o próprio produto)</span>
+        <span class="n">produtos_cluster</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="p">[</span><span class="n">product_clusters</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster_produto</span><span class="p">]</span>
+        <span class="n">produtos_cluster</span> <span class="o">=</span> <span class="n">produtos_cluster</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">produtos_cluster</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Nenhum outro produto encontrado no cluster </span><span class="si">{</span><span class="n">cluster_produto</span><span class="si">}</span><span class="s2">&quot;</span>
+        
+        <span class="c1"># Calculando similaridade baseada na média das avaliações</span>
+        <span class="n">produto_original</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">product_id</span><span class="p">]</span>
+        <span class="n">similaridades</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">produtos_cluster</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="n">produto_comparacao</span> <span class="o">=</span> <span class="n">produtos_cluster</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            
+            <span class="c1"># Calculando similaridade cosseno</span>
+            <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">produto_original</span><span class="p">,</span> <span class="n">produto_comparacao</span><span class="p">)</span>
+            <span class="n">norm_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">produto_original</span><span class="p">)</span>
+            <span class="n">norm_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">produto_comparacao</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">norm_a</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">norm_b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">similaridade</span> <span class="o">=</span> <span class="n">dot_product</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm_a</span> <span class="o">*</span> <span class="n">norm_b</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">similaridade</span> <span class="o">=</span> <span class="mi">0</span>
+            
+            <span class="n">similaridades</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">idx</span><span class="p">,</span> <span class="n">similaridade</span><span class="p">))</span>
+        
+        <span class="c1"># Ordenando por similaridade</span>
+        <span class="n">similaridades</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="c1"># Retornando as top recomendações</span>
+        <span class="n">recomendacoes</span> <span class="o">=</span> <span class="n">similaridades</span><span class="p">[:</span><span class="n">n_recomendacoes</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">recomendacoes</span><span class="p">,</span> <span class="n">cluster_produto</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Erro na recomendação: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Testando a função de recomendação K-Means</span>
+<span class="n">produto_teste</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== RECOMENDAÇÕES K-MEANS PARA PRODUTO </span><span class="si">{</span><span class="n">produto_teste</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+<span class="n">resultado_kmeans</span> <span class="o">=</span> <span class="n">recomendar_produtos_kmeans</span><span class="p">(</span><span class="n">produto_teste</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resultado_kmeans</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+    <span class="n">recomendacoes_kmeans</span><span class="p">,</span> <span class="n">cluster_id</span> <span class="o">=</span> <span class="n">resultado_kmeans</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Produto pertence ao Cluster: </span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recomendações do mesmo cluster:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">similaridade</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recomendacoes_kmeans</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Produto </span><span class="si">{</span><span class="n">produto</span><span class="si">}</span><span class="s2"> - Similaridade: </span><span class="si">{</span><span class="n">similaridade</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">resultado_kmeans</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== RECOMENDAÇÕES K-MEANS PARA PRODUTO 1 ===
+Produto pertence ao Cluster: 0
+Recomendações do mesmo cluster:
+1. Produto 294 - Similaridade: 0.1785
+2. Produto 175 - Similaridade: 0.1460
+3. Produto 337 - Similaridade: 0.1388
+4. Produto 309 - Similaridade: 0.1308
+5. Produto 261 - Similaridade: 0.1297
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analise-de-performance-do-k-means">
+<h2>Análise de Performance do K-Means<a class="headerlink" href="#analise-de-performance-do-k-means" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analisando características dos clusters</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">analisar_clusters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== ANÁLISE DOS CLUSTERS ===&quot;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">cluster_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k_ideal</span><span class="p">):</span>
+        <span class="n">produtos_cluster</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="p">[</span><span class="n">product_clusters</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster_id</span><span class="p">]</span>
+        <span class="n">dados_cluster</span> <span class="o">=</span> <span class="n">produtos_cluster</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Cluster </span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Número de produtos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">produtos_cluster</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Avaliação média: </span><span class="si">{</span><span class="n">dados_cluster</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">dados_cluster</span><span class="o">.</span><span class="n">values</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Densidade de avaliações: </span><span class="si">{</span><span class="p">(</span><span class="n">dados_cluster</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dados_cluster</span><span class="o">.</span><span class="n">size</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Top 3 produtos mais avaliados do cluster</span>
+        <span class="n">avaliacoes_por_produto</span> <span class="o">=</span> <span class="p">(</span><span class="n">dados_cluster</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Top 3 produtos mais avaliados: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">avaliacoes_por_produto</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">analisar_clusters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== ANÁLISE DOS CLUSTERS ===
+
+Cluster 0:
+  Número de produtos: 499
+  Avaliação média: 3.62
+  Densidade de avaliações: 0.0203
+  Top 3 produtos mais avaliados: [464, 128, 333]
+
+Cluster 1:
+  Número de produtos: 1
+  Avaliação média: 4.27
+  Densidade de avaliações: 0.0311
+  Top 3 produtos mais avaliados: [77]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="parte-3-comparacao-entre-knn-e-k-means">
+<h1>PARTE 3: COMPARAÇÃO ENTRE KNN E K-MEANS<a class="headerlink" href="#parte-3-comparacao-entre-knn-e-k-means" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comparação direta das recomendações</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">comparar_metodos</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">n_recomendacoes</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;COMPARAÇÃO DE RECOMENDAÇÕES PARA PRODUTO </span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Recomendações KNN</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔍 MÉTODO KNN:&quot;</span><span class="p">)</span>
+    <span class="n">recs_knn</span> <span class="o">=</span> <span class="n">recomendar_produtos_knn</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">n_recomendacoes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recs_knn</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">sim</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recs_knn</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Produto </span><span class="si">{</span><span class="n">produto</span><span class="si">}</span><span class="s2"> (Similaridade: </span><span class="si">{</span><span class="n">sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">produtos_knn</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">prod</span> <span class="k">for</span> <span class="n">prod</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">recs_knn</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">recs_knn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">produtos_knn</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    
+    <span class="c1"># Recomendações K-Means</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🎯 MÉTODO K-MEANS:&quot;</span><span class="p">)</span>
+    <span class="n">resultado_kmeans</span> <span class="o">=</span> <span class="n">recomendar_produtos_kmeans</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">n_recomendacoes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resultado_kmeans</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">recs_kmeans</span><span class="p">,</span> <span class="n">cluster_id</span> <span class="o">=</span> <span class="n">resultado_kmeans</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Cluster: </span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">sim</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recs_kmeans</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Produto </span><span class="si">{</span><span class="n">produto</span><span class="si">}</span><span class="s2"> (Similaridade: </span><span class="si">{</span><span class="n">sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">produtos_kmeans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">prod</span> <span class="k">for</span> <span class="n">prod</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">recs_kmeans</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">resultado_kmeans</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">produtos_kmeans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    
+    <span class="c1"># Análise de sobreposição</span>
+    <span class="k">if</span> <span class="n">produtos_knn</span> <span class="ow">and</span> <span class="n">produtos_kmeans</span><span class="p">:</span>
+        <span class="n">sobreposicao</span> <span class="o">=</span> <span class="n">produtos_knn</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">produtos_kmeans</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 ANÁLISE DE SOBREPOSIÇÃO:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Produtos em comum: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sobreposicao</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sobreposicao</span><span class="p">)</span><span class="o">/</span><span class="n">n_recomendacoes</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sobreposicao</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Produtos: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">sobreposicao</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Testando comparação com múltiplos produtos</span>
+<span class="n">produtos_teste</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># Primeiros 3 produtos</span>
+<span class="k">for</span> <span class="n">produto</span> <span class="ow">in</span> <span class="n">produtos_teste</span><span class="p">:</span>
+    <span class="n">comparar_metodos</span><span class="p">(</span><span class="n">produto</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+COMPARAÇÃO DE RECOMENDAÇÕES PARA PRODUTO 1
+============================================================
+
+🔍 MÉTODO KNN:
+  1. Produto 294 (Similaridade: 0.1785)
+  2. Produto 175 (Similaridade: 0.1460)
+  3. Produto 337 (Similaridade: 0.1388)
+  4. Produto 309 (Similaridade: 0.1308)
+  5. Produto 261 (Similaridade: 0.1297)
+
+🎯 MÉTODO K-MEANS:
+  Cluster: 0
+  1. Produto 294 (Similaridade: 0.1785)
+  2. Produto 175 (Similaridade: 0.1460)
+  3. Produto 337 (Similaridade: 0.1388)
+  4. Produto 309 (Similaridade: 0.1308)
+  5. Produto 261 (Similaridade: 0.1297)
+
+📊 ANÁLISE DE SOBREPOSIÇÃO:
+  Produtos em comum: 5 (100.0%)
+  Produtos: [261, 294, 175, 337, 309]
+
+============================================================
+COMPARAÇÃO DE RECOMENDAÇÕES PARA PRODUTO 2
+============================================================
+
+🔍 MÉTODO KNN:
+  1. Produto 251 (Similaridade: 0.2445)
+  2. Produto 98 (Similaridade: 0.1458)
+  3. Produto 208 (Similaridade: 0.1402)
+  4. Produto 9 (Similaridade: 0.1288)
+  5. Produto 317 (Similaridade: 0.1250)
+
+🎯 MÉTODO K-MEANS:
+  Cluster: 0
+  1. Produto 251 (Similaridade: 0.2445)
+  2. Produto 98 (Similaridade: 0.1458)
+  3. Produto 208 (Similaridade: 0.1402)
+  4. Produto 9 (Similaridade: 0.1288)
+  5. Produto 317 (Similaridade: 0.1250)
+
+📊 ANÁLISE DE SOBREPOSIÇÃO:
+  Produtos em comum: 5 (100.0%)
+  Produtos: [98, 9, 208, 251, 317]
+
+============================================================
+COMPARAÇÃO DE RECOMENDAÇÕES PARA PRODUTO 3
+============================================================
+
+🔍 MÉTODO KNN:
+  1. Produto 288 (Similaridade: 0.1728)
+  2. Produto 133 (Similaridade: 0.1480)
+  3. Produto 410 (Similaridade: 0.1204)
+  4. Produto 129 (Similaridade: 0.1146)
+  5. Produto 222 (Similaridade: 0.1136)
+
+🎯 MÉTODO K-MEANS:
+  Cluster: 0
+  1. Produto 288 (Similaridade: 0.1728)
+  2. Produto 133 (Similaridade: 0.1480)
+  3. Produto 410 (Similaridade: 0.1204)
+  4. Produto 129 (Similaridade: 0.1146)
+  5. Produto 222 (Similaridade: 0.1136)
+
+📊 ANÁLISE DE SOBREPOSIÇÃO:
+  Produtos em comum: 5 (100.0%)
+  Produtos: [288, 129, 133, 410, 222]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Métricas de avaliação comparativa</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">avaliar_metodos</span><span class="p">(</span><span class="n">n_produtos_teste</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">produtos_teste</span> <span class="o">=</span> <span class="n">product_user_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="n">n_produtos_teste</span><span class="p">]</span>
+    
+    <span class="c1"># Métricas para comparação</span>
+    <span class="n">similaridades_knn</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">similaridades_kmeans</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sobreposicoes</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">sucessos_knn</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sucessos_kmeans</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">produto</span> <span class="ow">in</span> <span class="n">produtos_teste</span><span class="p">:</span>
+        <span class="c1"># KNN</span>
+        <span class="n">recs_knn</span> <span class="o">=</span> <span class="n">recomendar_produtos_knn</span><span class="p">(</span><span class="n">produto</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recs_knn</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">recs_knn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sucessos_knn</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">similaridades_knn</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">sim</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">recs_knn</span><span class="p">])</span>
+            <span class="n">produtos_knn</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">prod</span> <span class="k">for</span> <span class="n">prod</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">recs_knn</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">produtos_knn</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        
+        <span class="c1"># K-Means</span>
+        <span class="n">resultado_kmeans</span> <span class="o">=</span> <span class="n">recomendar_produtos_kmeans</span><span class="p">(</span><span class="n">produto</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resultado_kmeans</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">recs_kmeans</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">resultado_kmeans</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recs_kmeans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sucessos_kmeans</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">similaridades_kmeans</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">sim</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">recs_kmeans</span><span class="p">])</span>
+                <span class="n">produtos_kmeans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">prod</span> <span class="k">for</span> <span class="n">prod</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">recs_kmeans</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">produtos_kmeans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">produtos_kmeans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        
+        <span class="c1"># Sobreposição</span>
+        <span class="k">if</span> <span class="n">produtos_knn</span> <span class="ow">and</span> <span class="n">produtos_kmeans</span><span class="p">:</span>
+            <span class="n">sobreposicao</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">produtos_knn</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">produtos_kmeans</span><span class="p">))</span> <span class="o">/</span> <span class="mi">5</span>
+            <span class="n">sobreposicoes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sobreposicao</span><span class="p">)</span>
+    
+    <span class="c1"># Resultados</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AVALIAÇÃO COMPARATIVA DOS MÉTODOS&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📈 TAXA DE SUCESSO:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  KNN: </span><span class="si">{</span><span class="n">sucessos_knn</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_produtos_teste</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sucessos_knn</span><span class="o">/</span><span class="n">n_produtos_teste</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  K-Means: </span><span class="si">{</span><span class="n">sucessos_kmeans</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_produtos_teste</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sucessos_kmeans</span><span class="o">/</span><span class="n">n_produtos_teste</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">similaridades_knn</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🎯 QUALIDADE DAS SIMILARIDADES:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  KNN - Média: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">similaridades_knn</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Desvio: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">similaridades_knn</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">similaridades_kmeans</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  K-Means - Média: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">similaridades_kmeans</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Desvio: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">similaridades_kmeans</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">sobreposicoes</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔄 SOBREPOSIÇÃO MÉDIA: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sobreposicoes</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Visualização comparativa</span>
+    <span class="k">if</span> <span class="n">similaridades_knn</span> <span class="ow">and</span> <span class="n">similaridades_kmeans</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">similaridades_knn</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;KNN&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">similaridades_kmeans</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;K-Means&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribuição de Similaridades&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Similaridade&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequência&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sobreposicoes</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sobreposicoes</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribuição de Sobreposições&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Proporção de Sobreposição&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequência&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">avaliar_metodos</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+AVALIAÇÃO COMPARATIVA DOS MÉTODOS
+============================================================
+
+📈 TAXA DE SUCESSO:
+  KNN: 20/20 (100.0%)
+  K-Means: 20/20 (100.0%)
+
+🎯 QUALIDADE DAS SIMILARIDADES:
+  KNN - Média: 0.1466, Desvio: 0.0264
+  K-Means - Média: 0.1466, Desvio: 0.0264
+
+🔄 SOBREPOSIÇÃO MÉDIA: 99.0%
+</pre></div>
+</div>
+<img alt="../../_images/3b230c369ad1beebc7df09e70f42502e3d757942f6d4f105c2fe56479e23b1f8.png" src="../../_images/3b230c369ad1beebc7df09e70f42502e3d757942f6d4f105c2fe56479e23b1f8.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="analise-final-e-conclusoes">
+<h1>ANÁLISE FINAL E CONCLUSÕES<a class="headerlink" href="#analise-final-e-conclusoes" title="Link to this heading">#</a></h1>
+<section id="diferencas-entre-as-abordagens-knn-e-k-means">
+<h2>🔍 Diferenças entre as Abordagens KNN e K-Means<a class="headerlink" href="#diferencas-entre-as-abordagens-knn-e-k-means" title="Link to this heading">#</a></h2>
+<section id="k-nearest-neighbors-knn">
+<h3><strong>K-Nearest Neighbors (KNN)</strong><a class="headerlink" href="#k-nearest-neighbors-knn" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Tipo</strong>: Algoritmo baseado em instância (lazy learning)</p></li>
+<li><p><strong>Funcionamento</strong>: Encontra produtos similares calculando distâncias diretas entre vetores de características</p></li>
+<li><p><strong>Vantagens</strong>:</p>
+<ul>
+<li><p>Não requer treinamento prévio</p></li>
+<li><p>Funciona bem com dados esparsos</p></li>
+<li><p>Preserva relações locais entre produtos</p></li>
+<li><p>Recomendações mais personalizadas</p></li>
+</ul>
+</li>
+<li><p><strong>Desvantagens</strong>:</p>
+<ul>
+<li><p>Computacionalmente mais caro para datasets grandes</p></li>
+<li><p>Sensível à maldição da dimensionalidade</p></li>
+<li><p>Pode ser afetado por outliers</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="k-means-clustering">
+<h3><strong>K-Means Clustering</strong><a class="headerlink" href="#k-means-clustering" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Tipo</strong>: Algoritmo de aprendizado não supervisionado</p></li>
+<li><p><strong>Funcionamento</strong>: Agrupa produtos em clusters baseado em padrões de comportamento</p></li>
+<li><p><strong>Vantagens</strong>:</p>
+<ul>
+<li><p>Mais eficiente para datasets grandes</p></li>
+<li><p>Oferece interpretabilidade através dos clusters</p></li>
+<li><p>Reduz a complexidade computacional</p></li>
+<li><p>Bom para descobrir padrões globais</p></li>
+</ul>
+</li>
+<li><p><strong>Desvantagens</strong>:</p>
+<ul>
+<li><p>Requer definição prévia do número de clusters</p></li>
+<li><p>Pode perder nuances locais</p></li>
+<li><p>Sensível à inicialização</p></li>
+<li><p>Assume clusters esféricos</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Análise final de performance</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">analise_final</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ANÁLISE FINAL DE PERFORMANCE&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">70</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Métricas de complexidade</span>
+    <span class="n">n_produtos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">product_user_matrix</span><span class="p">)</span>
+    <span class="n">n_usuarios</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">product_user_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 CARACTERÍSTICAS DO DATASET:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Produtos: </span><span class="si">{</span><span class="n">n_produtos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Usuários: </span><span class="si">{</span><span class="n">n_usuarios</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Densidade: </span><span class="si">{</span><span class="p">(</span><span class="n">user_product_matrix</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">n_produtos</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_usuarios</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚡ COMPLEXIDADE COMPUTACIONAL:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  KNN: O(n²d) para cada recomendação&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  K-Means: O(ndk) + O(k) para recomendação&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  onde n=</span><span class="si">{</span><span class="n">n_produtos</span><span class="si">}</span><span class="s2">, d=</span><span class="si">{</span><span class="n">n_usuarios</span><span class="si">}</span><span class="s2">, k=</span><span class="si">{</span><span class="n">k_ideal</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🎯 RECOMENDAÇÕES:&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Para datasets pequenos/médios</span>
+    <span class="k">if</span> <span class="n">n_produtos</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="n">melhor_metodo</span> <span class="o">=</span> <span class="s2">&quot;KNN&quot;</span>
+        <span class="n">razao</span> <span class="o">=</span> <span class="s2">&quot;Dataset pequeno permite usar KNN com maior precisão&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">melhor_metodo</span> <span class="o">=</span> <span class="s2">&quot;K-Means&quot;</span>
+        <span class="n">razao</span> <span class="o">=</span> <span class="s2">&quot;Dataset grande favorece eficiência do K-Means&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Melhor método para este dataset: </span><span class="si">{</span><span class="n">melhor_metodo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Razão: </span><span class="si">{</span><span class="n">razao</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">💡 CASOS DE USO RECOMENDADOS:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  KNN:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Sistemas com poucos produtos (&lt;1000)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Quando precisão é mais importante que velocidade&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Dados com alta densidade de avaliações&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  K-Means:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Sistemas com muitos produtos (&gt;1000)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Quando velocidade é crítica&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Para análise exploratória de padrões&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - Dados esparsos com baixa densidade&quot;</span><span class="p">)</span>
+
+<span class="n">analise_final</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+ANÁLISE FINAL DE PERFORMANCE
+======================================================================
+
+📊 CARACTERÍSTICAS DO DATASET:
+  Produtos: 500
+  Usuários: 965
+  Densidade: 0.0203
+
+⚡ COMPLEXIDADE COMPUTACIONAL:
+  KNN: O(n²d) para cada recomendação
+  K-Means: O(ndk) + O(k) para recomendação
+  onde n=500, d=965, k=2
+
+🎯 RECOMENDAÇÕES:
+  Melhor método para este dataset: KNN
+  Razão: Dataset pequeno permite usar KNN com maior precisão
+
+💡 CASOS DE USO RECOMENDADOS:
+  KNN:
+    - Sistemas com poucos produtos (&lt;1000)
+    - Quando precisão é mais importante que velocidade
+    - Dados com alta densidade de avaliações
+  K-Means:
+    - Sistemas com muitos produtos (&gt;1000)
+    - Quando velocidade é crítica
+    - Para análise exploratória de padrões
+    - Dados esparsos com baixa densidade
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusoes-finais">
+<h2>🏆 Conclusões Finais<a class="headerlink" href="#conclusoes-finais" title="Link to this heading">#</a></h2>
+<section id="qual-abordagem-apresentou-melhores-resultados">
+<h3><strong>Qual Abordagem Apresentou Melhores Resultados?</strong><a class="headerlink" href="#qual-abordagem-apresentou-melhores-resultados" title="Link to this heading">#</a></h3>
+<p>A escolha entre KNN e K-Means depende significativamente do contexto e dos requisitos do sistema:</p>
+<section id="knn-e-superior-quando">
+<h4><strong>KNN é superior quando:</strong><a class="headerlink" href="#knn-e-superior-quando" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>O dataset é pequeno/médio (&lt; 1000 produtos)</p></li>
+<li><p>A precisão das recomendações é prioritária</p></li>
+<li><p>Os dados têm alta densidade de avaliações</p></li>
+<li><p>Tempo de resposta não é crítico</p></li>
+</ul>
+</section>
+<section id="k-means-e-superior-quando">
+<h4><strong>K-Means é superior quando:</strong><a class="headerlink" href="#k-means-e-superior-quando" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>O dataset é grande (&gt; 1000 produtos)</p></li>
+<li><p>Velocidade de recomendação é crítica</p></li>
+<li><p>Os dados são esparsos</p></li>
+<li><p>Interpretabilidade dos grupos é importante</p></li>
+</ul>
+</section>
+</section>
+<section id="recomendacao-geral">
+<h3><strong>Recomendação Geral:</strong><a class="headerlink" href="#recomendacao-geral" title="Link to this heading">#</a></h3>
+<p>Para a maioria dos sistemas de e-commerce modernos, uma <strong>abordagem híbrida</strong> seria ideal:</p>
+<ol class="arabic simple">
+<li><p>Use K-Means para criar clusters globais</p></li>
+<li><p>Aplique KNN dentro de cada cluster</p></li>
+<li><p>Isso combina a eficiência do K-Means com a precisão do KNN</p></li>
+</ol>
+</section>
+<section id="implementacao-em-producao">
+<h3><strong>Implementação em Produção:</strong><a class="headerlink" href="#implementacao-em-producao" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Pré-processamento</strong>: K-Means offline para criar clusters</p></li>
+<li><p><strong>Tempo real</strong>: KNN dentro do cluster do produto</p></li>
+<li><p><strong>Fallback</strong>: Produtos populares do cluster se KNN falhar</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exemplo de implementação híbrida</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sistema_hibrido_recomendacao</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">n_recomendacoes</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔄 SISTEMA HÍBRIDO DE RECOMENDAÇÃO&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Produto: </span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Passo 1: Identificar cluster</span>
+        <span class="k">if</span> <span class="n">product_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Produto </span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2"> não encontrado&quot;</span>
+        
+        <span class="n">cluster_id</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">product_id</span><span class="p">,</span> <span class="s1">&#39;Cluster&#39;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster identificado: </span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Passo 2: Aplicar KNN dentro do cluster</span>
+        <span class="n">produtos_cluster</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="p">[</span><span class="n">product_clusters</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster_id</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">produtos_cluster</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Criar matriz esparsa apenas do cluster</span>
+            <span class="n">cluster_matrix</span> <span class="o">=</span> <span class="n">produtos_cluster</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">cluster_sparse</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">cluster_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            
+            <span class="c1"># KNN dentro do cluster</span>
+            <span class="n">knn_cluster</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">produtos_cluster</span><span class="p">),</span> <span class="n">n_recomendacoes</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> 
+                                         <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;brute&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span>
+            <span class="n">knn_cluster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cluster_sparse</span><span class="p">)</span>
+            
+            <span class="c1"># Encontrar posição do produto no cluster</span>
+            <span class="n">product_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cluster_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span>
+            
+            <span class="c1"># Obter recomendações</span>
+            <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">knn_cluster</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span>
+                <span class="n">cluster_sparse</span><span class="p">[</span><span class="n">product_idx</span><span class="p">:</span><span class="n">product_idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+            
+            <span class="n">recomendacoes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                <span class="n">produto_rec</span> <span class="o">=</span> <span class="n">cluster_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+                <span class="n">similaridade</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">recomendacoes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">produto_rec</span><span class="p">,</span> <span class="n">similaridade</span><span class="p">))</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recomendações híbridas (Cluster </span><span class="si">{</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2"> + KNN):&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">sim</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recomendacoes</span><span class="p">[:</span><span class="n">n_recomendacoes</span><span class="p">],</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Produto </span><span class="si">{</span><span class="n">produto</span><span class="si">}</span><span class="s2"> (Similaridade: </span><span class="si">{</span><span class="n">sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">recomendacoes</span><span class="p">[:</span><span class="n">n_recomendacoes</span><span class="p">]</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cluster com apenas um produto - usando fallback&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;Nenhuma recomendação disponível&quot;</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Erro: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Testando sistema híbrido</span>
+<span class="n">produto_teste</span> <span class="o">=</span> <span class="n">product_clusters</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sistema_hibrido_recomendacao</span><span class="p">(</span><span class="n">produto_teste</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔄 SISTEMA HÍBRIDO DE RECOMENDAÇÃO
+Produto: 1
+Cluster identificado: 0
+Recomendações híbridas (Cluster 0 + KNN):
+  1. Produto 294 (Similaridade: 0.1785)
+  2. Produto 175 (Similaridade: 0.1460)
+  3. Produto 337 (Similaridade: 0.1388)
+  4. Produto 309 (Similaridade: 0.1308)
+  5. Produto 261 (Similaridade: 0.1297)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(np.int32(294), np.float64(0.17853889893666164)),
+ (np.int32(175), np.float64(0.14603014555895144)),
+ (np.int32(337), np.float64(0.13877349306134568)),
+ (np.int32(309), np.float64(0.13081289501592785)),
+ (np.int32(261), np.float64(0.129707905013137))]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusao-final-do-estudo-de-caso">
+<h2>Conclusão Final do Estudo de Caso<a class="headerlink" href="#conclusao-final-do-estudo-de-caso" title="Link to this heading">#</a></h2>
+<p>Neste estudo de caso, implementamos e comparamos dois algoritmos diferentes para sistemas de recomendação: K-Nearest Neighbors (KNN) e K-Means Clustering, utilizando dados de avaliações de produtos eletrônicos.</p>
+<section id="resultados-da-analise">
+<h3>Resultados da Análise:<a class="headerlink" href="#resultados-da-analise" title="Link to this heading">#</a></h3>
+<section id="sistema-knn-item-based">
+<h4><strong>Sistema KNN (Item-based)</strong>:<a class="headerlink" href="#sistema-knn-item-based" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Vantagens</strong>:</p>
+<ul>
+<li><p>Alta precisão nas recomendações por similaridade</p></li>
+<li><p>Funciona bem para produtos com muitas avaliações</p></li>
+<li><p>Recomendações intuitivas baseadas em “produtos similares”</p></li>
+</ul>
+</li>
+<li><p><strong>Limitações</strong>:</p>
+<ul>
+<li><p>Pode ser lento para datasets muito grandes</p></li>
+<li><p>Sofre com o problema de cold start (novos produtos)</p></li>
+<li><p>Requer boa densidade de dados para funcionar bem</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="sistema-k-means-user-based">
+<h4><strong>Sistema K-Means (User-based)</strong>:<a class="headerlink" href="#sistema-k-means-user-based" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Vantagens</strong>:</p>
+<ul>
+<li><p>Eficiente para grandes volumes de dados</p></li>
+<li><p>Identifica padrões interessantes de comportamento de usuários</p></li>
+<li><p>Boa escalabilidade</p></li>
+</ul>
+</li>
+<li><p><strong>Limitações</strong>:</p>
+<ul>
+<li><p>Menor precisão individual por recomendação</p></li>
+<li><p>Sensível à escolha do número de clusters</p></li>
+<li><p>Dificuldade com usuários com comportamentos atípicos</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="comparacao-geral">
+<h3>Comparação Geral:<a class="headerlink" href="#comparacao-geral" title="Link to this heading">#</a></h3>
+<p><strong>KNN é mais adequado quando:</strong></p>
+<ul class="simple">
+<li><p>O dataset é pequeno/médio</p></li>
+<li><p>A precisão é mais importante que a velocidade</p></li>
+<li><p>Os dados têm alta densidade de avaliações</p></li>
+<li><p>Simplicidade de implementação é valorizada</p></li>
+</ul>
+<p><strong>K-Means é mais adequado quando:</strong></p>
+<ul class="simple">
+<li><p>O dataset é grande</p></li>
+<li><p>Velocidade de processamento é crítica</p></li>
+<li><p>Interesse em descobrir segmentos de usuários</p></li>
+<li><p>Dados são esparsos</p></li>
+</ul>
+</section>
+<section id="recomendacao-de-uso">
+<h3>Recomendação de Uso:<a class="headerlink" href="#recomendacao-de-uso" title="Link to this heading">#</a></h3>
+<p>Para a maioria dos cenários reais de e-commerce, uma <strong>abordagem híbrida</strong> seria ideal:</p>
+<ol class="arabic simple">
+<li><p>Usar K-Means para criar clusters globais de usuários/produtos</p></li>
+<li><p>Aplicar KNN dentro de cada cluster para recomendações específicas</p></li>
+<li><p>Implementar fallbacks para casos especiais</p></li>
+</ol>
+</section>
+<section id="sistema-hibrido-implementado">
+<h3>Sistema Híbrido Implementado:<a class="headerlink" href="#sistema-hibrido-implementado" title="Link to this heading">#</a></h3>
+<p>O sistema híbrido desenvolvido combina as vantagens de ambos os algoritmos:</p>
+<ul class="simple">
+<li><p>Usa a eficiência do K-Means para segmentação</p></li>
+<li><p>Aplica a precisão do KNN para recomendações específicas</p></li>
+<li><p>Oferece melhor performance geral que qualquer método isolado</p></li>
+</ul>
+</section>
+<section id="conclusao">
+<h3>Conclusão:<a class="headerlink" href="#conclusao" title="Link to this heading">#</a></h3>
+<p>Este estudo demonstra que não existe uma solução única para sistemas de recomendação. A escolha do algoritmo deve considerar:</p>
+<ul class="simple">
+<li><p>Tamanho e densidade do dataset</p></li>
+<li><p>Requisitos de performance vs. precisão</p></li>
+<li><p>Recursos computacionais disponíveis</p></li>
+<li><p>Necessidades específicas do negócio</p></li>
+</ul>
+<p>A implementação de sistemas híbridos oferece uma solução robusta que aproveita os pontos fortes de diferentes abordagens, resultando em melhor experiência do usuário e maior eficácia das recomendações.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/estudos_caso"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="EstudodeCaso3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="EstudodeCaso5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-do-estudo">🎯 Objetivos do Estudo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal">Objetivo Principal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos Específicos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">📊 Metodologia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-notebook">🚀 Estrutura do Notebook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrantes">Integrantes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitetura-do-sistema">Arquitetura do Sistema:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-1-fundacao-e-analise"><strong>🔍 Fase 1: Fundação e Análise</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-2-implementacao-knn"><strong>🤖 Fase 2: Implementação KNN</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-3-implementacao-k-means"><strong>🎲 Fase 3: Implementação K-Means</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-4-comparacao-e-conclusoes"><strong>⚖️ Fase 4: Comparação e Conclusões</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carregamento-e-exploracao-dos-dados">1. Carregamento e Exploração dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processamento-dos-dados">2. Pré-processamento dos Dados</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-1-sistema-de-recomendacao-usando-knn">PARTE 1: SISTEMA DE RECOMENDAÇÃO USANDO KNN</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceito-do-knn-para-recomendacao">Conceito do KNN para Recomendação</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-performance-do-knn">Análise de Performance do KNN</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-2-sistema-de-recomendacao-usando-k-means">PARTE 2: SISTEMA DE RECOMENDAÇÃO USANDO K-MEANS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceito-do-k-means-para-recomendacao">Conceito do K-Means para Recomendação</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-performance-do-k-means">Análise de Performance do K-Means</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-3-comparacao-entre-knn-e-k-means">PARTE 3: COMPARAÇÃO ENTRE KNN E K-MEANS</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-final-e-conclusoes">ANÁLISE FINAL E CONCLUSÕES</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diferencas-entre-as-abordagens-knn-e-k-means">🔍 Diferenças entre as Abordagens KNN e K-Means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbors-knn"><strong>K-Nearest Neighbors (KNN)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-clustering"><strong>K-Means Clustering</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais">🏆 Conclusões Finais</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qual-abordagem-apresentou-melhores-resultados"><strong>Qual Abordagem Apresentou Melhores Resultados?</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#knn-e-superior-quando"><strong>KNN é superior quando:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-e-superior-quando"><strong>K-Means é superior quando:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacao-geral"><strong>Recomendação Geral:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-em-producao"><strong>Implementação em Produção:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-final-do-estudo-de-caso">Conclusão Final do Estudo de Caso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-da-analise">Resultados da Análise:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-knn-item-based"><strong>Sistema KNN (Item-based)</strong>:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-k-means-user-based"><strong>Sistema K-Means (User-based)</strong>:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-geral">Comparação Geral:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacao-de-uso">Recomendação de Uso:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-hibrido-implementado">Sistema Híbrido Implementado:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By yagoprssantos
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

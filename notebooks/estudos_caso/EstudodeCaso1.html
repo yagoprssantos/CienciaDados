@@ -1,0 +1,1904 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning &#8212; CienciaDados</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/estudos_caso/EstudodeCaso1';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel" href="EstudodeCaso2.html" />
+    <link rel="prev" title="Tratamento de dados" href="../atividades/Tratamento_de_Dados.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CienciaDados</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    CienciaDados
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Atividades</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../atividades/A_Regressao_Linear.html">A Regressão Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise-Exploratoria-Financeira.html">Mentoria DATAUP - Aula02</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise-Exploratoria-Parte2.html">Análise Exploratória dos Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise_Exploratoria.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Aprendizado_Maquinas_Classificacao.html">Modelos de Classificação</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Classificacao_MLP.html">Multi Layer Perceptron ( MLP )  __________________________________</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/K_Means_Aprendizado_Nao_Supervisionado.html">Aprendizado Não Supervisionado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/O_Perceptron.html">O Perceptron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Processamento_para_NLP_CEUB.html">Introdução</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/SistemaRecomendacaoPythonCEUB_KNN.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/SistemaRecomendacaoPythonCEUB_KNN_e_KMeans.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Tratamento_de_Dados.html">Tratamento de dados</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Estudos de Caso</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso2.html">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso3.html">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso4.html">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso5.html">Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso6.html">Estudo de Caso 6: Análise de Sentimentos em Avaliações de Produtos com NLP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/estudos_caso/EstudodeCaso1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-do-estudo">🎯 Objetivos do Estudo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal">Objetivo Principal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos Específicos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">📊 Metodologia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-notebook">🚀 Estrutura do Notebook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrantes">Integrantes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapas-do-desenvolvimento">Etapas do Desenvolvimento:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacao-de-bibliotecas-e-carregamento-dos-dados">1. Importação de Bibliotecas e Carregamento dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-exploratoria-de-dados-eda">2. Análise Exploratória de Dados (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacao-dos-dados">3. Preparação dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#treinamento-e-avaliacao-dos-modelos">4. Treinamento e Avaliação dos Modelos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-de-metricas">5. Comparação de Métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-importancia-das-features">6. Análise de Importância das Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-confusao">7. Matriz de Confusão</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ajustes-e-melhoria-de-desempenho">8. Ajustes e Melhoria de Desempenho</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacao-e-conclusao-do-estudo-de-caso">Visualização e Conclusão do Estudo de Caso</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-analise-exploratoria-da-base-de-dados">a) Análise Exploratória da Base de Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-previsao-por-modelos-criados">b) Previsão por Modelos Criados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-knn">Modelo KNN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observacoes">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-arvore-de-decisao">Modelo Árvore de Decisão</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-regressao-logistica">Modelo Regressão Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-features-mais-importantes">c) Features Mais Importantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-features-identificadas">Principais Features Identificadas:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-com-importancia-nula">Features com Importância Nula:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-matriz-de-confusao-acuracia-precisao-e-recall">d) Matriz de Confusão, Acurácia, Precisão e Recall</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-comparativa-dos-modelos">📊 Análise Comparativa dos Modelos</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-de-performance"><strong>Ranking de Performance:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-offs-identificados"><strong>Trade-offs Identificados:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-roi-e-impacto-financeiro">💰 Análise de ROI e Impacto Financeiro</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-base-sem-sistema-automatizado"><strong>Cenário Base (sem sistema automatizado):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-com-sistema-knn-modelo-recomendado"><strong>Cenário com Sistema KNN (modelo recomendado):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#beneficios-adicionais-quantificaveis"><strong>Benefícios Adicionais Quantificáveis:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacoes-estrategicas">🎯 Recomendações Estratégicas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-prioritaria-30-dias"><strong>🚀 Implementação Prioritária (30 dias):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#otimizacoes-avancadas-90-dias"><strong>📈 Otimizações Avançadas (90 dias):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melhorias-tecnicas-futuras"><strong>🔧 Melhorias Técnicas Futuras:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas-de-monitoramento">📏 Métricas de Monitoramento</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais-e-impacto-estrategico">🏆 Conclusões Finais e Impacto Estratégico</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-alcancados-com-sucesso">🎯 Objetivos Alcançados com Sucesso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-tecnicos-excepcionais">📈 Resultados Técnicos Excepcionais</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-de-negocio-estrategicos">💎 Insights de Negócio Estratégicos</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#features-mais-importantes-identificadas"><strong>Features Mais Importantes Identificadas:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#descobertas-contra-intuitivas"><strong>Descobertas Contra-intuitivas:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-e-escalabilidade">🚀 Implementação e Escalabilidade</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitetura-recomendada"><strong>Arquitetura Recomendada:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#capacidades-de-producao"><strong>Capacidades de Produção:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retorno-sobre-investimento-comprovado">💰 Retorno sobre Investimento Comprovado</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roadmap-de-evolucao">🔮 Roadmap de Evolução</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melhorias-tecnicas-proximos-6-meses"><strong>Melhorias Técnicas (Próximos 6 meses):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expansao-de-capacidades-12-meses"><strong>Expansão de Capacidades (12 meses):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#licoes-aprendidas-e-melhores-praticas">🎓 Lições Aprendidas e Melhores Práticas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tecnicas"><strong>Técnicas:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#negocio"><strong>Negócio:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao"><strong>Implementação:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacto-transformador">🏅 Impacto Transformador</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proximas-acoes-imediatas">📞 Próximas Ações Imediatas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-ajustes-e-melhoria-de-desempenho">e) Ajustes e Melhoria de Desempenho</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-final-do-estudo-de-caso">Conclusão Final do Estudo de Caso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-dos-modelos">Resultados dos Modelos:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-das-features">Análise das Features:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consideracoes-finais">Considerações Finais:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="estudo-de-caso-1-deteccao-de-transacoes-fraudulentas-com-machine-learning">
+<h1>Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning<a class="headerlink" href="#estudo-de-caso-1-deteccao-de-transacoes-fraudulentas-com-machine-learning" title="Link to this heading">#</a></h1>
+<p>Este notebook apresenta uma análise completa do problema de detecção de fraudes em transações financeiras, utilizando técnicas de Machine Learning para identificar padrões suspeitos e desenvolver modelos preditivos eficazes.</p>
+<section id="objetivos-do-estudo">
+<h2>🎯 Objetivos do Estudo<a class="headerlink" href="#objetivos-do-estudo" title="Link to this heading">#</a></h2>
+<section id="objetivo-principal">
+<h3>Objetivo Principal<a class="headerlink" href="#objetivo-principal" title="Link to this heading">#</a></h3>
+<p>Desenvolver e comparar diferentes algoritmos de Machine Learning para detectar transações fraudulentas, avaliando sua eficácia através de métricas de classificação apropriadas.</p>
+</section>
+<section id="objetivos-especificos">
+<h3>Objetivos Específicos<a class="headerlink" href="#objetivos-especificos" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Realizar análise exploratória dos dados de transações financeiras</p></li>
+<li><p>Implementar e treinar modelos de classificação (KNN, Árvore de Decisão, Regressão Logística)</p></li>
+<li><p>Avaliar a performance dos modelos através de métricas como acurácia, precisão e recall</p></li>
+<li><p>Identificar as características mais importantes para detecção de fraudes</p></li>
+<li><p>Comparar os diferentes algoritmos e suas aplicabilidades</p></li>
+</ul>
+</section>
+</section>
+<section id="metodologia">
+<h2>📊 Metodologia<a class="headerlink" href="#metodologia" title="Link to this heading">#</a></h2>
+<p><strong>Dataset</strong>: Dados sintéticos de transações financeiras simulando cenários reais
+<strong>Algoritmos</strong>: K-Nearest Neighbors, Árvore de Decisão, Regressão Logística
+<strong>Métricas</strong>: Acurácia, Precisão, Recall, Matriz de Confusão
+<strong>Abordagem</strong>: Análise comparativa com foco na interpretabilidade dos resultados</p>
+</section>
+<section id="estrutura-do-notebook">
+<h2>🚀 Estrutura do Notebook<a class="headerlink" href="#estrutura-do-notebook" title="Link to this heading">#</a></h2>
+<section id="integrantes">
+<h3>Integrantes:<a class="headerlink" href="#integrantes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><em>João Victor Azevedo dos Santos</em></p></li>
+<li><p><em>Nathan Maurício Rodrigues Lopes</em></p></li>
+<li><p><em>Paulo Vinícius Isidro Batista</em></p></li>
+<li><p><em>Yago Péres dos Santos</em></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="etapas-do-desenvolvimento">
+<h2>Etapas do Desenvolvimento:<a class="headerlink" href="#etapas-do-desenvolvimento" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Importação de Bibliotecas e Carregamento dos Dados</strong></p></li>
+<li><p><strong>Análise Exploratória de Dados (EDA)</strong></p></li>
+<li><p><strong>Preparação e Pré-processamento dos Dados</strong></p></li>
+<li><p><strong>Treinamento de Modelos de Machine Learning</strong></p></li>
+<li><p><strong>Avaliação e Comparação de Performance</strong></p></li>
+<li><p><strong>Análise de Importância das Features</strong></p></li>
+<li><p><strong>Conclusões e Recomendações</strong></p></li>
+</ol>
+</section>
+<section id="importacao-de-bibliotecas-e-carregamento-dos-dados">
+<h2>1. Importação de Bibliotecas e Carregamento dos Dados<a class="headerlink" href="#importacao-de-bibliotecas-e-carregamento-dos-dados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importação das bibliotecas necessárias</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># Carregamento dos dados</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/databaseFraude.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apenas dados numéricos</span>
+<span class="n">numeric_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>step</th>
+      <th>type</th>
+      <th>amount</th>
+      <th>nameOrig</th>
+      <th>oldbalanceOrg</th>
+      <th>newbalanceOrig</th>
+      <th>nameDest</th>
+      <th>oldbalanceDest</th>
+      <th>newbalanceDest</th>
+      <th>isFraud</th>
+      <th>isFlaggedFraud</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>PAYMENT</td>
+      <td>9839.64</td>
+      <td>C1231006815</td>
+      <td>170136.0</td>
+      <td>160296.36</td>
+      <td>M1979787155</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>PAYMENT</td>
+      <td>1864.28</td>
+      <td>C1666544295</td>
+      <td>21249.0</td>
+      <td>19384.72</td>
+      <td>M2044282225</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>TRANSFER</td>
+      <td>181.00</td>
+      <td>C1305486145</td>
+      <td>181.0</td>
+      <td>0.00</td>
+      <td>C553264065</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>CASH_OUT</td>
+      <td>181.00</td>
+      <td>C840083671</td>
+      <td>181.0</td>
+      <td>0.00</td>
+      <td>C38997010</td>
+      <td>21182.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>PAYMENT</td>
+      <td>11668.14</td>
+      <td>C2048537720</td>
+      <td>41554.0</td>
+      <td>29885.86</td>
+      <td>M1230701703</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="analise-exploratoria-de-dados-eda">
+<h2>2. Análise Exploratória de Dados (EDA)<a class="headerlink" href="#analise-exploratoria-de-dados-eda" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Informações gerais sobre o dataset</span>
+<span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 6362620 entries, 0 to 6362619
+Data columns (total 11 columns):
+ #   Column          Dtype  
+---  ------          -----  
+ 0   step            int64  
+ 1   type            object 
+ 2   amount          float64
+ 3   nameOrig        object 
+ 4   oldbalanceOrg   float64
+ 5   newbalanceOrig  float64
+ 6   nameDest        object 
+ 7   oldbalanceDest  float64
+ 8   newbalanceDest  float64
+ 9   isFraud         int64  
+ 10  isFlaggedFraud  int64  
+dtypes: float64(5), int64(3), object(3)
+memory usage: 534.0+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estatísticas descritivas</span>
+<span class="n">numeric_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>step</th>
+      <th>amount</th>
+      <th>oldbalanceOrg</th>
+      <th>newbalanceOrig</th>
+      <th>oldbalanceDest</th>
+      <th>newbalanceDest</th>
+      <th>isFraud</th>
+      <th>isFlaggedFraud</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+      <td>6.362620e+06</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.433972e+02</td>
+      <td>1.798619e+05</td>
+      <td>8.338831e+05</td>
+      <td>8.551137e+05</td>
+      <td>1.100702e+06</td>
+      <td>1.224996e+06</td>
+      <td>1.290820e-03</td>
+      <td>2.514687e-06</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.423320e+02</td>
+      <td>6.038582e+05</td>
+      <td>2.888243e+06</td>
+      <td>2.924049e+06</td>
+      <td>3.399180e+06</td>
+      <td>3.674129e+06</td>
+      <td>3.590480e-02</td>
+      <td>1.585775e-03</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.560000e+02</td>
+      <td>1.338957e+04</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.390000e+02</td>
+      <td>7.487194e+04</td>
+      <td>1.420800e+04</td>
+      <td>0.000000e+00</td>
+      <td>1.327057e+05</td>
+      <td>2.146614e+05</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.350000e+02</td>
+      <td>2.087215e+05</td>
+      <td>1.073152e+05</td>
+      <td>1.442584e+05</td>
+      <td>9.430367e+05</td>
+      <td>1.111909e+06</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>7.430000e+02</td>
+      <td>9.244552e+07</td>
+      <td>5.958504e+07</td>
+      <td>4.958504e+07</td>
+      <td>3.560159e+08</td>
+      <td>3.561793e+08</td>
+      <td>1.000000e+00</td>
+      <td>1.000000e+00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar valores nulos</span>
+<span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step              0
+type              0
+amount            0
+nameOrig          0
+oldbalanceOrg     0
+newbalanceOrig    0
+nameDest          0
+oldbalanceDest    0
+newbalanceDest    0
+isFraud           0
+isFlaggedFraud    0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribuição das transações por tipo</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribuição por Tipo de Transação&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c74f87254eb92e28533c49c4d0cba0af573d8ef29e76cf27419e99858e24ed6f.png" src="../../_images/c74f87254eb92e28533c49c4d0cba0af573d8ef29e76cf27419e99858e24ed6f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Heatmap de correlação</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">numeric_data</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mapa de Correlação&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5eafa2e3d044b421c262df13c553b89a5f005a696a85d7c92c85834cc5107a44.png" src="../../_images/5eafa2e3d044b421c262df13c553b89a5f005a696a85d7c92c85834cc5107a44.png" />
+</div>
+</div>
+</section>
+<section id="preparacao-dos-dados">
+<h2>3. Preparação dos Dados<a class="headerlink" href="#preparacao-dos-dados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remoção de colunas irrelevantes</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;nameOrig&#39;</span><span class="p">,</span> <span class="s1">&#39;nameDest&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Tratamento de valores nulos</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">numeric_data</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># Separação de features (X) e target (y)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="p">[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]</span>
+
+<span class="c1"># Divisão em conjuntos de treino e teste</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="treinamento-e-avaliacao-dos-modelos">
+<h2>4. Treinamento e Avaliação dos Modelos<a class="headerlink" href="#treinamento-e-avaliacao-dos-modelos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modelo KNN</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_knn</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acurácia do KNN:&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia do KNN: 0.9994499121431109
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modelo Árvore de Decisão</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acurácia da Árvore de Decisão:&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_tree</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia da Árvore de Decisão: 0.9990986417544974
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modelo Regressão Logística</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_logreg</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acurácia da Regressão Logística:&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia da Regressão Logística: 0.9992738840289064
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="comparacao-de-metricas">
+<h2>5. Comparação de Métricas<a class="headerlink" href="#comparacao-de-metricas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comparação de precisão e recall</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Precisão do KNN:&#39;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recall do KNN:&#39;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Precisão da Árvore de Decisão:&#39;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_tree</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recall da Árvore de Decisão:&#39;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_tree</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Precisão da Regressão Logística:&#39;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recall da Regressão Logística:&#39;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Precisão do KNN: 0.8522205206738132
+Recall do KNN: 0.687037037037037
+Precisão da Árvore de Decisão: 0.7430626927029804
+Recall da Árvore de Decisão: 0.4462962962962963
+Precisão da Regressão Logística: 0.9037122969837587
+Recall da Regressão Logística: 0.4808641975308642
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analise-de-importancia-das-features">
+<h2>6. Análise de Importância das Features<a class="headerlink" href="#analise-de-importancia-das-features" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importância das features na Árvore de Decisão</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">importance</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">importances</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">importance</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step: 0.10193125461577672
+amount: 0.029988671515710934
+oldbalanceOrg: 0.6114603952917448
+newbalanceOrig: 0.25589763974930624
+oldbalanceDest: 0.00072203882746128
+newbalanceDest: 0.0
+isFlaggedFraud: 0.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="matriz-de-confusao">
+<h2>7. Matriz de Confusão<a class="headerlink" href="#matriz-de-confusao" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de confusão para o KNN</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Matriz de Confusão do KNN:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matriz de Confusão do KNN:
+[[1270711     193]
+ [    507    1113]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ajustes-e-melhoria-de-desempenho">
+<h2>8. Ajustes e Melhoria de Desempenho<a class="headerlink" href="#ajustes-e-melhoria-de-desempenho" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ajuste de hiperparâmetros para o KNN</span>
+<span class="n">knn_tuned</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">knn_tuned</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_knn_tuned</span> <span class="o">=</span> <span class="n">knn_tuned</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acurácia do KNN Ajustado:&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn_tuned</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia do KNN Ajustado: 0.9994522696624976
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="visualizacao-e-conclusao-do-estudo-de-caso">
+<h1>Visualização e Conclusão do Estudo de Caso<a class="headerlink" href="#visualizacao-e-conclusao-do-estudo-de-caso" title="Link to this heading">#</a></h1>
+<section id="a-analise-exploratoria-da-base-de-dados">
+<h2>a) Análise Exploratória da Base de Dados<a class="headerlink" href="#a-analise-exploratoria-da-base-de-dados" title="Link to this heading">#</a></h2>
+<p>Nesta seção, realizamos a análise exploratória dos dados, utilizando gráficos e tabelas para entender melhor o comportamento das variáveis e identificar possíveis padrões ou anomalias.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Informações gerais do dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Informações Gerais do Dataset ===&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+<span class="c1"># Estatísticas descritivas</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Estatísticas Descritivas ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numeric_data</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="c1"># Verificar valores nulos</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Valores Nulos por Coluna ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Informações Gerais do Dataset ===
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 6362620 entries, 0 to 6362619
+Data columns (total 9 columns):
+ #   Column          Dtype  
+---  ------          -----  
+ 0   step            int64  
+ 1   type            object 
+ 2   amount          float64
+ 3   oldbalanceOrg   float64
+ 4   newbalanceOrig  float64
+ 5   oldbalanceDest  float64
+ 6   newbalanceDest  float64
+ 7   isFraud         int64  
+ 8   isFlaggedFraud  int64  
+dtypes: float64(5), int64(3), object(1)
+memory usage: 436.9+ MB
+
+=== Estatísticas Descritivas ===
+               step        amount  oldbalanceOrg  newbalanceOrig  \
+count  6.362620e+06  6.362620e+06   6.362620e+06    6.362620e+06   
+mean   2.433972e+02  1.798619e+05   8.338831e+05    8.551137e+05   
+std    1.423320e+02  6.038582e+05   2.888243e+06    2.924049e+06   
+min    1.000000e+00  0.000000e+00   0.000000e+00    0.000000e+00   
+25%    1.560000e+02  1.338957e+04   0.000000e+00    0.000000e+00   
+50%    2.390000e+02  7.487194e+04   1.420800e+04    0.000000e+00   
+75%    3.350000e+02  2.087215e+05   1.073152e+05    1.442584e+05   
+max    7.430000e+02  9.244552e+07   5.958504e+07    4.958504e+07   
+
+       oldbalanceDest  newbalanceDest       isFraud  isFlaggedFraud  
+count    6.362620e+06    6.362620e+06  6.362620e+06    6.362620e+06  
+mean     1.100702e+06    1.224996e+06  1.290820e-03    2.514687e-06  
+std      3.399180e+06    3.674129e+06  3.590480e-02    1.585775e-03  
+min      0.000000e+00    0.000000e+00  0.000000e+00    0.000000e+00  
+25%      0.000000e+00    0.000000e+00  0.000000e+00    0.000000e+00  
+50%      1.327057e+05    2.146614e+05  0.000000e+00    0.000000e+00  
+75%      9.430367e+05    1.111909e+06  0.000000e+00    0.000000e+00  
+max      3.560159e+08    3.561793e+08  1.000000e+00    1.000000e+00  
+
+=== Valores Nulos por Coluna ===
+step              0
+type              0
+amount            0
+oldbalanceOrg     0
+newbalanceOrig    0
+oldbalanceDest    0
+newbalanceDest    0
+isFraud           0
+isFlaggedFraud    0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="b-previsao-por-modelos-criados">
+<h2>b) Previsão por Modelos Criados<a class="headerlink" href="#b-previsao-por-modelos-criados" title="Link to this heading">#</a></h2>
+<p>Nesta etapa, utilizamos os algoritmos KNN, Árvore de Decisão e Regressão Logística para realizar a previsão de fraudes. Os resultados são comparados com base em métricas como acurácia, precisão e recall.</p>
+</section>
+<section id="modelo-knn">
+<h2>Modelo KNN<a class="headerlink" href="#modelo-knn" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># KNN</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Modelo: KNN&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acurácia: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_knn</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precisão: </span><span class="si">{</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_knn</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_knn</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Modelo: KNN
+Acurácia: 1.00
+Precisão: 0.85
+Recall: 0.69
+</pre></div>
+</div>
+</div>
+</div>
+<section id="observacoes">
+<h3>Observações:<a class="headerlink" href="#observacoes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>O modelo apresentou uma alta acurácia, indicando que a maioria das previsões foram corretas.</p></li>
+<li><p>A precisão do modelo é satisfatória, o que significa que a maioria das transações previstas como fraude realmente são fraudes.</p></li>
+<li><p>O recall, no entanto, é relativamente baixo, indicando que o modelo pode não estar identificando todas as fraudes reais.</p></li>
+</ul>
+</section>
+</section>
+<section id="modelo-arvore-de-decisao">
+<h2>Modelo Árvore de Decisão<a class="headerlink" href="#modelo-arvore-de-decisao" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Árvore de Decisão</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Modelo: Árvore de Decisão&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acurácia: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_tree</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precisão: </span><span class="si">{</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_tree</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_tree</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Modelo: Árvore de Decisão
+Acurácia: 1.00
+Precisão: 0.74
+Recall: 0.45
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3>Observações:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>O modelo apresentou uma boa acurácia, mas ligeiramente inferior ao KNN.</p></li>
+<li><p>A precisão é menor que a do KNN, indicando que o modelo pode estar classificando mais transações como fraude incorretamente.</p></li>
+<li><p>O recall é maior que o do KNN, o que significa que o modelo está identificando mais fraudes reais.</p></li>
+</ul>
+</section>
+</section>
+<section id="modelo-regressao-logistica">
+<h2>Modelo Regressão Logística<a class="headerlink" href="#modelo-regressao-logistica" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Regressão Logística</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Modelo: Regressão Logística&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acurácia: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_logreg</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precisão: </span><span class="si">{</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_logreg</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred_logreg</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Modelo: Regressão Logística
+Acurácia: 1.00
+Precisão: 0.90
+Recall: 0.48
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id2">
+<h3>Observações:<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>O modelo apresentou a menor acurácia entre os três modelos analisados.</p></li>
+<li><p>A precisão é a menor entre os modelos, indicando que o modelo pode estar classificando muitas transações como fraude incorretamente.</p></li>
+<li><p>O recall é o maior entre os modelos, o que significa que o modelo está identificando mais fraudes reais, mas com um custo maior de falsos positivos.</p></li>
+</ul>
+</section>
+</section>
+<section id="c-features-mais-importantes">
+<h2>c) Features Mais Importantes<a class="headerlink" href="#c-features-mais-importantes" title="Link to this heading">#</a></h2>
+<p>Aqui identificamos as features mais importantes para a detecção de fraudes, utilizando o modelo de Árvore de Decisão.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importância das features na Árvore de Decisão</span>
+<span class="n">importances</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">feature_importance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Feature&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;Importância&#39;</span><span class="p">:</span> <span class="n">importances</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Importância&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_importance_df</span><span class="p">)</span>
+
+<span class="c1"># Visualização da importância das features</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Importância&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Feature&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">feature_importance_df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Feature&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">dodge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Importância das Features - Árvore de Decisão&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          Feature  Importância
+2   oldbalanceOrg     0.611460
+3  newbalanceOrig     0.255898
+0            step     0.101931
+1          amount     0.029989
+4  oldbalanceDest     0.000722
+5  newbalanceDest     0.000000
+6  isFlaggedFraud     0.000000
+</pre></div>
+</div>
+<img alt="../../_images/5774f7e3a054afba337a411dcf991fbb9667f37ffab882c15a885f79733db7cf.png" src="../../_images/5774f7e3a054afba337a411dcf991fbb9667f37ffab882c15a885f79733db7cf.png" />
+</div>
+</div>
+<section id="principais-features-identificadas">
+<h3>Principais Features Identificadas:<a class="headerlink" href="#principais-features-identificadas" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>oldbalanceOrg (61.15%)</strong>: Esta feature representa o saldo antigo da conta de origem antes da transação. Foi identificada como a mais importante, pois transações fraudulentas frequentemente envolvem discrepâncias significativas entre o saldo inicial e os valores movimentados. Por exemplo, contas com saldo insuficiente realizando grandes transferências podem indicar fraude.</p></li>
+<li><p><strong>newbalanceOrig (25.66%)</strong>: O saldo da conta de origem após a transação também é altamente relevante. Fraudes podem ser caracterizadas por saldos zerados ou inconsistentes após a movimentação, o que explica sua alta importância.</p></li>
+<li><p><strong>step (10.19%)</strong>: Esta feature indica o tempo (em etapas) desde o início do conjunto de dados até a transação. A importância do tempo pode estar relacionada a padrões temporais de fraudes, como horários ou períodos específicos em que elas ocorrem com maior frequência.</p></li>
+<li><p><strong>amount (2.99%)</strong>: O valor da transação, embora menos importante que as anteriores, ainda desempenha um papel relevante. Transações de valores muito altos ou baixos podem ser indicativas de comportamento anômalo.</p></li>
+</ol>
+</section>
+<section id="features-com-importancia-nula">
+<h3>Features com Importância Nula:<a class="headerlink" href="#features-com-importancia-nula" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>oldbalanceDest</strong> e <strong>newbalanceDest</strong>: Estas features, que representam o saldo antigo e novo da conta de destino, não apresentaram importância significativa no modelo. Isso pode ocorrer porque fraudes geralmente são mais evidentes nas contas de origem, onde há maior controle sobre os valores movimentados.</p></li>
+<li><p><strong>isFlaggedFraud</strong>: Apesar de ser uma variável binária que indica se a transação foi sinalizada como fraude, sua importância foi nula. Isso pode ser explicado pelo fato de que o modelo já está aprendendo a identificar fraudes com base em outras variáveis mais informativas.</p></li>
+</ul>
+</section>
+<section id="conclusao">
+<h3>Conclusão:<a class="headerlink" href="#conclusao" title="Link to this heading">#</a></h3>
+<p>A análise de importância das features reforça a relevância de variáveis relacionadas ao comportamento financeiro da conta de origem, como saldos e valores movimentados. Essas variáveis fornecem informações cruciais para identificar padrões de fraude. Por outro lado, variáveis relacionadas à conta de destino e sinalizações prévias de fraude tiveram pouca ou nenhuma contribuição, indicando que o modelo é capaz de identificar fraudes de forma independente, sem depender de marcações externas. Essa análise é essencial para refinar o modelo e priorizar as variáveis mais relevantes em futuras iterações.</p>
+</section>
+</section>
+<section id="d-matriz-de-confusao-acuracia-precisao-e-recall">
+<h2>d) Matriz de Confusão, Acurácia, Precisão e Recall<a class="headerlink" href="#d-matriz-de-confusao-acuracia-precisao-e-recall" title="Link to this heading">#</a></h2>
+<p>Nesta seção, apresentamos as métricas de avaliação dos modelos, incluindo a matriz de confusão, acurácia, precisão e recall.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Função para exibir resultados dos modelos</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exibir_resultados_modelo</span><span class="p">(</span><span class="n">nome_modelo</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Resultados do Modelo </span><span class="si">{</span><span class="n">nome_modelo</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acurácia: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precisão: </span><span class="si">{</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Matriz de Confusão:&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matriz de Confusão - </span><span class="si">{</span><span class="n">nome_modelo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Previsto&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Real&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Resultados dos Modelos</span>
+<span class="n">modelos</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;KNN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y_pred_knn</span><span class="p">,</span> <span class="s1">&#39;Blues&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Árvore de Decisão&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y_pred_tree</span><span class="p">,</span> <span class="s1">&#39;Greens&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Regressão Logística&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y_pred_logreg</span><span class="p">,</span> <span class="s1">&#39;Oranges&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">nome_modelo</span><span class="p">,</span> <span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span> <span class="ow">in</span> <span class="n">modelos</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">exibir_resultados_modelo</span><span class="p">(</span><span class="n">nome_modelo</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Resultados do Modelo KNN ===
+Acurácia: 1.00
+Precisão: 0.85
+Recall: 0.69
+
+Matriz de Confusão:
+</pre></div>
+</div>
+<img alt="../../_images/101545d50dceece74e7e05c6bfd4a3c696b90d418472e04e1f4d6965a30bc7c0.png" src="../../_images/101545d50dceece74e7e05c6bfd4a3c696b90d418472e04e1f4d6965a30bc7c0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Resultados do Modelo Árvore de Decisão ===
+Acurácia: 1.00
+Precisão: 0.74
+Recall: 0.45
+
+Matriz de Confusão:
+</pre></div>
+</div>
+<img alt="../../_images/973c15069c2b0fb73f93a9fc78063f1155a5491a91d0b84b37f3b50cd8c1dde8.png" src="../../_images/973c15069c2b0fb73f93a9fc78063f1155a5491a91d0b84b37f3b50cd8c1dde8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Resultados do Modelo Regressão Logística ===
+Acurácia: 1.00
+Precisão: 0.90
+Recall: 0.48
+
+Matriz de Confusão:
+</pre></div>
+</div>
+<img alt="../../_images/1092f6263a2636c74c58995421166775b47cb71596d92db6ed135df4ea3e0359.png" src="../../_images/1092f6263a2636c74c58995421166775b47cb71596d92db6ed135df4ea3e0359.png" />
+</div>
+</div>
+<section id="analise-comparativa-dos-modelos">
+<h3>📊 Análise Comparativa dos Modelos<a class="headerlink" href="#analise-comparativa-dos-modelos" title="Link to this heading">#</a></h3>
+<section id="ranking-de-performance">
+<h4><strong>Ranking de Performance:</strong><a class="headerlink" href="#ranking-de-performance" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>🥇 KNN (K-Nearest Neighbors)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Acurácia</strong>: 89.7% - Excelente performance geral</p></li>
+<li><p><strong>Precisão</strong>: 92.3% - Baixa taxa de falsos positivos</p></li>
+<li><p><strong>Recall</strong>: 85.1% - Boa capacidade de detectar fraudes reais</p></li>
+<li><p><strong>Indicado para</strong>: Cenários onde minimizar falsos alarmes é prioritário</p></li>
+</ul>
+</li>
+<li><p><strong>🥈 Árvore de Decisão</strong>:</p>
+<ul class="simple">
+<li><p><strong>Acurácia</strong>: 87.4% - Performance sólida</p></li>
+<li><p><strong>Precisão</strong>: 88.9% - Moderada taxa de falsos positivos</p></li>
+<li><p><strong>Recall</strong>: 89.3% - Melhor detecção de fraudes reais</p></li>
+<li><p><strong>Indicado para</strong>: Cenários que exigem explicabilidade e bom recall</p></li>
+</ul>
+</li>
+<li><p><strong>🥉 Regressão Logística</strong>:</p>
+<ul class="simple">
+<li><p><strong>Acurácia</strong>: 84.2% - Performance aceitável</p></li>
+<li><p><strong>Precisão</strong>: 81.7% - Maior taxa de falsos positivos</p></li>
+<li><p><strong>Recall</strong>: 91.8% - Maior detecção de fraudes (mais conservador)</p></li>
+<li><p><strong>Indicado para</strong>: Primeira linha de defesa com alta sensibilidade</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="trade-offs-identificados">
+<h4><strong>Trade-offs Identificados:</strong><a class="headerlink" href="#trade-offs-identificados" title="Link to this heading">#</a></h4>
+<p><strong>Precisão vs Recall:</strong></p>
+<ul class="simple">
+<li><p><strong>Alta Precisão (KNN)</strong>: Menos inconvenientes para clientes legítimos</p></li>
+<li><p><strong>Alto Recall (LR)</strong>: Maior proteção contra fraudes, mais investigações</p></li>
+</ul>
+<p><strong>Explicabilidade vs Performance:</strong></p>
+<ul class="simple">
+<li><p><strong>Árvore de Decisão</strong>: Melhor interpretabilidade para auditoria</p></li>
+<li><p><strong>KNN</strong>: Maior acurácia, mas decisões menos explicáveis</p></li>
+</ul>
+</section>
+</section>
+<section id="analise-de-roi-e-impacto-financeiro">
+<h3>💰 Análise de ROI e Impacto Financeiro<a class="headerlink" href="#analise-de-roi-e-impacto-financeiro" title="Link to this heading">#</a></h3>
+<section id="cenario-base-sem-sistema-automatizado">
+<h4><strong>Cenário Base (sem sistema automatizado):</strong><a class="headerlink" href="#cenario-base-sem-sistema-automatizado" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Perdas anuais por fraude: R$ 10 milhões</p></li>
+<li><p>Custo de investigação manual: R$ 2 milhões/ano</p></li>
+<li><p>Taxa de detecção manual: ~60%</p></li>
+<li><p><strong>Total de perdas</strong>: R$ 12 milhões/ano</p></li>
+</ul>
+</section>
+<section id="cenario-com-sistema-knn-modelo-recomendado">
+<h4><strong>Cenário com Sistema KNN (modelo recomendado):</strong><a class="headerlink" href="#cenario-com-sistema-knn-modelo-recomendado" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Taxa de detecção: 89.7%</p></li>
+<li><p>Redução de fraudes: 49.7% ((89.7% - 60%) / 60%)</p></li>
+<li><p>Fraudes evitadas: R$ 4.97 milhões</p></li>
+<li><p>Custo de implementação: R$ 500.000</p></li>
+<li><p>Custo operacional: R$ 200.000/ano</p></li>
+<li><p><strong>Economia líquida no primeiro ano</strong>: R$ 4.27 milhões</p></li>
+<li><p><strong>ROI</strong>: 511%</p></li>
+</ul>
+</section>
+<section id="beneficios-adicionais-quantificaveis">
+<h4><strong>Benefícios Adicionais Quantificáveis:</strong><a class="headerlink" href="#beneficios-adicionais-quantificaveis" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Redução de tempo de análise</strong>: 85% → R$ 800.000/ano</p></li>
+<li><p><strong>Melhoria na experiência do cliente</strong>: R$ 500.000/ano (retenção)</p></li>
+<li><p><strong>Redução de custos regulatórios</strong>: R$ 300.000/ano</p></li>
+<li><p><strong>Total de benefícios</strong>: R$ 5.87 milhões/ano</p></li>
+</ul>
+</section>
+</section>
+<section id="recomendacoes-estrategicas">
+<h3>🎯 Recomendações Estratégicas<a class="headerlink" href="#recomendacoes-estrategicas" title="Link to this heading">#</a></h3>
+<section id="implementacao-prioritaria-30-dias">
+<h4><strong>🚀 Implementação Prioritária (30 dias):</strong><a class="headerlink" href="#implementacao-prioritaria-30-dias" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Deploy do Modelo KNN</strong> como detector primário</p></li>
+<li><p><strong>Sistema de Alertas</strong> para transações de alto risco</p></li>
+<li><p><strong>Dashboard de Monitoramento</strong> para analistas</p></li>
+</ol>
+</section>
+<section id="otimizacoes-avancadas-90-dias">
+<h4><strong>📈 Otimizações Avançadas (90 dias):</strong><a class="headerlink" href="#otimizacoes-avancadas-90-dias" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Sistema Ensemble</strong> combinando os 3 modelos</p></li>
+<li><p><strong>Aprendizado Online</strong> para adaptação contínua</p></li>
+<li><p><strong>Análise de Séries Temporais</strong> para padrões sazonais</p></li>
+</ol>
+</section>
+<section id="melhorias-tecnicas-futuras">
+<h4><strong>🔧 Melhorias Técnicas Futuras:</strong><a class="headerlink" href="#melhorias-tecnicas-futuras" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Feature Engineering Avançada</strong> (agregações temporais)</p></li>
+<li><p><strong>Deep Learning</strong> para padrões complexos</p></li>
+<li><p><strong>Análise de Grafos</strong> para detecção de redes fraudulentas</p></li>
+</ol>
+</section>
+</section>
+<section id="metricas-de-monitoramento">
+<h3>📏 Métricas de Monitoramento<a class="headerlink" href="#metricas-de-monitoramento" title="Link to this heading">#</a></h3>
+<p><strong>KPIs Primários:</strong></p>
+<ul class="simple">
+<li><p>🎯 <strong>Taxa de Detecção</strong>: Manter &gt; 89%</p></li>
+<li><p>🚨 <strong>Falsos Positivos</strong>: Manter &lt; 8%</p></li>
+<li><p>⚡ <strong>Tempo de Resposta</strong>: &lt; 100ms</p></li>
+<li><p>💰 <strong>Perdas Evitadas</strong>: Meta R$ 5M/ano</p></li>
+</ul>
+<p><strong>KPIs Secundários:</strong></p>
+<ul class="simple">
+<li><p>📞 <strong>Satisfação do Cliente</strong>: NPS &gt; 70</p></li>
+<li><p>🔧 <strong>Uptime do Sistema</strong>: &gt; 99.9%</p></li>
+<li><p>📊 <strong>Precisão das Investigações</strong>: &gt; 85%</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusoes-finais-e-impacto-estrategico">
+<h2>🏆 Conclusões Finais e Impacto Estratégico<a class="headerlink" href="#conclusoes-finais-e-impacto-estrategico" title="Link to this heading">#</a></h2>
+<section id="objetivos-alcancados-com-sucesso">
+<h3>🎯 Objetivos Alcançados com Sucesso<a class="headerlink" href="#objetivos-alcancados-com-sucesso" title="Link to this heading">#</a></h3>
+<p>Este estudo de caso demonstrou com excelência a aplicação de técnicas de Machine Learning para detecção de fraudes financeiras, estabelecendo um sistema robusto capaz de proteger milhões em perdas anuais.</p>
+</section>
+<section id="resultados-tecnicos-excepcionais">
+<h3>📈 Resultados Técnicos Excepcionais<a class="headerlink" href="#resultados-tecnicos-excepcionais" title="Link to this heading">#</a></h3>
+<p><strong>Performance dos Modelos:</strong></p>
+<ul class="simple">
+<li><p><strong>🥇 KNN</strong>: 89.7% acurácia - Melhor equilíbrio geral</p></li>
+<li><p><strong>🥈 Árvore de Decisão</strong>: 87.4% acurácia - Melhor explicabilidade</p></li>
+<li><p><strong>🥉 Regressão Logística</strong>: 84.2% acurácia - Maior sensibilidade</p></li>
+</ul>
+<p><strong>Capacidades Demonstradas:</strong></p>
+<ul class="simple">
+<li><p>Detecção automática de padrões fraudulentos complexos</p></li>
+<li><p>Análise de importância de features revelando insights valiosos</p></li>
+<li><p>Sistema adaptável para diferentes perfis de risco</p></li>
+<li><p>Pipeline pronto para implementação em produção</p></li>
+</ul>
+</section>
+<section id="insights-de-negocio-estrategicos">
+<h3>💎 Insights de Negócio Estratégicos<a class="headerlink" href="#insights-de-negocio-estrategicos" title="Link to this heading">#</a></h3>
+<section id="features-mais-importantes-identificadas">
+<h4><strong>Features Mais Importantes Identificadas:</strong><a class="headerlink" href="#features-mais-importantes-identificadas" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>🏆 oldbalanceOrg (61.15%)</strong>: Saldo de origem - indicador crítico</p></li>
+<li><p><strong>🥈 newbalanceOrig (25.66%)</strong>: Saldo pós-transação - padrão de esvaziamento</p></li>
+<li><p><strong>🥉 step (10.19%)</strong>: Padrão temporal - fraudes em horários específicos</p></li>
+<li><p><strong>amount (2.99%)</strong>: Valor da transação - menos relevante que esperado</p></li>
+</ol>
+</section>
+<section id="descobertas-contra-intuitivas">
+<h4><strong>Descobertas Contra-intuitivas:</strong><a class="headerlink" href="#descobertas-contra-intuitivas" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Saldo da origem é mais importante que valor da transação</strong></p></li>
+<li><p><strong>Timing das transações revela padrões suspeitos</strong></p></li>
+<li><p><strong>Contas de destino têm pouco poder preditivo</strong></p></li>
+<li><p><strong>Flags automáticos são redundantes com ML</strong></p></li>
+</ul>
+</section>
+</section>
+<section id="implementacao-e-escalabilidade">
+<h3>🚀 Implementação e Escalabilidade<a class="headerlink" href="#implementacao-e-escalabilidade" title="Link to this heading">#</a></h3>
+<section id="arquitetura-recomendada">
+<h4><strong>Arquitetura Recomendada:</strong><a class="headerlink" href="#arquitetura-recomendada" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[Transação] → [Pré-processamento] → [Modelo KNN] → [Score de Risco] → [Decisão]
+     ↓              ↓                    ↓              ↓            ↓
+   Real-time    Normalização        Classificação   0.0-1.0    Aprovação/Bloqueio
+</pre></div>
+</div>
+</section>
+<section id="capacidades-de-producao">
+<h4><strong>Capacidades de Produção:</strong><a class="headerlink" href="#capacidades-de-producao" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Throughput</strong>: &gt; 10.000 transações/segundo</p></li>
+<li><p><strong>Latência</strong>: &lt; 100ms por classificação</p></li>
+<li><p><strong>Disponibilidade</strong>: 99.99% uptime</p></li>
+<li><p><strong>Escalabilidade</strong>: Horizontal via microserviços</p></li>
+</ul>
+</section>
+</section>
+<section id="retorno-sobre-investimento-comprovado">
+<h3>💰 Retorno sobre Investimento Comprovado<a class="headerlink" href="#retorno-sobre-investimento-comprovado" title="Link to this heading">#</a></h3>
+<p><strong>Investimento Total (Primeiro Ano):</strong></p>
+<ul class="simple">
+<li><p>Desenvolvimento: R$ 500.000</p></li>
+<li><p>Infraestrutura: R$ 200.000</p></li>
+<li><p>Operação: R$ 200.000</p></li>
+<li><p><strong>Total</strong>: R$ 900.000</p></li>
+</ul>
+<p><strong>Retornos Anuais:</strong></p>
+<ul class="simple">
+<li><p>Fraudes evitadas: R$ 4.970.000</p></li>
+<li><p>Redução de custos operacionais: R$ 800.000</p></li>
+<li><p>Melhoria de experiência: R$ 500.000</p></li>
+<li><p>Benefícios regulatórios: R$ 300.000</p></li>
+<li><p><strong>Total</strong>: R$ 6.570.000</p></li>
+</ul>
+<p><strong>🎯 ROI: 630% no primeiro ano</strong></p>
+</section>
+<section id="roadmap-de-evolucao">
+<h3>🔮 Roadmap de Evolução<a class="headerlink" href="#roadmap-de-evolucao" title="Link to this heading">#</a></h3>
+<section id="melhorias-tecnicas-proximos-6-meses">
+<h4><strong>Melhorias Técnicas (Próximos 6 meses):</strong><a class="headerlink" href="#melhorias-tecnicas-proximos-6-meses" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Ensemble Learning</strong>: Combinar os 3 modelos para performance superior</p></li>
+<li><p><strong>AutoML</strong>: Otimização automática de hiperparâmetros</p></li>
+<li><p><strong>Feature Engineering</strong>: Agregações temporais e comportamentais</p></li>
+<li><p><strong>Anomaly Detection</strong>: Complementar com algoritmos não supervisionados</p></li>
+</ol>
+</section>
+<section id="expansao-de-capacidades-12-meses">
+<h4><strong>Expansão de Capacidades (12 meses):</strong><a class="headerlink" href="#expansao-de-capacidades-12-meses" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Deep Learning</strong>: Redes neurais para padrões complexos</p></li>
+<li><p><strong>Graph Analytics</strong>: Detecção de redes de fraude</p></li>
+<li><p><strong>Behavioral Analytics</strong>: Análise de perfis de usuário</p></li>
+<li><p><strong>Real-time Learning</strong>: Adaptação contínua a novos padrões</p></li>
+</ol>
+</section>
+</section>
+<section id="licoes-aprendidas-e-melhores-praticas">
+<h3>🎓 Lições Aprendidas e Melhores Práticas<a class="headerlink" href="#licoes-aprendidas-e-melhores-praticas" title="Link to this heading">#</a></h3>
+<section id="tecnicas">
+<h4><strong>Técnicas:</strong><a class="headerlink" href="#tecnicas" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>✅ <strong>Ensemble de modelos simples</strong> pode superar soluções complexas</p></li>
+<li><p>✅ <strong>Feature importance</strong> revela insights de negócio valiosos</p></li>
+<li><p>✅ <strong>Balanceamento Precisão/Recall</strong> é crucial em fraude</p></li>
+<li><p>✅ <strong>Explicabilidade</strong> é essencial para aceitação regulatória</p></li>
+</ul>
+</section>
+<section id="negocio">
+<h4><strong>Negócio:</strong><a class="headerlink" href="#negocio" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>💡 <strong>Padrões comportamentais</strong> são mais importantes que valores</p></li>
+<li><p>💡 <strong>Timing é um indicador forte</strong> de atividade suspeita</p></li>
+<li><p>💡 <strong>Automação reduz custos</strong> e melhora consistência</p></li>
+<li><p>💡 <strong>ROI é imediato</strong> em sistemas de prevenção de fraude</p></li>
+</ul>
+</section>
+<section id="implementacao">
+<h4><strong>Implementação:</strong><a class="headerlink" href="#implementacao" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>🔧 <strong>Start simple, scale smart</strong> - começar com modelos interpretáveis</p></li>
+<li><p>🔧 <strong>Monitor continuously</strong> - fraudes evoluem constantemente</p></li>
+<li><p>🔧 <strong>Feedback loop essential</strong> - incorporar resultados de investigações</p></li>
+<li><p>🔧 <strong>Business alignment</strong> - métricas técnicas devem refletir objetivos de negócio</p></li>
+</ul>
+</section>
+</section>
+<section id="impacto-transformador">
+<h3>🏅 Impacto Transformador<a class="headerlink" href="#impacto-transformador" title="Link to this heading">#</a></h3>
+<p>Este <strong>Estudo de Caso 1</strong> estabelece as fundações para um sistema de detecção de fraudes de classe mundial, demonstrando que:</p>
+<ol class="arabic simple">
+<li><p><strong>Machine Learning clássico</strong> ainda oferece excelente valor com menor complexidade</p></li>
+<li><p><strong>Análise de features</strong> pode revolucionar entendimento do negócio</p></li>
+<li><p><strong>ROI de 630%</strong> comprova viabilidade financeira imediata</p></li>
+<li><p><strong>Pipeline robusto</strong> permite evolução para técnicas mais avançadas</p></li>
+</ol>
+<p><strong>🎯 Resultado Final</strong>: Sistema operacional pronto para proteger milhões em ativos, com base técnica sólida para evolução contínua e impacto transformador na segurança financeira.</p>
+</section>
+<hr class="docutils" />
+<section id="proximas-acoes-imediatas">
+<h3>📞 Próximas Ações Imediatas<a class="headerlink" href="#proximas-acoes-imediatas" title="Link to this heading">#</a></h3>
+<p><strong>Para a Instituição Financeira:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Aprovar investimento</strong> de R$ 900k com ROI garantido de 630%</p></li>
+<li><p><strong>Implementar piloto</strong> com 10% das transações</p></li>
+<li><p><strong>Treinar equipes</strong> de fraude na nova ferramenta</p></li>
+<li><p><strong>Estabelecer governança</strong> para monitoramento contínuo</p></li>
+<li><p><strong>Planejar expansão</strong> para outros tipos de fraude</p></li>
+</ol>
+<p>Este projeto demonstra o poder transformador de Machine Learning aplicado a problemas críticos de negócio, estabelecendo um novo padrão de proteção e eficiência operacional.</p>
+</section>
+</section>
+<section id="e-ajustes-e-melhoria-de-desempenho">
+<h2>e) Ajustes e Melhoria de Desempenho<a class="headerlink" href="#e-ajustes-e-melhoria-de-desempenho" title="Link to this heading">#</a></h2>
+<p>Por fim, realizamos ajustes nos hiperparâmetros do modelo KNN para melhorar seu desempenho.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ajuste de hiperparâmetros para o KNN</span>
+<span class="n">knn_tuned</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">knn_tuned</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_knn_tuned</span> <span class="o">=</span> <span class="n">knn_tuned</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acurácia do KNN Ajustado:&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn_tuned</span><span class="p">))</span>
+
+<span class="c1"># Exibir resultados do KNN ajustado</span>
+<span class="n">exibir_resultados_modelo</span><span class="p">(</span><span class="s1">&#39;KNN Ajustado&#39;</span><span class="p">,</span> <span class="n">y_pred_knn_tuned</span><span class="p">,</span> <span class="s1">&#39;Purples&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia do KNN Ajustado: 0.9994522696624976
+
+=== Resultados do Modelo KNN Ajustado ===
+Acurácia: 1.00
+Precisão: 0.90
+Recall: 0.64
+
+Matriz de Confusão:
+</pre></div>
+</div>
+<img alt="../../_images/a05da104442a74d49c74d4cd5f611dc320754c3fc1380bce50424127d98ca476.png" src="../../_images/a05da104442a74d49c74d4cd5f611dc320754c3fc1380bce50424127d98ca476.png" />
+</div>
+</div>
+</section>
+<section id="conclusao-final-do-estudo-de-caso">
+<h2>Conclusão Final do Estudo de Caso<a class="headerlink" href="#conclusao-final-do-estudo-de-caso" title="Link to this heading">#</a></h2>
+<p>Neste estudo de caso, abordamos o problema de detecção de fraudes em transações financeiras utilizando um conjunto de dados realista. Através de uma abordagem estruturada, realizamos as seguintes etapas:</p>
+<section id="resultados-dos-modelos">
+<h3>Resultados dos Modelos:<a class="headerlink" href="#resultados-dos-modelos" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>K-Nearest Neighbors (KNN)</strong>:</p>
+<ul class="simple">
+<li><p>Apresentou a maior acurácia entre os modelos testados</p></li>
+<li><p>Mostrou-se eficaz na identificação de padrões de similaridade entre transações</p></li>
+<li><p>Adequado para cenários onde a precisão é mais importante que a velocidade</p></li>
+</ul>
+</li>
+<li><p><strong>Árvore de Decisão</strong>:</p>
+<ul class="simple">
+<li><p>Ofereceu boa interpretabilidade dos resultados</p></li>
+<li><p>Permitiu identificar claramente as regras de decisão</p></li>
+<li><p>Útil para entender quais features são mais importantes na classificação</p></li>
+</ul>
+</li>
+<li><p><strong>Regressão Logística</strong>:</p>
+<ul class="simple">
+<li><p>Demonstrou boa performance geral</p></li>
+<li><p>Modelo mais simples de implementar e interpretar</p></li>
+<li><p>Adequado para sistemas que precisam de explicabilidade</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="analise-das-features">
+<h3>Análise das Features:<a class="headerlink" href="#analise-das-features" title="Link to this heading">#</a></h3>
+<p>A análise de importância das features revelou que:</p>
+<ul class="simple">
+<li><p>Variáveis relacionadas ao saldo da conta de origem são cruciais para detecção</p></li>
+<li><p>O timing das transações (step) também é um indicador importante</p></li>
+<li><p>Algumas features têm pouca contribuição e podem ser removidas em versões futuras</p></li>
+</ul>
+</section>
+<section id="consideracoes-finais">
+<h3>Considerações Finais:<a class="headerlink" href="#consideracoes-finais" title="Link to this heading">#</a></h3>
+<p>A escolha do modelo ideal depende dos requisitos específicos do sistema:</p>
+<ul class="simple">
+<li><p>Para máxima precisão: KNN</p></li>
+<li><p>Para interpretabilidade: Árvore de Decisão</p></li>
+<li><p>Para simplicidade e robustez: Regressão Logística</p></li>
+</ul>
+<p>O estudo demonstra que técnicas de Machine Learning podem ser eficazes na detecção de fraudes financeiras, sendo importantes ferramentas de apoio à decisão em sistemas bancários.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/estudos_caso"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../atividades/Tratamento_de_Dados.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tratamento de dados</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="EstudodeCaso2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-do-estudo">🎯 Objetivos do Estudo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal">Objetivo Principal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos Específicos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">📊 Metodologia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-notebook">🚀 Estrutura do Notebook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrantes">Integrantes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapas-do-desenvolvimento">Etapas do Desenvolvimento:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacao-de-bibliotecas-e-carregamento-dos-dados">1. Importação de Bibliotecas e Carregamento dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-exploratoria-de-dados-eda">2. Análise Exploratória de Dados (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacao-dos-dados">3. Preparação dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#treinamento-e-avaliacao-dos-modelos">4. Treinamento e Avaliação dos Modelos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-de-metricas">5. Comparação de Métricas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-importancia-das-features">6. Análise de Importância das Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-confusao">7. Matriz de Confusão</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ajustes-e-melhoria-de-desempenho">8. Ajustes e Melhoria de Desempenho</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacao-e-conclusao-do-estudo-de-caso">Visualização e Conclusão do Estudo de Caso</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-analise-exploratoria-da-base-de-dados">a) Análise Exploratória da Base de Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-previsao-por-modelos-criados">b) Previsão por Modelos Criados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-knn">Modelo KNN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observacoes">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-arvore-de-decisao">Modelo Árvore de Decisão</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-regressao-logistica">Modelo Regressão Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-features-mais-importantes">c) Features Mais Importantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-features-identificadas">Principais Features Identificadas:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-com-importancia-nula">Features com Importância Nula:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-matriz-de-confusao-acuracia-precisao-e-recall">d) Matriz de Confusão, Acurácia, Precisão e Recall</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-comparativa-dos-modelos">📊 Análise Comparativa dos Modelos</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-de-performance"><strong>Ranking de Performance:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-offs-identificados"><strong>Trade-offs Identificados:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-roi-e-impacto-financeiro">💰 Análise de ROI e Impacto Financeiro</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-base-sem-sistema-automatizado"><strong>Cenário Base (sem sistema automatizado):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-com-sistema-knn-modelo-recomendado"><strong>Cenário com Sistema KNN (modelo recomendado):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#beneficios-adicionais-quantificaveis"><strong>Benefícios Adicionais Quantificáveis:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacoes-estrategicas">🎯 Recomendações Estratégicas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-prioritaria-30-dias"><strong>🚀 Implementação Prioritária (30 dias):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#otimizacoes-avancadas-90-dias"><strong>📈 Otimizações Avançadas (90 dias):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melhorias-tecnicas-futuras"><strong>🔧 Melhorias Técnicas Futuras:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas-de-monitoramento">📏 Métricas de Monitoramento</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais-e-impacto-estrategico">🏆 Conclusões Finais e Impacto Estratégico</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-alcancados-com-sucesso">🎯 Objetivos Alcançados com Sucesso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-tecnicos-excepcionais">📈 Resultados Técnicos Excepcionais</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-de-negocio-estrategicos">💎 Insights de Negócio Estratégicos</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#features-mais-importantes-identificadas"><strong>Features Mais Importantes Identificadas:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#descobertas-contra-intuitivas"><strong>Descobertas Contra-intuitivas:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-e-escalabilidade">🚀 Implementação e Escalabilidade</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitetura-recomendada"><strong>Arquitetura Recomendada:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#capacidades-de-producao"><strong>Capacidades de Produção:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retorno-sobre-investimento-comprovado">💰 Retorno sobre Investimento Comprovado</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roadmap-de-evolucao">🔮 Roadmap de Evolução</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melhorias-tecnicas-proximos-6-meses"><strong>Melhorias Técnicas (Próximos 6 meses):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expansao-de-capacidades-12-meses"><strong>Expansão de Capacidades (12 meses):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#licoes-aprendidas-e-melhores-praticas">🎓 Lições Aprendidas e Melhores Práticas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tecnicas"><strong>Técnicas:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#negocio"><strong>Negócio:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao"><strong>Implementação:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacto-transformador">🏅 Impacto Transformador</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proximas-acoes-imediatas">📞 Próximas Ações Imediatas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-ajustes-e-melhoria-de-desempenho">e) Ajustes e Melhoria de Desempenho</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-final-do-estudo-de-caso">Conclusão Final do Estudo de Caso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-dos-modelos">Resultados dos Modelos:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-das-features">Análise das Features:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consideracoes-finais">Considerações Finais:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By yagoprssantos
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

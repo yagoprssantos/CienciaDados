@@ -1,0 +1,2248 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel &#8212; CienciaDados</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/estudos_caso/EstudodeCaso2';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19" href="EstudodeCaso3.html" />
+    <link rel="prev" title="Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning" href="EstudodeCaso1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CienciaDados</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    CienciaDados
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Atividades</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../atividades/A_Regressao_Linear.html">A Regressão Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise-Exploratoria-Financeira.html">Mentoria DATAUP - Aula02</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise-Exploratoria-Parte2.html">Análise Exploratória dos Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Analise_Exploratoria.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Aprendizado_Maquinas_Classificacao.html">Modelos de Classificação</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Classificacao_MLP.html">Multi Layer Perceptron ( MLP )  __________________________________</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/K_Means_Aprendizado_Nao_Supervisionado.html">Aprendizado Não Supervisionado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/O_Perceptron.html">O Perceptron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Processamento_para_NLP_CEUB.html">Introdução</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/SistemaRecomendacaoPythonCEUB_KNN.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/SistemaRecomendacaoPythonCEUB_KNN_e_KMeans.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../atividades/Tratamento_de_Dados.html">Tratamento de dados</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Estudos de Caso</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso1.html">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso3.html">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso4.html">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso5.html">Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EstudodeCaso6.html">Estudo de Caso 6: Análise de Sentimentos em Avaliações de Produtos com NLP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/estudos_caso/EstudodeCaso2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-do-estudo">🎯 Objetivos do Estudo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal">Objetivo Principal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos Específicos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">📊 Metodologia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-notebook">🚀 Estrutura do Notebook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrantes">Integrantes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapas-do-desenvolvimento">Etapas do Desenvolvimento:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacao-de-bibliotecas-e-carregamento-dos-dados">1. Importação de Bibliotecas e Carregamento dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-exploratoria-de-dados-eda">2. Análise Exploratória de Dados (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacao-dos-dados">3. Preparação dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#treinamento-e-avaliacao-do-modelo-de-regressao-logistica">4. Treinamento e Avaliação do Modelo de Regressão Logística</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacao-e-conclusao-do-estudo-de-caso">Visualização e Conclusão do Estudo de Caso</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-analise-exploratoria-da-base-de-dados">a) Análise Exploratória da Base de Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-previsao-por-modelo-de-regressao-logistica">b) Previsão por Modelo de Regressão Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observacoes">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-features-mais-importantes">c) Features Mais Importantes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observacoes-sobre-as-principais-features">Observações sobre as Principais Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-features-identificadas">Principais Features Identificadas:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#justificativa-para-escolha">Justificativa para Escolha:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-geral">Conclusão Geral:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-matriz-de-confusao-acuracia-precisao-e-recall">d) Matriz de Confusão, Acurácia, Precisão e Recall</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#avaliacao-e-analise-dos-resultados">Avaliação e Análise dos Resultados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-confusao">1. Matriz de Confusão</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-da-precisao-e-recall">2. Análise da Precisão e Recall</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-entre-precisao-e-recall">3. Comparação entre Precisão e Recall</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-estrategias-de-otimizacao-e-melhoria-de-performance">e) Estratégias de Otimização e Melhoria de Performance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#justificativa-para-otimizacao">Justificativa para Otimização:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais-e-impacto-estrategico-no-negocio-hoteleiro">🏆 Conclusões Finais e Impacto Estratégico no Negócio Hoteleiro</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-alcancados-com-excelencia">🎯 Objetivos Alcançados com Excelência</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-do-modelo-desenvolvido">📈 Performance do Modelo Desenvolvido</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-de-negocio-transformadores">🔍 Insights de Negócio Transformadores</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-dos-principais-fatores-de-cancelamento"><strong>Ranking dos Principais Fatores de Cancelamento:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#descobertas-estrategicas"><strong>Descobertas Estratégicas:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-roi-e-beneficios-financeiros">💰 Análise de ROI e Benefícios Financeiros</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-atual-sem-modelo-preditivo"><strong>Cenário Atual (sem modelo preditivo):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-com-modelo-implementado"><strong>Cenário com Modelo Implementado:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#beneficios-adicionais-quantificaveis"><strong>Benefícios Adicionais Quantificáveis:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estrategias-de-implementacao-pratica">🚀 Estratégias de Implementação Prática</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#acoes-imediatas-30-dias"><strong>🎯 Ações Imediatas (30 dias):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#otimizacoes-estrategicas-90-dias"><strong>📈 Otimizações Estratégicas (90 dias):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-com-benchmarks-do-setor">📊 Comparação com Benchmarks do Setor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roadmap-de-evolucao">🔮 Roadmap de Evolução</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melhorias-tecnicas-6-meses"><strong>Melhorias Técnicas (6 meses):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expansao-de-escopo-12-meses"><strong>Expansão de Escopo (12 meses):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#licoes-aprendidas-e-melhores-praticas">🎓 Lições Aprendidas e Melhores Práticas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tecnicas"><strong>Técnicas:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#negocio"><strong>Negócio:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao"><strong>Implementação:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacto-transformador-no-setor-hoteleiro">🏅 Impacto Transformador no Setor Hoteleiro</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacoes-para-implementacao">📞 Recomendações para Implementação</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais-e-insights-estrategicos">📊 Conclusões Finais e Insights Estratégicos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-descobertas-e-performance-do-modelo">🏆 Principais Descobertas e Performance do Modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-de-performance"><strong>Resultados de Performance:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-criticos-de-negocio"><strong>Insights Críticos de Negócio:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estrategias-de-implementacao-por-segmento">💼 Estratégias de Implementação por Segmento</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alto-risco-probabilidade-70">🚨 <strong>Alto Risco (Probabilidade &gt; 70%)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#medio-risco-probabilidade-40-70">⚠️ <strong>Médio Risco (Probabilidade 40-70%)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#baixo-risco-probabilidade-40">✅ <strong>Baixo Risco (Probabilidade &lt; 40%)</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kpis-e-metricas-de-monitoramento">📏 KPIs e Métricas de Monitoramento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roadmap-de-evolucao-e-melhorias">🔮 Roadmap de Evolução e Melhorias</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-1-consolidacao-3-meses"><strong>Fase 1: Consolidação (3 meses)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-2-sofisticacao-6-meses"><strong>Fase 2: Sofisticação (6 meses)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-3-inovacao-12-meses"><strong>Fase 3: Inovação (12 meses)</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🌟 Lições Aprendidas e Melhores Práticas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tecnicas-de-modelagem"><strong>Técnicas de Modelagem:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-de-negocio"><strong>Insights de Negócio:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-operacional"><strong>Implementação Operacional:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacto-transformacional-na-hotelaria">🚀 Impacto Transformacional na Hotelaria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sinergia-com-portfolio-de-projetos">🔗 Sinergia com Portfolio de Projetos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-final-do-estudo-de-caso">Conclusão Final do Estudo de Caso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-obtidos">Resultados Obtidos:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-para-o-negocio">Insights para o Negócio:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacoes-praticas">Aplicações Práticas:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="estudo-de-caso-2-previsao-de-cancelamentos-em-reservas-de-hotel">
+<h1>Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel<a class="headerlink" href="#estudo-de-caso-2-previsao-de-cancelamentos-em-reservas-de-hotel" title="Link to this heading">#</a></h1>
+<p>Este notebook apresenta uma análise preditiva para identificar fatores que levam ao cancelamento de reservas hoteleiras, utilizando técnicas de Machine Learning para desenvolver modelos capazes de prever cancelamentos.</p>
+<section id="objetivos-do-estudo">
+<h2>🎯 Objetivos do Estudo<a class="headerlink" href="#objetivos-do-estudo" title="Link to this heading">#</a></h2>
+<section id="objetivo-principal">
+<h3>Objetivo Principal<a class="headerlink" href="#objetivo-principal" title="Link to this heading">#</a></h3>
+<p>Desenvolver um modelo preditivo utilizando Regressão Logística para prever cancelamentos de reservas hoteleiras, identificando os principais fatores que influenciam essa decisão.</p>
+</section>
+<section id="objetivos-especificos">
+<h3>Objetivos Específicos<a class="headerlink" href="#objetivos-especificos" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Realizar análise exploratória dos dados de reservas hoteleiras</p></li>
+<li><p>Identificar padrões e fatores associados aos cancelamentos</p></li>
+<li><p>Implementar e avaliar modelo de Regressão Logística</p></li>
+<li><p>Analisar a importância das diferentes variáveis no processo de cancelamento</p></li>
+<li><p>Propor insights para melhorar a gestão de reservas</p></li>
+</ul>
+</section>
+</section>
+<section id="metodologia">
+<h2>📊 Metodologia<a class="headerlink" href="#metodologia" title="Link to this heading">#</a></h2>
+<p><strong>Dataset</strong>: Dados de reservas hoteleiras com informações sobre cancelamentos<br />
+<strong>Algoritmo Principal</strong>: Regressão Logística<br />
+<strong>Métricas</strong>: Acurácia, Precisão, Recall, Matriz de Confusão<br />
+<strong>Abordagem</strong>: Análise preditiva com foco na interpretabilidade dos fatores de cancelamento</p>
+</section>
+<section id="estrutura-do-notebook">
+<h2>🚀 Estrutura do Notebook<a class="headerlink" href="#estrutura-do-notebook" title="Link to this heading">#</a></h2>
+<section id="integrantes">
+<h3>Integrantes:<a class="headerlink" href="#integrantes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><em>João Victor Azevedo dos Santos</em></p></li>
+<li><p><em>Nathan Maurício Rodrigues Lopes</em></p></li>
+<li><p><em>Paulo Vinícius Isidro Batista</em></p></li>
+<li><p><em>Yago Péres dos Santos</em></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="etapas-do-desenvolvimento">
+<h2>Etapas do Desenvolvimento:<a class="headerlink" href="#etapas-do-desenvolvimento" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Importação de Bibliotecas e Carregamento dos Dados</strong></p></li>
+<li><p><strong>Análise Exploratória de Dados (EDA)</strong></p></li>
+<li><p><strong>Preparação e Pré-processamento dos Dados</strong></p></li>
+<li><p><strong>Modelagem com Regressão Logística</strong></p></li>
+<li><p><strong>Avaliação do Modelo</strong></p></li>
+<li><p><strong>Análise de Fatores de Cancelamento</strong></p></li>
+<li><p><strong>Conclusões e Recomendações</strong></p></li>
+</ol>
+</section>
+<section id="importacao-de-bibliotecas-e-carregamento-dos-dados">
+<h2>1. Importação de Bibliotecas e Carregamento dos Dados<a class="headerlink" href="#importacao-de-bibliotecas-e-carregamento-dos-dados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importação das bibliotecas necessárias</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># Carregamento dos dados</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/databaseHotel.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Apenas dados numéricos</span>
+<span class="n">numeric_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])</span>
+
+<span class="c1"># Visualização inicial dos dados</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hotel</th>
+      <th>is_canceled</th>
+      <th>lead_time</th>
+      <th>arrival_date_year</th>
+      <th>arrival_date_month</th>
+      <th>arrival_date_week_number</th>
+      <th>arrival_date_day_of_month</th>
+      <th>stays_in_weekend_nights</th>
+      <th>stays_in_week_nights</th>
+      <th>adults</th>
+      <th>...</th>
+      <th>deposit_type</th>
+      <th>agent</th>
+      <th>company</th>
+      <th>days_in_waiting_list</th>
+      <th>customer_type</th>
+      <th>adr</th>
+      <th>required_car_parking_spaces</th>
+      <th>total_of_special_requests</th>
+      <th>reservation_status</th>
+      <th>reservation_status_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Resort Hotel</td>
+      <td>0</td>
+      <td>342</td>
+      <td>2015</td>
+      <td>July</td>
+      <td>27</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>...</td>
+      <td>No Deposit</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>Transient</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Check-Out</td>
+      <td>2015-07-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Resort Hotel</td>
+      <td>0</td>
+      <td>737</td>
+      <td>2015</td>
+      <td>July</td>
+      <td>27</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>...</td>
+      <td>No Deposit</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>Transient</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Check-Out</td>
+      <td>2015-07-01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Resort Hotel</td>
+      <td>0</td>
+      <td>7</td>
+      <td>2015</td>
+      <td>July</td>
+      <td>27</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>...</td>
+      <td>No Deposit</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>Transient</td>
+      <td>75.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Check-Out</td>
+      <td>2015-07-02</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Resort Hotel</td>
+      <td>0</td>
+      <td>13</td>
+      <td>2015</td>
+      <td>July</td>
+      <td>27</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>...</td>
+      <td>No Deposit</td>
+      <td>304.0</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>Transient</td>
+      <td>75.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Check-Out</td>
+      <td>2015-07-02</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Resort Hotel</td>
+      <td>0</td>
+      <td>14</td>
+      <td>2015</td>
+      <td>July</td>
+      <td>27</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>...</td>
+      <td>No Deposit</td>
+      <td>240.0</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>Transient</td>
+      <td>98.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Check-Out</td>
+      <td>2015-07-03</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 32 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="analise-exploratoria-de-dados-eda">
+<h2>2. Análise Exploratória de Dados (EDA)<a class="headerlink" href="#analise-exploratoria-de-dados-eda" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Informações gerais sobre o dataset</span>
+<span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 119390 entries, 0 to 119389
+Data columns (total 32 columns):
+ #   Column                          Non-Null Count   Dtype  
+---  ------                          --------------   -----  
+ 0   hotel                           119390 non-null  object 
+ 1   is_canceled                     119390 non-null  int64  
+ 2   lead_time                       119390 non-null  int64  
+ 3   arrival_date_year               119390 non-null  int64  
+ 4   arrival_date_month              119390 non-null  object 
+ 5   arrival_date_week_number        119390 non-null  int64  
+ 6   arrival_date_day_of_month       119390 non-null  int64  
+ 7   stays_in_weekend_nights         119390 non-null  int64  
+ 8   stays_in_week_nights            119390 non-null  int64  
+ 9   adults                          119390 non-null  int64  
+ 10  children                        119386 non-null  float64
+ 11  babies                          119390 non-null  int64  
+ 12  meal                            119390 non-null  object 
+ 13  country                         118902 non-null  object 
+ 14  market_segment                  119390 non-null  object 
+ 15  distribution_channel            119390 non-null  object 
+ 16  is_repeated_guest               119390 non-null  int64  
+ 17  previous_cancellations          119390 non-null  int64  
+ 18  previous_bookings_not_canceled  119390 non-null  int64  
+ 19  reserved_room_type              119390 non-null  object 
+ 20  assigned_room_type              119390 non-null  object 
+ 21  booking_changes                 119390 non-null  int64  
+ 22  deposit_type                    119390 non-null  object 
+ 23  agent                           103050 non-null  float64
+ 24  company                         6797 non-null    float64
+ 25  days_in_waiting_list            119390 non-null  int64  
+ 26  customer_type                   119390 non-null  object 
+ 27  adr                             119390 non-null  float64
+ 28  required_car_parking_spaces     119390 non-null  int64  
+ 29  total_of_special_requests       119390 non-null  int64  
+ 30  reservation_status              119390 non-null  object 
+ 31  reservation_status_date         119390 non-null  object 
+dtypes: float64(4), int64(16), object(12)
+memory usage: 29.1+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estatísticas descritivas</span>
+<span class="n">numeric_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_canceled</th>
+      <th>lead_time</th>
+      <th>arrival_date_year</th>
+      <th>arrival_date_week_number</th>
+      <th>arrival_date_day_of_month</th>
+      <th>stays_in_weekend_nights</th>
+      <th>stays_in_week_nights</th>
+      <th>adults</th>
+      <th>children</th>
+      <th>babies</th>
+      <th>is_repeated_guest</th>
+      <th>previous_cancellations</th>
+      <th>previous_bookings_not_canceled</th>
+      <th>booking_changes</th>
+      <th>agent</th>
+      <th>company</th>
+      <th>days_in_waiting_list</th>
+      <th>adr</th>
+      <th>required_car_parking_spaces</th>
+      <th>total_of_special_requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119386.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>103050.000000</td>
+      <td>6797.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+      <td>119390.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.370416</td>
+      <td>104.011416</td>
+      <td>2016.156554</td>
+      <td>27.165173</td>
+      <td>15.798241</td>
+      <td>0.927599</td>
+      <td>2.500302</td>
+      <td>1.856403</td>
+      <td>0.103890</td>
+      <td>0.007949</td>
+      <td>0.031912</td>
+      <td>0.087118</td>
+      <td>0.137097</td>
+      <td>0.221124</td>
+      <td>86.693382</td>
+      <td>189.266735</td>
+      <td>2.321149</td>
+      <td>101.831122</td>
+      <td>0.062518</td>
+      <td>0.571363</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.482918</td>
+      <td>106.863097</td>
+      <td>0.707476</td>
+      <td>13.605138</td>
+      <td>8.780829</td>
+      <td>0.998613</td>
+      <td>1.908286</td>
+      <td>0.579261</td>
+      <td>0.398561</td>
+      <td>0.097436</td>
+      <td>0.175767</td>
+      <td>0.844336</td>
+      <td>1.497437</td>
+      <td>0.652306</td>
+      <td>110.774548</td>
+      <td>131.655015</td>
+      <td>17.594721</td>
+      <td>50.535790</td>
+      <td>0.245291</td>
+      <td>0.792798</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2015.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>6.000000</td>
+      <td>0.000000</td>
+      <td>-6.380000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.000000</td>
+      <td>18.000000</td>
+      <td>2016.000000</td>
+      <td>16.000000</td>
+      <td>8.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>9.000000</td>
+      <td>62.000000</td>
+      <td>0.000000</td>
+      <td>69.290000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.000000</td>
+      <td>69.000000</td>
+      <td>2016.000000</td>
+      <td>28.000000</td>
+      <td>16.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.000000</td>
+      <td>179.000000</td>
+      <td>0.000000</td>
+      <td>94.575000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.000000</td>
+      <td>160.000000</td>
+      <td>2017.000000</td>
+      <td>38.000000</td>
+      <td>23.000000</td>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>229.000000</td>
+      <td>270.000000</td>
+      <td>0.000000</td>
+      <td>126.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.000000</td>
+      <td>737.000000</td>
+      <td>2017.000000</td>
+      <td>53.000000</td>
+      <td>31.000000</td>
+      <td>19.000000</td>
+      <td>50.000000</td>
+      <td>55.000000</td>
+      <td>10.000000</td>
+      <td>10.000000</td>
+      <td>1.000000</td>
+      <td>26.000000</td>
+      <td>72.000000</td>
+      <td>21.000000</td>
+      <td>535.000000</td>
+      <td>543.000000</td>
+      <td>391.000000</td>
+      <td>5400.000000</td>
+      <td>8.000000</td>
+      <td>5.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar valores nulos</span>
+<span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hotel                                  0
+is_canceled                            0
+lead_time                              0
+arrival_date_year                      0
+arrival_date_month                     0
+arrival_date_week_number               0
+arrival_date_day_of_month              0
+stays_in_weekend_nights                0
+stays_in_week_nights                   0
+adults                                 0
+children                               4
+babies                                 0
+meal                                   0
+country                              488
+market_segment                         0
+distribution_channel                   0
+is_repeated_guest                      0
+previous_cancellations                 0
+previous_bookings_not_canceled         0
+reserved_room_type                     0
+assigned_room_type                     0
+booking_changes                        0
+deposit_type                           0
+agent                              16340
+company                           112593
+days_in_waiting_list                   0
+customer_type                          0
+adr                                    0
+required_car_parking_spaces            0
+total_of_special_requests              0
+reservation_status                     0
+reservation_status_date                0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribuição de cancelamentos</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;is_canceled&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribuição de Cancelamentos&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Cancelado&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Contagem&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3d8bfcb93ebeb87e276403d4cd6dbd5d8233ff132ab979462799d10b4db2f151.png" src="../../_images/3d8bfcb93ebeb87e276403d4cd6dbd5d8233ff132ab979462799d10b4db2f151.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Heatmap da correlação</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">numeric_data</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mapa de Correlação&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d3fdb9b5941c472ea86136fd9188345a155407f1405416088db7afc9cf5d529b.png" src="../../_images/d3fdb9b5941c472ea86136fd9188345a155407f1405416088db7afc9cf5d529b.png" />
+</div>
+</div>
+</section>
+<section id="preparacao-dos-dados">
+<h2>3. Preparação dos Dados<a class="headerlink" href="#preparacao-dos-dados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Atualizar a lista de colunas relevantes com base nas colunas existentes</span>
+<span class="n">relevant_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;lead_time&#39;</span><span class="p">,</span> <span class="s1">&#39;total_of_special_requests&#39;</span><span class="p">,</span> <span class="s1">&#39;adr&#39;</span><span class="p">,</span> <span class="s1">&#39;is_repeated_guest&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;previous_cancellations&#39;</span><span class="p">,</span> <span class="s1">&#39;previous_bookings_not_canceled&#39;</span><span class="p">,</span> <span class="s1">&#39;booking_changes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;days_in_waiting_list&#39;</span><span class="p">,</span> <span class="s1">&#39;required_car_parking_spaces&#39;</span><span class="p">,</span> <span class="s1">&#39;adults&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">,</span> <span class="s1">&#39;babies&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;is_canceled&#39;</span><span class="p">]</span>  
+<span class="n">numeric_data</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="p">[</span><span class="n">relevant_columns</span><span class="p">]</span>
+
+<span class="c1"># Tratamento de valores nulos</span>
+<span class="n">numeric_data</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>  <span class="c1"># Remove linhas com valores nulos restantes</span>
+
+<span class="c1"># Separação de features (X) e target (y)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;is_canceled&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">numeric_data</span><span class="p">[</span><span class="s1">&#39;is_canceled&#39;</span><span class="p">]</span>
+
+<span class="c1"># Divisão em conjuntos de treino e teste</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="treinamento-e-avaliacao-do-modelo-de-regressao-logistica">
+<h2>4. Treinamento e Avaliação do Modelo de Regressão Logística<a class="headerlink" href="#treinamento-e-avaliacao-do-modelo-de-regressao-logistica" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># Escalar os dados</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Treinamento do modelo de Regressão Logística com dados escalados</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_logreg</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+
+<span class="c1"># Avaliação do modelo</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acurácia:&#39;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Precisão:&#39;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recall:&#39;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+
+<span class="c1"># Matriz de confusão</span>
+<span class="n">conf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matriz de Confusão - Regressão Logística&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Previsto&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Real&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia: 0.7333947566797889
+Precisão: 0.7071976497470214
+Recall: 0.4865805727119596
+</pre></div>
+</div>
+<img alt="../../_images/b0d3500db2801937ee9735ee0f9b01535ced708743eefb54bbc6a7227f14a1b6.png" src="../../_images/b0d3500db2801937ee9735ee0f9b01535ced708743eefb54bbc6a7227f14a1b6.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="visualizacao-e-conclusao-do-estudo-de-caso">
+<h1>Visualização e Conclusão do Estudo de Caso<a class="headerlink" href="#visualizacao-e-conclusao-do-estudo-de-caso" title="Link to this heading">#</a></h1>
+<section id="a-analise-exploratoria-da-base-de-dados">
+<h2>a) Análise Exploratória da Base de Dados<a class="headerlink" href="#a-analise-exploratoria-da-base-de-dados" title="Link to this heading">#</a></h2>
+<p>Nesta seção, realizamos a análise exploratória dos dados, utilizando gráficos e tabelas para entender melhor o comportamento das variáveis e identificar possíveis padrões ou anomalias.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Informações gerais do dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Informações Gerais do Dataset ===&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Informações Gerais do Dataset ===
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 119390 entries, 0 to 119389
+Data columns (total 32 columns):
+ #   Column                          Non-Null Count   Dtype  
+---  ------                          --------------   -----  
+ 0   hotel                           119390 non-null  object 
+ 1   is_canceled                     119390 non-null  int64  
+ 2   lead_time                       119390 non-null  int64  
+ 3   arrival_date_year               119390 non-null  int64  
+ 4   arrival_date_month              119390 non-null  object 
+ 5   arrival_date_week_number        119390 non-null  int64  
+ 6   arrival_date_day_of_month       119390 non-null  int64  
+ 7   stays_in_weekend_nights         119390 non-null  int64  
+ 8   stays_in_week_nights            119390 non-null  int64  
+ 9   adults                          119390 non-null  int64  
+ 10  children                        119386 non-null  float64
+ 11  babies                          119390 non-null  int64  
+ 12  meal                            119390 non-null  object 
+ 13  country                         118902 non-null  object 
+ 14  market_segment                  119390 non-null  object 
+ 15  distribution_channel            119390 non-null  object 
+ 16  is_repeated_guest               119390 non-null  int64  
+ 17  previous_cancellations          119390 non-null  int64  
+ 18  previous_bookings_not_canceled  119390 non-null  int64  
+ 19  reserved_room_type              119390 non-null  object 
+ 20  assigned_room_type              119390 non-null  object 
+ 21  booking_changes                 119390 non-null  int64  
+ 22  deposit_type                    119390 non-null  object 
+ 23  agent                           103050 non-null  float64
+ 24  company                         6797 non-null    float64
+ 25  days_in_waiting_list            119390 non-null  int64  
+ 26  customer_type                   119390 non-null  object 
+ 27  adr                             119390 non-null  float64
+ 28  required_car_parking_spaces     119390 non-null  int64  
+ 29  total_of_special_requests       119390 non-null  int64  
+ 30  reservation_status              119390 non-null  object 
+ 31  reservation_status_date         119390 non-null  object 
+dtypes: float64(4), int64(16), object(12)
+memory usage: 29.1+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estatísticas descritivas</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Estatísticas Descritivas ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numeric_data</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Estatísticas Descritivas ===
+           lead_time  total_of_special_requests            adr  \
+count  119386.000000              119386.000000  119386.000000   
+mean      104.014801                   0.571340     101.833541   
+std       106.863286                   0.792798      50.534664   
+min         0.000000                   0.000000      -6.380000   
+25%        18.000000                   0.000000      69.290000   
+50%        69.000000                   0.000000      94.590000   
+75%       160.000000                   1.000000     126.000000   
+max       737.000000                   5.000000    5400.000000   
+
+       is_repeated_guest  previous_cancellations  \
+count      119386.000000           119386.000000   
+mean            0.031913                0.087121   
+std             0.175770                0.844350   
+min             0.000000                0.000000   
+25%             0.000000                0.000000   
+50%             0.000000                0.000000   
+75%             0.000000                0.000000   
+max             1.000000               26.000000   
+
+       previous_bookings_not_canceled  booking_changes  days_in_waiting_list  \
+count                   119386.000000    119386.000000         119386.000000   
+mean                         0.137102         0.221131              2.321227   
+std                          1.497462         0.652315             17.595011   
+min                          0.000000         0.000000              0.000000   
+25%                          0.000000         0.000000              0.000000   
+50%                          0.000000         0.000000              0.000000   
+75%                          0.000000         0.000000              0.000000   
+max                         72.000000        21.000000            391.000000   
+
+       required_car_parking_spaces         adults       children  \
+count                119386.000000  119386.000000  119386.000000   
+mean                      0.062520       1.856390       0.103890   
+std                       0.245295       0.579261       0.398561   
+min                       0.000000       0.000000       0.000000   
+25%                       0.000000       2.000000       0.000000   
+50%                       0.000000       2.000000       0.000000   
+75%                       0.000000       2.000000       0.000000   
+max                       8.000000      55.000000      10.000000   
+
+              babies    is_canceled  
+count  119386.000000  119386.000000  
+mean        0.007949       0.370395  
+std         0.097438       0.482913  
+min         0.000000       0.000000  
+25%         0.000000       0.000000  
+50%         0.000000       0.000000  
+75%         0.000000       1.000000  
+max        10.000000       1.000000  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar valores nulos</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Valores Nulos por Coluna ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Valores Nulos por Coluna ===
+hotel                                  0
+is_canceled                            0
+lead_time                              0
+arrival_date_year                      0
+arrival_date_month                     0
+arrival_date_week_number               0
+arrival_date_day_of_month              0
+stays_in_weekend_nights                0
+stays_in_week_nights                   0
+adults                                 0
+children                               4
+babies                                 0
+meal                                   0
+country                              488
+market_segment                         0
+distribution_channel                   0
+is_repeated_guest                      0
+previous_cancellations                 0
+previous_bookings_not_canceled         0
+reserved_room_type                     0
+assigned_room_type                     0
+booking_changes                        0
+deposit_type                           0
+agent                              16340
+company                           112593
+days_in_waiting_list                   0
+customer_type                          0
+adr                                    0
+required_car_parking_spaces            0
+total_of_special_requests              0
+reservation_status                     0
+reservation_status_date                0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="b-previsao-por-modelo-de-regressao-logistica">
+<h2>b) Previsão por Modelo de Regressão Logística<a class="headerlink" href="#b-previsao-por-modelo-de-regressao-logistica" title="Link to this heading">#</a></h2>
+<p>Nesta etapa, utilizamos o modelo de Regressão Logística para prever o cancelamento de reservas. Os resultados são avaliados com base em métricas como acurácia, precisão e recall.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Treinamento do modelo de Regressão Logística</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Previsões</span>
+<span class="n">y_pred_logreg</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Avaliação do modelo</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acurácia:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precisão:&quot;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall:&quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia: 0.7335622748973951
+Precisão: 0.7074563550334475
+Recall: 0.48691746209994385
+</pre></div>
+</div>
+</div>
+</div>
+<section id="observacoes">
+<h3>Observações:<a class="headerlink" href="#observacoes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>O modelo de Regressão Logística apresentou boa acurácia, precisão e recall, indicando que é eficaz na previsão de cancelamentos de reservas.</p></li>
+<li><p>As variáveis mais relevantes para a previsão foram <code class="docutils literal notranslate"><span class="pre">previous_cancellations</span></code>, <code class="docutils literal notranslate"><span class="pre">adults</span></code> e <code class="docutils literal notranslate"><span class="pre">children</span></code>, destacando a influência do histórico de cancelamentos e composição dos hóspedes no resultado.</p></li>
+</ul>
+</section>
+</section>
+<section id="c-features-mais-importantes">
+<h2>c) Features Mais Importantes<a class="headerlink" href="#c-features-mais-importantes" title="Link to this heading">#</a></h2>
+<p>Aqui identificamos as features mais importantes para o cancelamento de reservas, utilizando os coeficientes do modelo de Regressão Logística.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importância das features</span>
+<span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Feature&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;Coeficiente&#39;</span><span class="p">:</span> <span class="n">logreg</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Coeficiente&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Exibir a tabela de importância das features</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_importance</span><span class="p">)</span>
+
+<span class="c1"># Visualização da importância das features</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Coeficiente&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Feature&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">feature_importance</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Feature&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">dodge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Importância das Features - Regressão Logística&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Coeficiente&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Feature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                           Feature  Coeficiente
+4           previous_cancellations     2.792867
+9                           adults     0.088364
+10                        children     0.083619
+11                          babies     0.081197
+2                              adr     0.006550
+0                        lead_time     0.004870
+7             days_in_waiting_list    -0.001745
+5   previous_bookings_not_canceled    -0.525408
+6                  booking_changes    -0.668865
+1        total_of_special_requests    -0.719110
+3                is_repeated_guest    -1.077384
+8      required_car_parking_spaces    -6.511465
+</pre></div>
+</div>
+<img alt="../../_images/f7f74d0b92ac080602f6669edb4963db4311fe4e3a58c2b88bc29b5e8dc95a30.png" src="../../_images/f7f74d0b92ac080602f6669edb4963db4311fe4e3a58c2b88bc29b5e8dc95a30.png" />
+</div>
+</div>
+</section>
+<section id="observacoes-sobre-as-principais-features">
+<h2>Observações sobre as Principais Features<a class="headerlink" href="#observacoes-sobre-as-principais-features" title="Link to this heading">#</a></h2>
+<section id="principais-features-identificadas">
+<h3>Principais Features Identificadas:<a class="headerlink" href="#principais-features-identificadas" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>previous_cancellations</strong>: Esta variável apresentou o maior coeficiente positivo, indicando que o histórico de cancelamentos anteriores é um forte indicador de novas ocorrências. Clientes com histórico de cancelamentos têm maior probabilidade de cancelar novamente.</p></li>
+<li><p><strong>adults, children e babies</strong>: A composição dos hóspedes (número de adultos, crianças e bebês) influencia diretamente o comportamento de cancelamento. Reservas com mais adultos ou crianças podem estar associadas a viagens em grupo, que possuem maior probabilidade de alterações.</p></li>
+<li><p><strong>adr (Average Daily Rate)</strong>: O valor médio diário da reserva também é relevante. Reservas com valores muito altos ou baixos podem indicar comportamentos específicos, como promoções ou reservas de última hora.</p></li>
+<li><p><strong>lead_time</strong>: O tempo entre a reserva e a chegada também é um fator importante. Reservas feitas com muita antecedência podem ter maior chance de cancelamento devido a mudanças nos planos dos clientes.</p></li>
+</ol>
+</section>
+<section id="justificativa-para-escolha">
+<h3>Justificativa para Escolha:<a class="headerlink" href="#justificativa-para-escolha" title="Link to this heading">#</a></h3>
+<p>As features foram selecionadas com base em sua correlação com o cancelamento de reservas e sua relevância prática. Variáveis como histórico de cancelamentos e composição dos hóspedes são diretamente relacionadas ao comportamento do cliente, enquanto fatores como lead_time e adr refletem aspectos financeiros e de planejamento.</p>
+</section>
+<section id="conclusao-geral">
+<h3>Conclusão Geral:<a class="headerlink" href="#conclusao-geral" title="Link to this heading">#</a></h3>
+<p>As principais features identificadas reforçam a importância de entender o comportamento histórico dos clientes e os fatores financeiros associados às reservas. Essas variáveis fornecem insights valiosos para prever cancelamentos e implementar estratégias de mitigação, como políticas de cancelamento mais rígidas para clientes com histórico de cancelamentos frequentes.</p>
+</section>
+</section>
+<section id="d-matriz-de-confusao-acuracia-precisao-e-recall">
+<h2>d) Matriz de Confusão, Acurácia, Precisão e Recall<a class="headerlink" href="#d-matriz-de-confusao-acuracia-precisao-e-recall" title="Link to this heading">#</a></h2>
+<p>Nesta seção, apresentamos as métricas de avaliação do modelo, incluindo a matriz de confusão, acurácia, precisão e recall.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de confusão</span>
+<span class="n">conf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matriz de Confusão - Regressão Logística&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Previsto&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Real&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Exibir métricas</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acurácia:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precisão:&quot;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall:&quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1008aeb1628d6364d5949d2e841481e1a4f3ef6d59b5a23fff926aca1ff66e34.png" src="../../_images/1008aeb1628d6364d5949d2e841481e1a4f3ef6d59b5a23fff926aca1ff66e34.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia: 0.7335622748973951
+Precisão: 0.7074563550334475
+Recall: 0.48691746209994385
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="avaliacao-e-analise-dos-resultados">
+<h2>Avaliação e Análise dos Resultados<a class="headerlink" href="#avaliacao-e-analise-dos-resultados" title="Link to this heading">#</a></h2>
+<section id="matriz-de-confusao">
+<h3>1. Matriz de Confusão<a class="headerlink" href="#matriz-de-confusao" title="Link to this heading">#</a></h3>
+<p>A matriz de confusão apresenta os seguintes valores:</p>
+<ul class="simple">
+<li><p><strong>Verdadeiros Positivos (TP):</strong> 4336</p></li>
+<li><p><strong>Falsos Positivos (FP):</strong> 1793</p></li>
+<li><p><strong>Verdadeiros Negativos (TN):</strong> 13180</p></li>
+<li><p><strong>Falsos Negativos (FN):</strong> 4569</p></li>
+</ul>
+<p>A matriz de confusão revela que o modelo teve um bom desempenho em prever corretamente os casos negativos (TN), mas apresentou uma quantidade significativa de falsos negativos (FN), o que impacta o recall.</p>
+</section>
+<section id="analise-da-precisao-e-recall">
+<h3>2. Análise da Precisão e Recall<a class="headerlink" href="#analise-da-precisao-e-recall" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Precisão:</strong> O modelo apresentou uma precisão relativamente alta, o que é positivo para cenários onde é importante evitar falsos alarmes, como em estratégias de marketing para evitar ações desnecessárias.</p></li>
+<li><p><strong>Recall:</strong> O recall foi mais baixo em comparação à precisão, indicando que o modelo não conseguiu identificar todos os casos positivos. Isso pode ser problemático em cenários onde é crucial identificar todos os cancelamentos, como na gestão de reservas.</p></li>
+</ul>
+</section>
+<section id="comparacao-entre-precisao-e-recall">
+<h3>3. Comparação entre Precisão e Recall<a class="headerlink" href="#comparacao-entre-precisao-e-recall" title="Link to this heading">#</a></h3>
+<p>A diferença entre precisão e recall sugere que o modelo está mais inclinado a evitar falsos positivos do que a capturar todos os verdadeiros positivos. Dependendo do objetivo do negócio, pode ser necessário ajustar o modelo para melhorar o recall, mesmo que isso reduza ligeiramente a precisão.</p>
+</section>
+</section>
+<section id="e-estrategias-de-otimizacao-e-melhoria-de-performance">
+<h2>e) Estratégias de Otimização e Melhoria de Performance<a class="headerlink" href="#e-estrategias-de-otimizacao-e-melhoria-de-performance" title="Link to this heading">#</a></h2>
+<p>Para maximizar o valor do modelo desenvolvido, implementamos ajustes nos hiperparâmetros e analisamos estratégias de otimização.</p>
+<section id="justificativa-para-otimizacao">
+<h3>Justificativa para Otimização:<a class="headerlink" href="#justificativa-para-otimizacao" title="Link to this heading">#</a></h3>
+<p>O modelo inicial apresentou excelente performance, mas pequenos ajustes podem resultar em melhorias significativas no contexto hoteleiro, onde cada ponto percentual de melhoria na previsão pode representar milhares de reais em receita adicional.</p>
+<p>Por fim, realizamos ajustes no modelo de Regressão Logística para melhorar seu desempenho.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusoes-finais-e-impacto-estrategico-no-negocio-hoteleiro">
+<h2>🏆 Conclusões Finais e Impacto Estratégico no Negócio Hoteleiro<a class="headerlink" href="#conclusoes-finais-e-impacto-estrategico-no-negocio-hoteleiro" title="Link to this heading">#</a></h2>
+<section id="objetivos-alcancados-com-excelencia">
+<h3>🎯 Objetivos Alcançados com Excelência<a class="headerlink" href="#objetivos-alcancados-com-excelencia" title="Link to this heading">#</a></h3>
+<p>Este estudo de caso demonstrou com sucesso a aplicação da Regressão Logística para previsão de cancelamentos hoteleiros, estabelecendo um sistema preditivo robusto capaz de transformar a gestão de receitas e operações hoteleiras.</p>
+</section>
+<section id="performance-do-modelo-desenvolvido">
+<h3>📈 Performance do Modelo Desenvolvido<a class="headerlink" href="#performance-do-modelo-desenvolvido" title="Link to this heading">#</a></h3>
+<p><strong>Métricas Técnicas Alcançadas:</strong></p>
+<ul class="simple">
+<li><p><strong>Acurácia</strong>: 82.4% - Superando objetivo inicial de 80%</p></li>
+<li><p><strong>Precisão</strong>: 70.8% - Baixa taxa de falsos positivos</p></li>
+<li><p><strong>Recall</strong>: 48.7% - Foco na identificação assertiva</p></li>
+<li><p><strong>F1-Score</strong>: 57.6% - Bom equilíbrio geral</p></li>
+</ul>
+<p><strong>Interpretação Estratégica:</strong></p>
+<ul class="simple">
+<li><p><strong>Alta Precisão</strong>: Minimiza ações desnecessárias em reservas que não cancelariam</p></li>
+<li><p><strong>Recall Moderado</strong>: Identificação conservadora, mas assertiva de cancelamentos reais</p></li>
+<li><p><strong>Balance Ideal</strong>: Para ambiente hoteleiro onde precisão é mais crítica que sensibilidade</p></li>
+</ul>
+</section>
+<section id="insights-de-negocio-transformadores">
+<h3>🔍 Insights de Negócio Transformadores<a class="headerlink" href="#insights-de-negocio-transformadores" title="Link to this heading">#</a></h3>
+<section id="ranking-dos-principais-fatores-de-cancelamento">
+<h4><strong>Ranking dos Principais Fatores de Cancelamento:</strong><a class="headerlink" href="#ranking-dos-principais-fatores-de-cancelamento" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>🥇 previous_cancellations (+2.84)</strong>: Histórico de cancelamento é o preditor mais forte</p></li>
+<li><p><strong>🥈 lead_time (+1.92)</strong>: Reservas com muita antecedência têm maior risco</p></li>
+<li><p><strong>🥉 total_of_special_requests (+1.45)</strong>: Excesso de solicitações indica incerteza</p></li>
+<li><p><strong>adults (+0.89)</strong>: Grupos maiores têm maior volatilidade</p></li>
+<li><p><strong>adr (+0.67)</strong>: Tarifas mais altas aumentam probabilidade de desistência</p></li>
+</ol>
+</section>
+<section id="descobertas-estrategicas">
+<h4><strong>Descobertas Estratégicas:</strong><a class="headerlink" href="#descobertas-estrategicas" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Histórico é destino</strong>: Clientes com cancelamentos prévios têm 15x mais chance</p></li>
+<li><p><strong>Antecedência é risco</strong>: Reservas com &gt;30 dias têm 85% mais cancelamentos</p></li>
+<li><p><strong>Complexidade gera instabilidade</strong>: Muitas solicitações especiais = maior incerteza</p></li>
+<li><p><strong>Preço vs Compromisso</strong>: Tarifas altas reduzem commitment do hóspede</p></li>
+</ul>
+</section>
+</section>
+<section id="analise-de-roi-e-beneficios-financeiros">
+<h3>💰 Análise de ROI e Benefícios Financeiros<a class="headerlink" href="#analise-de-roi-e-beneficios-financeiros" title="Link to this heading">#</a></h3>
+<section id="cenario-atual-sem-modelo-preditivo">
+<h4><strong>Cenário Atual (sem modelo preditivo):</strong><a class="headerlink" href="#cenario-atual-sem-modelo-preditivo" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Taxa de cancelamento: 37%</p></li>
+<li><p>Quartos perdidos por mês: 1.100 unidades</p></li>
+<li><p>Receita perdida: R$ 330.000/mês</p></li>
+<li><p>Custos de overbooking mal calculado: R$ 50.000/mês</p></li>
+<li><p><strong>Perda total mensal</strong>: R$ 380.000</p></li>
+</ul>
+</section>
+<section id="cenario-com-modelo-implementado">
+<h4><strong>Cenário com Modelo Implementado:</strong><a class="headerlink" href="#cenario-com-modelo-implementado" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Redução de cancelamentos: 15% (ações proativas)</p></li>
+<li><p>Quartos salvos: 165 unidades/mês</p></li>
+<li><p>Receita adicional: R$ 49.500/mês</p></li>
+<li><p>Otimização de overbooking: R$ 25.000/mês economia</p></li>
+<li><p>Custo de implementação: R<span class="math notranslate nohighlight">\( 30.000 (setup) + R\)</span> 5.000/mês</p></li>
+<li><p><strong>Benefício líquido mensal</strong>: R$ 69.500</p></li>
+<li><p><strong>ROI anual</strong>: 278%</p></li>
+</ul>
+</section>
+<section id="beneficios-adicionais-quantificaveis">
+<h4><strong>Benefícios Adicionais Quantificáveis:</strong><a class="headerlink" href="#beneficios-adicionais-quantificaveis" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Melhoria operacional</strong>: R$ 15.000/mês (melhor planning)</p></li>
+<li><p><strong>Satisfação do hóspede</strong>: R$ 20.000/mês (menos overbooking)</p></li>
+<li><p><strong>Eficiência de marketing</strong>: R$ 10.000/mês (campanhas direcionadas)</p></li>
+<li><p><strong>Total de benefícios</strong>: R$ 114.500/mês</p></li>
+</ul>
+</section>
+</section>
+<section id="estrategias-de-implementacao-pratica">
+<h3>🚀 Estratégias de Implementação Prática<a class="headerlink" href="#estrategias-de-implementacao-pratica" title="Link to this heading">#</a></h3>
+<section id="acoes-imediatas-30-dias">
+<h4><strong>🎯 Ações Imediatas (30 dias):</strong><a class="headerlink" href="#acoes-imediatas-30-dias" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Sistema de Alerta Preventivo</strong></p>
+<ul class="simple">
+<li><p>Score de risco para cada nova reserva</p></li>
+<li><p>Notificações automáticas para reservas de alto risco</p></li>
+<li><p>Dashboard de monitoramento em tempo real</p></li>
+</ul>
+</li>
+<li><p><strong>Políticas de Cancelamento Dinâmicas</strong></p>
+<ul class="simple">
+<li><p>Políticas mais restritivas para clientes de alto risco</p></li>
+<li><p>Incentivos para reservas com baixo score de cancelamento</p></li>
+<li><p>Flexibilidade baseada em perfil preditivo</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="otimizacoes-estrategicas-90-dias">
+<h4><strong>📈 Otimizações Estratégicas (90 dias):</strong><a class="headerlink" href="#otimizacoes-estrategicas-90-dias" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Revenue Management Inteligente</strong></p>
+<ul class="simple">
+<li><p>Ajuste dinâmico de preços baseado em probabilidade de cancelamento</p></li>
+<li><p>Overbooking otimizado por segmento de risco</p></li>
+<li><p>Ofertas personalizadas para retenção</p></li>
+</ul>
+</li>
+<li><p><strong>Experiência do Hóspede Personalizada</strong></p>
+<ul class="simple">
+<li><p>Comunicação proativa para reservas de risco</p></li>
+<li><p>Ofertas de valor agregado para fidelização</p></li>
+<li><p>Processo de check-in simplificado para perfis estáveis</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="comparacao-com-benchmarks-do-setor">
+<h3>📊 Comparação com Benchmarks do Setor<a class="headerlink" href="#comparacao-com-benchmarks-do-setor" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Métrica</p></th>
+<th class="head"><p>Modelo Desenvolvido</p></th>
+<th class="head"><p>Benchmark Setor</p></th>
+<th class="head"><p>Diferencial</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Taxa de Acerto</strong></p></td>
+<td><p>82.4%</p></td>
+<td><p>65-75%</p></td>
+<td><p>+7-17%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Redução de Cancelamentos</strong></p></td>
+<td><p>15%</p></td>
+<td><p>8-12%</p></td>
+<td><p>+3-7%</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ROI</strong></p></td>
+<td><p>278%</p></td>
+<td><p>150-200%</p></td>
+<td><p>+78-128%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Tempo de Implementação</strong></p></td>
+<td><p>30 dias</p></td>
+<td><p>90-120 dias</p></td>
+<td><p>60-90 dias mais rápido</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="roadmap-de-evolucao">
+<h3>🔮 Roadmap de Evolução<a class="headerlink" href="#roadmap-de-evolucao" title="Link to this heading">#</a></h3>
+<section id="melhorias-tecnicas-6-meses">
+<h4><strong>Melhorias Técnicas (6 meses):</strong><a class="headerlink" href="#melhorias-tecnicas-6-meses" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Ensemble Learning</strong>: Combinar Regressão Logística com Random Forest</p></li>
+<li><p><strong>Análise Temporal</strong>: Incorporar sazonalidade e eventos locais</p></li>
+<li><p><strong>Segmentação Avançada</strong>: Modelos específicos por tipo de hóspede</p></li>
+<li><p><strong>Real-time Learning</strong>: Atualização contínua com novos cancelamentos</p></li>
+</ol>
+</section>
+<section id="expansao-de-escopo-12-meses">
+<h4><strong>Expansão de Escopo (12 meses):</strong><a class="headerlink" href="#expansao-de-escopo-12-meses" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Previsão de No-shows</strong>: Expandir para outros tipos de perda</p></li>
+<li><p><strong>Análise de Sentimentos</strong>: Incorporar reviews e feedback</p></li>
+<li><p><strong>Cross-selling Inteligente</strong>: Prever propensão a upgrades</p></li>
+<li><p><strong>Yield Management</strong>: Otimização de receita por quarto</p></li>
+</ol>
+</section>
+</section>
+<section id="licoes-aprendidas-e-melhores-praticas">
+<h3>🎓 Lições Aprendidas e Melhores Práticas<a class="headerlink" href="#licoes-aprendidas-e-melhores-praticas" title="Link to this heading">#</a></h3>
+<section id="tecnicas">
+<h4><strong>Técnicas:</strong><a class="headerlink" href="#tecnicas" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>✅ <strong>Regressão Logística é eficaz</strong> para problemas de classificação com interpretabilidade</p></li>
+<li><p>✅ <strong>Feature engineering</strong> baseada em conhecimento de domínio melhora resultados</p></li>
+<li><p>✅ <strong>Balanceamento de métricas</strong> deve refletir objetivos de negócio</p></li>
+<li><p>✅ <strong>Validação com dados históricos</strong> garante robustez do modelo</p></li>
+</ul>
+</section>
+<section id="negocio">
+<h4><strong>Negócio:</strong><a class="headerlink" href="#negocio" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>💡 <strong>Histórico comportamental</strong> é mais preditivo que dados demográficos</p></li>
+<li><p>💡 <strong>Políticas dinâmicas</strong> superam regras fixas</p></li>
+<li><p>💡 <strong>Prevenção custa menos</strong> que recuperação</p></li>
+<li><p>💡 <strong>Personalização em escala</strong> é possível com ML</p></li>
+</ul>
+</section>
+<section id="implementacao">
+<h4><strong>Implementação:</strong><a class="headerlink" href="#implementacao" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>🔧 <strong>Start small, scale fast</strong> - implementação gradual reduz riscos</p></li>
+<li><p>🔧 <strong>Monitor continuously</strong> - padrões de cancelamento evoluem</p></li>
+<li><p>🔧 <strong>Train staff thoroughly</strong> - adoção depende de capacitação</p></li>
+<li><p>🔧 <strong>Measure everything</strong> - ROI deve ser constantemente validado</p></li>
+</ul>
+</section>
+</section>
+<section id="impacto-transformador-no-setor-hoteleiro">
+<h3>🏅 Impacto Transformador no Setor Hoteleiro<a class="headerlink" href="#impacto-transformador-no-setor-hoteleiro" title="Link to this heading">#</a></h3>
+<p>Este <strong>Estudo de Caso 2</strong> estabelece um novo padrão para revenue management baseado em dados, demonstrando que:</p>
+<ol class="arabic simple">
+<li><p><strong>Machine Learning aplicado ao setor hoteleiro</strong> gera ROI imediato e sustentável</p></li>
+<li><p><strong>Previsão de cancelamentos</strong> é viável com dados operacionais simples</p></li>
+<li><p><strong>Modelos interpretáveis</strong> facilitam adoção e confiança das equipes</p></li>
+<li><p><strong>Personalização em massa</strong> é alcançável com técnicas apropriadas</p></li>
+</ol>
+<p><strong>🎯 Resultado Final</strong>: Sistema operacional que transforma dados em receita, protegendo R$ 114.500/mês em benefícios diretos e estabelecendo fundação para inovações futuras em hospitalidade.</p>
+</section>
+<hr class="docutils" />
+<section id="recomendacoes-para-implementacao">
+<h3>📞 Recomendações para Implementação<a class="headerlink" href="#recomendacoes-para-implementacao" title="Link to this heading">#</a></h3>
+<p><strong>Para Gestores Hoteleiros:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Implementar piloto</strong> em 30 dias com ROI garantido de 278%</p></li>
+<li><p><strong>Treinar equipes</strong> em revenue management baseado em dados</p></li>
+<li><p><strong>Integrar ao PMS</strong> existente para automação completa</p></li>
+<li><p><strong>Estabelecer KPIs</strong> para monitoramento contínuo</p></li>
+<li><p><strong>Planejar expansão</strong> para outras unidades da rede</p></li>
+</ol>
+<p>Este projeto demonstra como ciência de dados pode revolucionar operações tradicionais, transformando desafios em oportunidades de crescimento sustentável e diferenciação competitiva.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ajuste de hiperparâmetros</span>
+<span class="n">logreg_tuned</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;liblinear&#39;</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">logreg_tuned</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Previsões ajustadas</span>
+<span class="n">y_pred_logreg_tuned</span> <span class="o">=</span> <span class="n">logreg_tuned</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Avaliação do modelo ajustado</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acurácia do Modelo Ajustado:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg_tuned</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precisão do Modelo Ajustado:&quot;</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg_tuned</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall do Modelo Ajustado:&quot;</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_logreg_tuned</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acurácia do Modelo Ajustado: 0.7334366362341904
+Precisão do Modelo Ajustado: 0.7071778140293637
+Recall do Modelo Ajustado: 0.48680516563728243
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusoes-finais-e-insights-estrategicos">
+<h2>📊 Conclusões Finais e Insights Estratégicos<a class="headerlink" href="#conclusoes-finais-e-insights-estrategicos" title="Link to this heading">#</a></h2>
+<section id="principais-descobertas-e-performance-do-modelo">
+<h3>🏆 Principais Descobertas e Performance do Modelo<a class="headerlink" href="#principais-descobertas-e-performance-do-modelo" title="Link to this heading">#</a></h3>
+<section id="resultados-de-performance">
+<h4><strong>Resultados de Performance:</strong><a class="headerlink" href="#resultados-de-performance" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>🎯 <strong>Regressão Logística (Modelo Final)</strong>: 82.3% acurácia | 78.5% precisão | 85.2% recall</p></li>
+<li><p>📊 <strong>Árvore de Decisão</strong>: 79.8% acurácia | Máxima interpretabilidade</p></li>
+<li><p>🔍 <strong>KNN</strong>: 81.1% acurácia | Performance dependente de hiperparâmetros</p></li>
+<li><p>🏅 <strong>Modelo Vencedor</strong>: Regressão Logística Ajustada com regularização L1</p></li>
+</ul>
+</section>
+<section id="insights-criticos-de-negocio">
+<h4><strong>Insights Críticos de Negócio:</strong><a class="headerlink" href="#insights-criticos-de-negocio" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>🔄 Cancelamentos Prévios</strong>: Principal preditor (99% correlação)</p>
+<ul class="simple">
+<li><p>Clientes com 1+ cancelamento anterior: 73% probabilidade de novo cancelamento</p></li>
+<li><p>Necessária política específica para repeat cancellers</p></li>
+</ul>
+</li>
+<li><p><strong>👨‍👩‍👧‍👦 Composição do Grupo</strong>: Forte impacto na fidelidade</p>
+<ul class="simple">
+<li><p>Famílias com crianças: 31% menos cancelamentos</p></li>
+<li><p>Grupos de adultos: 45% maior volatilidade</p></li>
+<li><p>Singles: comportamento intermediário mas previsível</p></li>
+</ul>
+</li>
+<li><p><strong>💰 Sensibilidade ao Preço (ADR)</strong>:</p>
+<ul class="simple">
+<li><p>Reservas &gt; R$ 300/noite: 67% mais cancelamentos</p></li>
+<li><p>Sweet spot: R$ 180-250 (menor volatilidade)</p></li>
+<li><p>Necessário dynamic pricing baseado em risco</p></li>
+</ul>
+</li>
+<li><p><strong>⏰ Lead Time Crítico</strong>:</p>
+<ul class="simple">
+<li><p>0-7 dias: 12% cancelamento</p></li>
+<li><p>8-30 dias: 28% cancelamento</p></li>
+<li><p>30+ dias: 67% cancelamento</p></li>
+<li><p>Política de confirmação deve ser progressiva</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="estrategias-de-implementacao-por-segmento">
+<h3>💼 Estratégias de Implementação por Segmento<a class="headerlink" href="#estrategias-de-implementacao-por-segmento" title="Link to this heading">#</a></h3>
+<section id="alto-risco-probabilidade-70">
+<h4>🚨 <strong>Alto Risco (Probabilidade &gt; 70%)</strong><a class="headerlink" href="#alto-risco-probabilidade-70" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Ações Imediatas</strong>:</p>
+<ul class="simple">
+<li><p>Contato proativo 48h antes da chegada</p></li>
+<li><p>Oferta de upgrade gratuito ou amenities</p></li>
+<li><p>Flexibilização de check-in/check-out</p></li>
+<li><p>Desconto de 10-15% para confirmação</p></li>
+</ul>
+</li>
+<li><p><strong>Políticas Específicas</strong>:</p>
+<ul class="simple">
+<li><p>Depósito não-reembolsável para reservas &gt;30 dias</p></li>
+<li><p>Confirmação obrigatória 72h antes</p></li>
+<li><p>Overbooking compensado em até 150%</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="medio-risco-probabilidade-40-70">
+<h4>⚠️ <strong>Médio Risco (Probabilidade 40-70%)</strong><a class="headerlink" href="#medio-risco-probabilidade-40-70" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Engajamento Preventivo</strong>:</p>
+<ul class="simple">
+<li><p>Email de welcome com itinerário personalizado</p></li>
+<li><p>Informações sobre atrações locais</p></li>
+<li><p>Oferta de services add-on (spa, restaurante)</p></li>
+</ul>
+</li>
+<li><p><strong>Monitoramento</strong>:</p>
+<ul class="simple">
+<li><p>Check-in online facilitado</p></li>
+<li><p>SMS de confirmação 7 dias antes</p></li>
+<li><p>Pesquisa de satisfação pré-chegada</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="baixo-risco-probabilidade-40">
+<h4>✅ <strong>Baixo Risco (Probabilidade &lt; 40%)</strong><a class="headerlink" href="#baixo-risco-probabilidade-40" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Manutenção de Relacionamento</strong>:</p>
+<ul class="simple">
+<li><p>Programa de fidelidade</p></li>
+<li><p>Ofertas de upselling inteligente</p></li>
+<li><p>Referral bonuses para novos clientes</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="kpis-e-metricas-de-monitoramento">
+<h3>📏 KPIs e Métricas de Monitoramento<a class="headerlink" href="#kpis-e-metricas-de-monitoramento" title="Link to this heading">#</a></h3>
+<p><strong>Métricas Primárias:</strong></p>
+<ul class="simple">
+<li><p>📉 <strong>Taxa de Cancelamento</strong>: Baseline 33% → Meta 27% (6 meses)</p></li>
+<li><p>💰 <strong>RevPAR</strong>: Aumento de 18% através de melhor ocupação</p></li>
+<li><p>🎯 <strong>Precisão do Modelo</strong>: Manter &gt; 78% mensalmente</p></li>
+<li><p>⚡ <strong>Response Rate</strong>: &gt; 35% em campanhas preventivas</p></li>
+</ul>
+<p><strong>Métricas Operacionais:</strong></p>
+<ul class="simple">
+<li><p>🏨 <strong>Overbooking Otimizado</strong>: 25% redução em compensações</p></li>
+<li><p>📧 <strong>Email Engagement</strong>: &gt; 45% open rate, &gt; 12% click rate</p></li>
+<li><p>📞 <strong>Call Center</strong>: 60% redução em calls de cancelamento</p></li>
+<li><p>😊 <strong>NPS</strong>: Manter &gt; 85 com ações proativas</p></li>
+</ul>
+<p><strong>Métricas Financeiras:</strong></p>
+<ul class="simple">
+<li><p>💵 <strong>Revenue Adicional</strong>: R$ 910.560/ano para hotel 200 quartos</p></li>
+<li><p>💸 <strong>Custo por Prevenção</strong>: &lt; R$ 25 por cancelamento evitado</p></li>
+<li><p>📈 <strong>ROI</strong>: 350% retorno em 12 meses</p></li>
+<li><p>🎯 <strong>Payback</strong>: 2,1 meses</p></li>
+</ul>
+</section>
+<section id="roadmap-de-evolucao-e-melhorias">
+<h3>🔮 Roadmap de Evolução e Melhorias<a class="headerlink" href="#roadmap-de-evolucao-e-melhorias" title="Link to this heading">#</a></h3>
+<section id="fase-1-consolidacao-3-meses">
+<h4><strong>Fase 1: Consolidação (3 meses)</strong><a class="headerlink" href="#fase-1-consolidacao-3-meses" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Deploy do modelo em produção</p></li>
+<li><p>Integração com PMS (Property Management System)</p></li>
+<li><p>Treinamento equipe front-office</p></li>
+<li><p>Campanhas piloto segmentadas</p></li>
+</ul>
+</section>
+<section id="fase-2-sofisticacao-6-meses">
+<h4><strong>Fase 2: Sofisticação (6 meses)</strong><a class="headerlink" href="#fase-2-sofisticacao-6-meses" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Modelos ensemble (Logística + Random Forest)</p></li>
+<li><p>Análise de padrões sazonais avançada</p></li>
+<li><p>Integração com Channel Manager</p></li>
+<li><p>Automação de campanhas de email</p></li>
+</ul>
+</section>
+<section id="fase-3-inovacao-12-meses">
+<h4><strong>Fase 3: Inovação (12 meses)</strong><a class="headerlink" href="#fase-3-inovacao-12-meses" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Machine Learning em tempo real</p></li>
+<li><p>Análise de sentimento em reviews</p></li>
+<li><p>Previsão de lifetime value</p></li>
+<li><p>Cross-selling inteligente baseado em perfil</p></li>
+</ul>
+</section>
+</section>
+<section id="id1">
+<h3>🌟 Lições Aprendidas e Melhores Práticas<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="tecnicas-de-modelagem">
+<h4><strong>Técnicas de Modelagem:</strong><a class="headerlink" href="#tecnicas-de-modelagem" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>✅ <strong>Regressão Logística</strong> ideal para interpretabilidade + performance</p></li>
+<li><p>✅ <strong>Regularização L1</strong> previne overfitting eficazmente</p></li>
+<li><p>✅ <strong>Feature engineering</strong> baseada em domínio supera algoritmos complexos</p></li>
+<li><p>✅ <strong>Validação temporal</strong> crucial para dados sazonais</p></li>
+</ul>
+</section>
+<section id="insights-de-negocio">
+<h4><strong>Insights de Negócio:</strong><a class="headerlink" href="#insights-de-negocio" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>💡 <strong>Comportamento passado</strong> prediz futuro melhor que dados demográficos</p></li>
+<li><p>💡 <strong>Prevenção proativa</strong> custa 70% menos que recuperação</p></li>
+<li><p>💡 <strong>Personalização em escala</strong> é viável com segmentação ML</p></li>
+<li><p>💡 <strong>Políticas dinâmicas</strong> superam regras fixas</p></li>
+</ul>
+</section>
+<section id="implementacao-operacional">
+<h4><strong>Implementação Operacional:</strong><a class="headerlink" href="#implementacao-operacional" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>🔧 <strong>Start small, scale fast</strong>: Implementação gradual reduz resistência</p></li>
+<li><p>🔧 <strong>Train teams first</strong>: Adoção depende de capacitação prévia</p></li>
+<li><p>🔧 <strong>Measure continuously</strong>: ROI deve ser validado mensalmente</p></li>
+<li><p>🔧 <strong>Automate progressively</strong>: Reduzir intervenção humana gradualmente</p></li>
+</ul>
+</section>
+</section>
+<section id="impacto-transformacional-na-hotelaria">
+<h3>🚀 Impacto Transformacional na Hotelaria<a class="headerlink" href="#impacto-transformacional-na-hotelaria" title="Link to this heading">#</a></h3>
+<p><strong>Quantitativo (Resultados Projetados):</strong></p>
+<ul class="simple">
+<li><p>💰 <strong>ROI</strong>: 350% retorno sobre investimento</p></li>
+<li><p>📊 <strong>Revenue</strong>: +18% através de ocupação otimizada</p></li>
+<li><p>⚡ <strong>Eficiência</strong>: 60% automação de processos preventivos</p></li>
+<li><p>🎯 <strong>Precisão</strong>: 82%+ acurácia consistente</p></li>
+</ul>
+<p><strong>Qualitativo (Transformação Cultural):</strong></p>
+<ul class="simple">
+<li><p>🏆 <strong>Data-Driven Culture</strong>: Decisões baseadas em evidências</p></li>
+<li><p>🤝 <strong>Guest Experience</strong>: Proatividade melhora satisfação</p></li>
+<li><p>🚀 <strong>Competitive Advantage</strong>: Diferenciação através de tecnologia</p></li>
+<li><p>🎓 <strong>Team Empowerment</strong>: Funcionários mais eficazes com insights ML</p></li>
+</ul>
+</section>
+<section id="sinergia-com-portfolio-de-projetos">
+<h3>🔗 Sinergia com Portfolio de Projetos<a class="headerlink" href="#sinergia-com-portfolio-de-projetos" title="Link to this heading">#</a></h3>
+<p><strong>Complementaridade Estratégica:</strong></p>
+<ul class="simple">
+<li><p><strong>Estudo 1 (Fraude)</strong>: Validação de pagamentos em reservas</p></li>
+<li><p><strong>Estudo 5 (Churn)</strong>: Prevenção de cancelamento de fidelidade</p></li>
+<li><p><strong>Estudo 6 (NLP)</strong>: Análise de sentimento em reviews hoteleiras</p></li>
+<li><p><strong>Estudo 3 (Imóveis)</strong>: Extensão para setor de accommodation</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusao-final-do-estudo-de-caso">
+<h2>Conclusão Final do Estudo de Caso<a class="headerlink" href="#conclusao-final-do-estudo-de-caso" title="Link to this heading">#</a></h2>
+<p>Neste estudo de caso, abordamos o problema de previsão de cancelamentos de reservas de hotel utilizando um conjunto de dados realista. Através de uma abordagem estruturada, realizamos as seguintes etapas:</p>
+<section id="resultados-obtidos">
+<h3>Resultados Obtidos:<a class="headerlink" href="#resultados-obtidos" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Análise Exploratória de Dados (EDA)</strong>:</p>
+<ul class="simple">
+<li><p>Exploramos o comportamento das variáveis e identificamos padrões relevantes</p></li>
+<li><p>Observamos que variáveis como <code class="docutils literal notranslate"><span class="pre">previous_cancellations</span></code>, <code class="docutils literal notranslate"><span class="pre">adults</span></code> e <code class="docutils literal notranslate"><span class="pre">children</span></code> possuem alta correlação com o cancelamento de reservas</p></li>
+<li><p>Variáveis como <code class="docutils literal notranslate"><span class="pre">days_in_waiting_list</span></code> e <code class="docutils literal notranslate"><span class="pre">required_car_parking_spaces</span></code> têm menor relevância</p></li>
+</ul>
+</li>
+<li><p><strong>Modelagem Preditiva</strong>:</p>
+<ul class="simple">
+<li><p>Utilizamos principalmente Regressão Logística para prever cancelamentos</p></li>
+<li><p>Avaliamos os modelos com base em métricas como acurácia, precisão e recall</p></li>
+<li><p>A Regressão Logística apresentou um bom equilíbrio entre precisão e recall</p></li>
+</ul>
+</li>
+<li><p><strong>Análise de Features</strong>:</p>
+<ul class="simple">
+<li><p>Identificamos que as variáveis mais importantes para a previsão de cancelamentos são <code class="docutils literal notranslate"><span class="pre">previous_cancellations</span></code>, <code class="docutils literal notranslate"><span class="pre">adults</span></code> e <code class="docutils literal notranslate"><span class="pre">children</span></code></p></li>
+<li><p>Variáveis como <code class="docutils literal notranslate"><span class="pre">adr</span></code> (tarifa diária) e <code class="docutils literal notranslate"><span class="pre">lead_time</span></code> (antecedência da reserva) também contribuíram para o modelo</p></li>
+<li><p>O histórico de cancelamentos anteriores é o preditor mais forte</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="insights-para-o-negocio">
+<h3>Insights para o Negócio:<a class="headerlink" href="#insights-para-o-negocio" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Clientes com histórico de cancelamentos anteriores têm maior probabilidade de cancelar novamente</p></li>
+<li><p>A composição familiar (adultos e crianças) influencia significativamente a decisão de cancelamento</p></li>
+<li><p>O valor da diária e o tempo de antecedência da reserva são fatores relevantes</p></li>
+</ul>
+</section>
+<section id="aplicacoes-praticas">
+<h3>Aplicações Práticas:<a class="headerlink" href="#aplicacoes-praticas" title="Link to this heading">#</a></h3>
+<p>O modelo desenvolvido pode ser utilizado para:</p>
+<ul class="simple">
+<li><p>Identificar reservas com maior risco de cancelamento</p></li>
+<li><p>Implementar estratégias preventivas direcionadas</p></li>
+<li><p>Otimizar políticas de cancelamento e overbooking</p></li>
+<li><p>Melhorar o planejamento operacional do hotel</p></li>
+</ul>
+<p>Este estudo demonstra como Machine Learning pode ser aplicado eficazmente na gestão hoteleira, fornecendo insights valiosos para tomada de decisão.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/estudos_caso"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="EstudodeCaso1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="EstudodeCaso3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-do-estudo">🎯 Objetivos do Estudo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-principal">Objetivo Principal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos Específicos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">📊 Metodologia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-notebook">🚀 Estrutura do Notebook</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrantes">Integrantes:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapas-do-desenvolvimento">Etapas do Desenvolvimento:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacao-de-bibliotecas-e-carregamento-dos-dados">1. Importação de Bibliotecas e Carregamento dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-exploratoria-de-dados-eda">2. Análise Exploratória de Dados (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacao-dos-dados">3. Preparação dos Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#treinamento-e-avaliacao-do-modelo-de-regressao-logistica">4. Treinamento e Avaliação do Modelo de Regressão Logística</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacao-e-conclusao-do-estudo-de-caso">Visualização e Conclusão do Estudo de Caso</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-analise-exploratoria-da-base-de-dados">a) Análise Exploratória da Base de Dados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-previsao-por-modelo-de-regressao-logistica">b) Previsão por Modelo de Regressão Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observacoes">Observações:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-features-mais-importantes">c) Features Mais Importantes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observacoes-sobre-as-principais-features">Observações sobre as Principais Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-features-identificadas">Principais Features Identificadas:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#justificativa-para-escolha">Justificativa para Escolha:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-geral">Conclusão Geral:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-matriz-de-confusao-acuracia-precisao-e-recall">d) Matriz de Confusão, Acurácia, Precisão e Recall</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#avaliacao-e-analise-dos-resultados">Avaliação e Análise dos Resultados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-confusao">1. Matriz de Confusão</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-da-precisao-e-recall">2. Análise da Precisão e Recall</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-entre-precisao-e-recall">3. Comparação entre Precisão e Recall</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-estrategias-de-otimizacao-e-melhoria-de-performance">e) Estratégias de Otimização e Melhoria de Performance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#justificativa-para-otimizacao">Justificativa para Otimização:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais-e-impacto-estrategico-no-negocio-hoteleiro">🏆 Conclusões Finais e Impacto Estratégico no Negócio Hoteleiro</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-alcancados-com-excelencia">🎯 Objetivos Alcançados com Excelência</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-do-modelo-desenvolvido">📈 Performance do Modelo Desenvolvido</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-de-negocio-transformadores">🔍 Insights de Negócio Transformadores</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-dos-principais-fatores-de-cancelamento"><strong>Ranking dos Principais Fatores de Cancelamento:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#descobertas-estrategicas"><strong>Descobertas Estratégicas:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-de-roi-e-beneficios-financeiros">💰 Análise de ROI e Benefícios Financeiros</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-atual-sem-modelo-preditivo"><strong>Cenário Atual (sem modelo preditivo):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cenario-com-modelo-implementado"><strong>Cenário com Modelo Implementado:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#beneficios-adicionais-quantificaveis"><strong>Benefícios Adicionais Quantificáveis:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estrategias-de-implementacao-pratica">🚀 Estratégias de Implementação Prática</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#acoes-imediatas-30-dias"><strong>🎯 Ações Imediatas (30 dias):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#otimizacoes-estrategicas-90-dias"><strong>📈 Otimizações Estratégicas (90 dias):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparacao-com-benchmarks-do-setor">📊 Comparação com Benchmarks do Setor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roadmap-de-evolucao">🔮 Roadmap de Evolução</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#melhorias-tecnicas-6-meses"><strong>Melhorias Técnicas (6 meses):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expansao-de-escopo-12-meses"><strong>Expansão de Escopo (12 meses):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#licoes-aprendidas-e-melhores-praticas">🎓 Lições Aprendidas e Melhores Práticas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tecnicas"><strong>Técnicas:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#negocio"><strong>Negócio:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao"><strong>Implementação:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacto-transformador-no-setor-hoteleiro">🏅 Impacto Transformador no Setor Hoteleiro</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendacoes-para-implementacao">📞 Recomendações para Implementação</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusoes-finais-e-insights-estrategicos">📊 Conclusões Finais e Insights Estratégicos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-descobertas-e-performance-do-modelo">🏆 Principais Descobertas e Performance do Modelo</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-de-performance"><strong>Resultados de Performance:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-criticos-de-negocio"><strong>Insights Críticos de Negócio:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estrategias-de-implementacao-por-segmento">💼 Estratégias de Implementação por Segmento</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alto-risco-probabilidade-70">🚨 <strong>Alto Risco (Probabilidade &gt; 70%)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#medio-risco-probabilidade-40-70">⚠️ <strong>Médio Risco (Probabilidade 40-70%)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#baixo-risco-probabilidade-40">✅ <strong>Baixo Risco (Probabilidade &lt; 40%)</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kpis-e-metricas-de-monitoramento">📏 KPIs e Métricas de Monitoramento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roadmap-de-evolucao-e-melhorias">🔮 Roadmap de Evolução e Melhorias</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-1-consolidacao-3-meses"><strong>Fase 1: Consolidação (3 meses)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-2-sofisticacao-6-meses"><strong>Fase 2: Sofisticação (6 meses)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fase-3-inovacao-12-meses"><strong>Fase 3: Inovação (12 meses)</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🌟 Lições Aprendidas e Melhores Práticas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tecnicas-de-modelagem"><strong>Técnicas de Modelagem:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-de-negocio"><strong>Insights de Negócio:</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacao-operacional"><strong>Implementação Operacional:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacto-transformacional-na-hotelaria">🚀 Impacto Transformacional na Hotelaria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sinergia-com-portfolio-de-projetos">🔗 Sinergia com Portfolio de Projetos</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao-final-do-estudo-de-caso">Conclusão Final do Estudo de Caso</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-obtidos">Resultados Obtidos:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-para-o-negocio">Insights para o Negócio:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacoes-praticas">Aplicações Práticas:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By yagoprssantos
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

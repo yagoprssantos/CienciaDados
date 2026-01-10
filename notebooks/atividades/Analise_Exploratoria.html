@@ -1,0 +1,3539 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pandas &#8212; CienciaDados</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/atividades/Analise_Exploratoria';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Modelos de Classificação" href="Aprendizado_Maquinas_Classificacao.html" />
+    <link rel="prev" title="Análise Exploratória dos Dados" href="Analise-Exploratoria-Parte2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CienciaDados</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    CienciaDados
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Atividades</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_Regressao_Linear.html">A Regressão Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analise-Exploratoria-Financeira.html">Mentoria DATAUP - Aula02</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Analise-Exploratoria-Parte2.html">Análise Exploratória dos Dados</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Aprendizado_Maquinas_Classificacao.html">Modelos de Classificação</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Classificacao_MLP.html">Multi Layer Perceptron ( MLP )  __________________________________</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="K_Means_Aprendizado_Nao_Supervisionado.html">Aprendizado Não Supervisionado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="O_Perceptron.html">O Perceptron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Processamento_para_NLP_CEUB.html">Introdução</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="SistemaRecomendacaoPythonCEUB_KNN.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="SistemaRecomendacaoPythonCEUB_KNN_e_KMeans.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Tratamento_de_Dados.html">Tratamento de dados</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Estudos de Caso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso1.html">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso2.html">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso3.html">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso4.html">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso5.html">Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso6.html">Estudo de Caso 6: Análise de Sentimentos em Avaliações de Produtos com NLP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/atividades/Analise_Exploratoria.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pandas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conseguimos-importar-praticamente-todas-as-bases-de-dados-usando-o-pandas">Conseguimos importar praticamente todas as bases de dados usando o pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-tambem-visualizar-todas-as-informacoes-sobre-essa-base">E também visualizar todas as informações sobre essa base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alem-disso-tambem-podemos-ver-as-informacoes-da-base">Além disso, também podemos ver as informações da base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-conceitos-estatisticos">Principais conceitos estatísticos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#escolhendo-colunas-da-base">Escolhendo colunas da base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tambem-conseguimos-fazer-filtros-na-base">Também conseguimos fazer filtros na base</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uma-forma-muito-util-de-fazer-selecao-de-dados-e-usando-o-loc-ou-o-iloc">Uma forma muito útil de fazer seleção de dados é usando o <font color="blue">.loc()</font> ou o <font color="blue">.iloc()</font></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#por-fim-conseguimos-fazer-graficos-com-o-pandas-de-forma-bem-simples">Por fim, conseguimos fazer gráficos com o Pandas de forma bem simples</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas">
+<h1>Pandas<a class="headerlink" href="#pandas" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Alta performance e fácil uso para trabalhar com dados</p></li>
+<li><p>Tem muitas coisas que lembram o Excel</p></li>
+<li><p>O DataFrame é usado em várias outras bibliotecas de Ciência de Dados</p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org/">https://pandas.pydata.org/</a>
+<br><br></p></li>
+<li><p>O Pandas vai <font color="blue"><strong>desde a importação da base, passando por toda a análise exploratória até a exibição de gráficos</strong> </font></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importando o pandas</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="conseguimos-importar-praticamente-todas-as-bases-de-dados-usando-o-pandas">
+<h2>Conseguimos importar praticamente todas as bases de dados usando o pandas<a class="headerlink" href="#conseguimos-importar-praticamente-todas-as-bases-de-dados-usando-o-pandas" title="Link to this heading">#</a></h2>
+<p><strong>Importar uma base em csv:</strong> <br>
+<font color="blue"><strong>pd.read_csv(</strong></font>”arquivo_excel.xlsx”<font color="blue"><strong>)</strong></font></p>
+<ul class="simple">
+<li><p>O arquivo que vamos usar é o <a class="reference internal" href="#../../databaseTitanic.csv"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">databaseTitanic.csv</span></code></span></a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importando a base em csv</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/databaseTitanic.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="e-tambem-visualizar-todas-as-informacoes-sobre-essa-base">
+<h2>E também visualizar todas as informações sobre essa base<a class="headerlink" href="#e-tambem-visualizar-todas-as-informacoes-sobre-essa-base" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizando as 5 primeiras linhas</span>
+<span class="n">base</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizando as 5 últimas linhas</span>
+<span class="n">base</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>886</th>
+      <td>887</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Montvila, Rev. Juozas</td>
+      <td>male</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211536</td>
+      <td>13.00</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>888</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Miss. Margaret Edith</td>
+      <td>female</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112053</td>
+      <td>30.00</td>
+      <td>B42</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>889</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>2</td>
+      <td>W./C. 6607</td>
+      <td>23.45</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>890</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Behr, Mr. Karl Howell</td>
+      <td>male</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>111369</td>
+      <td>30.00</td>
+      <td>C148</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>891</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dooley, Mr. Patrick</td>
+      <td>male</td>
+      <td>32.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>370376</td>
+      <td>7.75</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tamanho da base</span>
+<span class="n">base</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(891, 12)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizando primeiras e últimas linhas e tamanho da base</span>
+<span class="n">display</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>887</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Montvila, Rev. Juozas</td>
+      <td>male</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211536</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>888</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Miss. Margaret Edith</td>
+      <td>female</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112053</td>
+      <td>30.0000</td>
+      <td>B42</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>889</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>2</td>
+      <td>W./C. 6607</td>
+      <td>23.4500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>890</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Behr, Mr. Karl Howell</td>
+      <td>male</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>111369</td>
+      <td>30.0000</td>
+      <td>C148</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>891</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dooley, Mr. Patrick</td>
+      <td>male</td>
+      <td>32.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>370376</td>
+      <td>7.7500</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 12 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="alem-disso-tambem-podemos-ver-as-informacoes-da-base">
+<h2>Além disso, também podemos ver as informações da base<a class="headerlink" href="#alem-disso-tambem-podemos-ver-as-informacoes-da-base" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrando somente o tipo dos dados</span>
+<span class="n">base</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PassengerId      int64
+Survived         int64
+Pclass           int64
+Name            object
+Sex             object
+Age            float64
+SibSp            int64
+Parch            int64
+Ticket          object
+Fare           float64
+Cabin           object
+Embarked        object
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrando o tipo de dados e os valores vazios</span>
+<span class="n">base</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 12 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   PassengerId  891 non-null    int64  
+ 1   Survived     891 non-null    int64  
+ 2   Pclass       891 non-null    int64  
+ 3   Name         891 non-null    object 
+ 4   Sex          891 non-null    object 
+ 5   Age          714 non-null    float64
+ 6   SibSp        891 non-null    int64  
+ 7   Parch        891 non-null    int64  
+ 8   Ticket       891 non-null    object 
+ 9   Fare         891 non-null    float64
+ 10  Cabin        204 non-null    object 
+ 11  Embarked     889 non-null    object 
+dtypes: float64(2), int64(5), object(5)
+memory usage: 83.7+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Contando os valores vazios por coluna</span>
+<span class="n">base</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PassengerId      0
+Survived         0
+Pclass           0
+Name             0
+Sex              0
+Age            177
+SibSp            0
+Parch            0
+Ticket           0
+Fare             0
+Cabin          687
+Embarked         2
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="principais-conceitos-estatisticos">
+<h2>Principais conceitos estatísticos<a class="headerlink" href="#principais-conceitos-estatisticos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dados</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">dados</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrando a média</span>
+<span class="n">dados</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X    6.0
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrando a contagem de registros</span>
+<span class="n">dados</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X    11
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mediana</span>
+<span class="n">dados</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X    6.0
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Desvio Padrão</span>
+<span class="n">dados</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X    3.316625
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Trazendo todo o resumo estatístico utilizando o describe</span>
+<span class="n">dados</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>11.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>6.000000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>3.316625</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>3.500000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>6.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>8.500000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>11.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Voltando para a base do nosso problema</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Trazendo o resumo estatístico para a nossa base</span>
+<span class="n">base</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>714.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>446.000000</td>
+      <td>0.383838</td>
+      <td>2.308642</td>
+      <td>29.699118</td>
+      <td>0.523008</td>
+      <td>0.381594</td>
+      <td>32.204208</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>257.353842</td>
+      <td>0.486592</td>
+      <td>0.836071</td>
+      <td>14.526497</td>
+      <td>1.102743</td>
+      <td>0.806057</td>
+      <td>49.693429</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.420000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>223.500000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>20.125000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.910400</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>446.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.454200</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>668.500000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>38.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>31.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>891.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>80.000000</td>
+      <td>8.000000</td>
+      <td>6.000000</td>
+      <td>512.329200</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="escolhendo-colunas-da-base">
+<h2>Escolhendo colunas da base<a class="headerlink" href="#escolhendo-colunas-da-base" title="Link to this heading">#</a></h2>
+<p><strong>Buscando por uma coluna:</strong> <br></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Podemos usar o nome da coluna entre aspas</span>
+<span class="n">base</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      0
+1      1
+2      1
+3      1
+4      0
+      ..
+886    0
+887    1
+888    0
+889    1
+890    0
+Name: Survived, Length: 891, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ou usar o ponto</span>
+<span class="n">base</span><span class="o">.</span><span class="n">Survived</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      0
+1      1
+2      1
+3      1
+4      0
+      ..
+886    0
+887    1
+888    0
+889    1
+890    0
+Name: Survived, Length: 891, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Usando uma coluna, podemos contar a quantidade de vezes que cada valor aparece</span>
+<span class="n">base</span><span class="o">.</span><span class="n">Survived</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Survived
+0    549
+1    342
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Selecionando um conjunto de colunas</span>
+<span class="n">base</span><span class="p">[[</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span><span class="s1">&#39;Sex&#39;</span><span class="p">,</span><span class="s1">&#39;Age&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Sex</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>male</td>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>female</td>
+      <td>38.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>female</td>
+      <td>26.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>female</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>male</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>0</td>
+      <td>male</td>
+      <td>27.0</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>1</td>
+      <td>female</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>0</td>
+      <td>female</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>1</td>
+      <td>male</td>
+      <td>26.0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>0</td>
+      <td>male</td>
+      <td>32.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 3 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="tambem-conseguimos-fazer-filtros-na-base">
+<h2>Também conseguimos fazer filtros na base<a class="headerlink" href="#tambem-conseguimos-fazer-filtros-na-base" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizando novamente na base</span>
+<span class="n">base</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificando clientes que pagaram mais de 100 libras</span>
+<span class="n">base</span><span class="p">[</span><span class="n">base</span><span class="o">.</span><span class="n">Fare</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>male</td>
+      <td>19.00</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>32</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Spencer, Mrs. William Augustus (Marie Eugenie)</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17569</td>
+      <td>146.5208</td>
+      <td>B78</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>89</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Fortune, Miss. Mabel Helen</td>
+      <td>female</td>
+      <td>23.00</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>119</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Baxter, Mr. Quigg Edmond</td>
+      <td>male</td>
+      <td>24.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17558</td>
+      <td>247.5208</td>
+      <td>B58 B60</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>196</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Lurette, Miss. Elise</td>
+      <td>female</td>
+      <td>58.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17569</td>
+      <td>146.5208</td>
+      <td>B80</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>215</th>
+      <td>216</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Newell, Miss. Madeleine</td>
+      <td>female</td>
+      <td>31.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>35273</td>
+      <td>113.2750</td>
+      <td>D36</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>258</th>
+      <td>259</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ward, Miss. Anna</td>
+      <td>female</td>
+      <td>35.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17755</td>
+      <td>512.3292</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>269</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Mrs. William Thompson (Edith Junkins)</td>
+      <td>female</td>
+      <td>58.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17582</td>
+      <td>153.4625</td>
+      <td>C125</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>270</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Bissette, Miss. Amelia</td>
+      <td>female</td>
+      <td>35.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17760</td>
+      <td>135.6333</td>
+      <td>C99</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>297</th>
+      <td>298</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>female</td>
+      <td>2.00</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>299</th>
+      <td>300</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Baxter, Mrs. James (Helene DeLaudeniere Chaput)</td>
+      <td>female</td>
+      <td>50.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17558</td>
+      <td>247.5208</td>
+      <td>B58 B60</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>306</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.92</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>306</th>
+      <td>307</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Fleming, Miss. Margaret</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17421</td>
+      <td>110.8833</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>307</th>
+      <td>308</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Penasco y Castellana, Mrs. Victor de Satode (M...</td>
+      <td>female</td>
+      <td>17.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17758</td>
+      <td>108.9000</td>
+      <td>C65</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>311</th>
+      <td>312</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ryerson, Miss. Emily Borie</td>
+      <td>female</td>
+      <td>18.00</td>
+      <td>2</td>
+      <td>2</td>
+      <td>PC 17608</td>
+      <td>262.3750</td>
+      <td>B57 B59 B63 B66</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>318</th>
+      <td>319</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Wick, Miss. Mary Natalie</td>
+      <td>female</td>
+      <td>31.00</td>
+      <td>0</td>
+      <td>2</td>
+      <td>36928</td>
+      <td>164.8667</td>
+      <td>C7</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>319</th>
+      <td>320</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Spedden, Mrs. Frederic Oakley (Margaretta Corn...</td>
+      <td>female</td>
+      <td>40.00</td>
+      <td>1</td>
+      <td>1</td>
+      <td>16966</td>
+      <td>134.5000</td>
+      <td>E34</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>325</th>
+      <td>326</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Young, Miss. Marie Grice</td>
+      <td>female</td>
+      <td>36.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17760</td>
+      <td>135.6333</td>
+      <td>C32</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>332</th>
+      <td>333</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Graham, Mr. George Edward</td>
+      <td>male</td>
+      <td>38.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17582</td>
+      <td>153.4625</td>
+      <td>C91</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>334</th>
+      <td>335</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Frauenthal, Mrs. Henry William (Clara Heinshei...</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17611</td>
+      <td>133.6500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>337</th>
+      <td>338</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Burns, Miss. Elizabeth Margaret</td>
+      <td>female</td>
+      <td>41.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>16966</td>
+      <td>134.5000</td>
+      <td>E40</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>341</th>
+      <td>342</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Fortune, Miss. Alice Elizabeth</td>
+      <td>female</td>
+      <td>24.00</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>373</th>
+      <td>374</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Ringhini, Mr. Sante</td>
+      <td>male</td>
+      <td>22.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17760</td>
+      <td>135.6333</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>377</th>
+      <td>378</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Widener, Mr. Harry Elkins</td>
+      <td>male</td>
+      <td>27.00</td>
+      <td>0</td>
+      <td>2</td>
+      <td>113503</td>
+      <td>211.5000</td>
+      <td>C82</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>380</th>
+      <td>381</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Bidois, Miss. Rosalie</td>
+      <td>female</td>
+      <td>42.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17757</td>
+      <td>227.5250</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>390</th>
+      <td>391</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Carter, Mr. William Ernest</td>
+      <td>male</td>
+      <td>36.00</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113760</td>
+      <td>120.0000</td>
+      <td>B96 B98</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>393</th>
+      <td>394</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Newell, Miss. Marjorie</td>
+      <td>female</td>
+      <td>23.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>35273</td>
+      <td>113.2750</td>
+      <td>D36</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>435</th>
+      <td>436</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Carter, Miss. Lucile Polk</td>
+      <td>female</td>
+      <td>14.00</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113760</td>
+      <td>120.0000</td>
+      <td>B96 B98</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>438</th>
+      <td>439</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Mark</td>
+      <td>male</td>
+      <td>64.00</td>
+      <td>1</td>
+      <td>4</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>498</th>
+      <td>499</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>female</td>
+      <td>25.00</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>505</th>
+      <td>506</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Penasco y Castellana, Mr. Victor de Satode</td>
+      <td>male</td>
+      <td>18.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17758</td>
+      <td>108.9000</td>
+      <td>C65</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>527</th>
+      <td>528</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Farthing, Mr. John</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17483</td>
+      <td>221.7792</td>
+      <td>C95</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>537</th>
+      <td>538</td>
+      <td>1</td>
+      <td>1</td>
+      <td>LeRoy, Miss. Bertha</td>
+      <td>female</td>
+      <td>30.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17761</td>
+      <td>106.4250</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>544</th>
+      <td>545</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Douglas, Mr. Walter Donald</td>
+      <td>male</td>
+      <td>50.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17761</td>
+      <td>106.4250</td>
+      <td>C86</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>550</th>
+      <td>551</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Thayer, Mr. John Borland Jr</td>
+      <td>male</td>
+      <td>17.00</td>
+      <td>0</td>
+      <td>2</td>
+      <td>17421</td>
+      <td>110.8833</td>
+      <td>C70</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>557</th>
+      <td>558</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Robbins, Mr. Victor</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17757</td>
+      <td>227.5250</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>581</th>
+      <td>582</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Thayer, Mrs. John Borland (Marian Longstreth M...</td>
+      <td>female</td>
+      <td>39.00</td>
+      <td>1</td>
+      <td>1</td>
+      <td>17421</td>
+      <td>110.8833</td>
+      <td>C68</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>609</th>
+      <td>610</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Shutes, Miss. Elizabeth W</td>
+      <td>female</td>
+      <td>40.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17582</td>
+      <td>153.4625</td>
+      <td>C125</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>659</th>
+      <td>660</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Newell, Mr. Arthur Webster</td>
+      <td>male</td>
+      <td>58.00</td>
+      <td>0</td>
+      <td>2</td>
+      <td>35273</td>
+      <td>113.2750</td>
+      <td>D48</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>660</th>
+      <td>661</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Frauenthal, Dr. Henry William</td>
+      <td>male</td>
+      <td>50.00</td>
+      <td>2</td>
+      <td>0</td>
+      <td>PC 17611</td>
+      <td>133.6500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>679</th>
+      <td>680</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cardeza, Mr. Thomas Drake Martinez</td>
+      <td>male</td>
+      <td>36.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>PC 17755</td>
+      <td>512.3292</td>
+      <td>B51 B53 B55</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>689</th>
+      <td>690</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Madill, Miss. Georgette Alexandra</td>
+      <td>female</td>
+      <td>15.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>698</th>
+      <td>699</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Thayer, Mr. John Borland</td>
+      <td>male</td>
+      <td>49.00</td>
+      <td>1</td>
+      <td>1</td>
+      <td>17421</td>
+      <td>110.8833</td>
+      <td>C68</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>700</th>
+      <td>701</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Astor, Mrs. John Jacob (Madeleine Talmadge Force)</td>
+      <td>female</td>
+      <td>18.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17757</td>
+      <td>227.5250</td>
+      <td>C62 C64</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>708</th>
+      <td>709</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cleaver, Miss. Alice</td>
+      <td>female</td>
+      <td>22.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>716</th>
+      <td>717</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Endres, Miss. Caroline Louise</td>
+      <td>female</td>
+      <td>38.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17757</td>
+      <td>227.5250</td>
+      <td>C45</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>730</th>
+      <td>731</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>female</td>
+      <td>29.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>737</th>
+      <td>738</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Lesurer, Mr. Gustave J</td>
+      <td>male</td>
+      <td>35.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17755</td>
+      <td>512.3292</td>
+      <td>B101</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>742</th>
+      <td>743</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ryerson, Miss. Susan Parker "Suzette"</td>
+      <td>female</td>
+      <td>21.00</td>
+      <td>2</td>
+      <td>2</td>
+      <td>PC 17608</td>
+      <td>262.3750</td>
+      <td>B57 B59 B63 B66</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>763</th>
+      <td>764</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Carter, Mrs. William Ernest (Lucile Polk)</td>
+      <td>female</td>
+      <td>36.00</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113760</td>
+      <td>120.0000</td>
+      <td>B96 B98</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>779</th>
+      <td>780</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Robert, Mrs. Edward Scott (Elisabeth Walton Mc...</td>
+      <td>female</td>
+      <td>43.00</td>
+      <td>0</td>
+      <td>1</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B3</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>802</th>
+      <td>803</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Carter, Master. William Thornton II</td>
+      <td>male</td>
+      <td>11.00</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113760</td>
+      <td>120.0000</td>
+      <td>B96 B98</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>856</th>
+      <td>857</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Wick, Mrs. George Dennick (Mary Hitchcock)</td>
+      <td>female</td>
+      <td>45.00</td>
+      <td>1</td>
+      <td>1</td>
+      <td>36928</td>
+      <td>164.8667</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificando se tiveram clientes que pagaram menos de 5 libras</span>
+<span class="n">base</span><span class="p">[</span><span class="n">base</span><span class="o">.</span><span class="n">Fare</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>179</th>
+      <td>180</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Leonard, Mr. Lionel</td>
+      <td>male</td>
+      <td>36.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>LINE</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>263</th>
+      <td>264</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Harrison, Mr. William</td>
+      <td>male</td>
+      <td>40.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112059</td>
+      <td>0.0000</td>
+      <td>B94</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>272</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Tornquist, Mr. William Henry</td>
+      <td>male</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>LINE</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>277</th>
+      <td>278</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Parkes, Mr. Francis "Frank"</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239853</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>302</th>
+      <td>303</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnson, Mr. William Cahoone Jr</td>
+      <td>male</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>LINE</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>378</th>
+      <td>379</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Betros, Mr. Tannous</td>
+      <td>male</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2648</td>
+      <td>4.0125</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>414</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Cunningham, Mr. Alfred Fleming</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239853</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>466</th>
+      <td>467</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Campbell, Mr. William</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239853</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>481</th>
+      <td>482</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Frost, Mr. Anthony Wood "Archie"</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239854</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>597</th>
+      <td>598</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnson, Mr. Alfred</td>
+      <td>male</td>
+      <td>49.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>LINE</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>633</th>
+      <td>634</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Parr, Mr. William Henry Marsh</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112052</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>674</th>
+      <td>675</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Watson, Mr. Ennis Hastings</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239856</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>732</th>
+      <td>733</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Knight, Mr. Robert J</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239855</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>806</th>
+      <td>807</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Andrews, Mr. Thomas Jr</td>
+      <td>male</td>
+      <td>39.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112050</td>
+      <td>0.0000</td>
+      <td>A36</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>815</th>
+      <td>816</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fry, Mr. Richard</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112058</td>
+      <td>0.0000</td>
+      <td>B102</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>822</th>
+      <td>823</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Reuchlin, Jonkheer. John George</td>
+      <td>male</td>
+      <td>38.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>19972</td>
+      <td>0.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Podemos fazer filtros usando E / OU</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificando se alguém viajou com esposa E filhos</span>
+<span class="n">base</span><span class="p">[(</span><span class="n">base</span><span class="o">.</span><span class="n">Parch</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">SibSp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>male</td>
+      <td>19.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>60</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Goodwin, Master. William Frederick</td>
+      <td>male</td>
+      <td>11.0</td>
+      <td>5</td>
+      <td>2</td>
+      <td>CA 2144</td>
+      <td>46.900</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>64</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Skoog, Master. Harald</td>
+      <td>male</td>
+      <td>4.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>347088</td>
+      <td>27.900</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>69</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Andersson, Miss. Erna Alexandra</td>
+      <td>female</td>
+      <td>17.0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3101281</td>
+      <td>7.925</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>72</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Goodwin, Miss. Lillian Amy</td>
+      <td>female</td>
+      <td>16.0</td>
+      <td>5</td>
+      <td>2</td>
+      <td>CA 2144</td>
+      <td>46.900</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="uma-forma-muito-util-de-fazer-selecao-de-dados-e-usando-o-loc-ou-o-iloc">
+<h3>Uma forma muito útil de fazer seleção de dados é usando o <font color="blue">.loc()</font> ou o <font color="blue">.iloc()</font><a class="headerlink" href="#uma-forma-muito-util-de-fazer-selecao-de-dados-e-usando-o-loc-ou-o-iloc" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># O .loc() permite fazer a busca da mesma forma acima</span>
+<span class="n">base</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">base</span><span class="o">.</span><span class="n">Parch</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">SibSp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>male</td>
+      <td>19.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>60</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Goodwin, Master. William Frederick</td>
+      <td>male</td>
+      <td>11.0</td>
+      <td>5</td>
+      <td>2</td>
+      <td>CA 2144</td>
+      <td>46.900</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>64</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Skoog, Master. Harald</td>
+      <td>male</td>
+      <td>4.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>347088</td>
+      <td>27.900</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>69</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Andersson, Miss. Erna Alexandra</td>
+      <td>female</td>
+      <td>17.0</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3101281</td>
+      <td>7.925</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>72</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Goodwin, Miss. Lillian Amy</td>
+      <td>female</td>
+      <td>16.0</td>
+      <td>5</td>
+      <td>2</td>
+      <td>CA 2144</td>
+      <td>46.900</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ele também permite usar argumentos lógicos</span>
+<span class="n">base</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">base</span><span class="o">.</span><span class="n">Parch</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">SibSp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Master. Gosta Leonard</td>
+      <td>male</td>
+      <td>2.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)</td>
+      <td>female</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Andersson, Mr. Anders Johan</td>
+      <td>male</td>
+      <td>39.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347082</td>
+      <td>31.2750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Master. Eugene</td>
+      <td>male</td>
+      <td>2.0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>25</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Miss. Torborg Danira</td>
+      <td>female</td>
+      <td>8.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ele permite filtrar colunas de forma muito prática</span>
+<span class="n">base</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">base</span><span class="o">.</span><span class="n">Parch</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">SibSp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;PassengerId&#39;</span><span class="p">,</span><span class="s1">&#39;Parch&#39;</span><span class="p">,</span><span class="s1">&#39;SibSp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Parch</th>
+      <th>SibSp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>1</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>25</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Já o <font color="blue">.iloc() </font> vai usar o índice para filtrar</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Buscando as linhas de 30 (inclusive) a 40 (exclusive)</span>
+<span class="n">base</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>30</th>
+      <td>31</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Uruchurtu, Don. Manuel E</td>
+      <td>male</td>
+      <td>40.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17601</td>
+      <td>27.7208</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>32</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Spencer, Mrs. William Augustus (Marie Eugenie)</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17569</td>
+      <td>146.5208</td>
+      <td>B78</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>33</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Glynn, Miss. Mary Agatha</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>335677</td>
+      <td>7.7500</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>34</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Wheadon, Mr. Edward H</td>
+      <td>male</td>
+      <td>66.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>C.A. 24579</td>
+      <td>10.5000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>35</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Meyer, Mr. Edgar Joseph</td>
+      <td>male</td>
+      <td>28.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17604</td>
+      <td>82.1708</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>36</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Holverson, Mr. Alexander Oskar</td>
+      <td>male</td>
+      <td>42.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113789</td>
+      <td>52.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>37</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Mamee, Mr. Hanna</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2677</td>
+      <td>7.2292</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>38</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Cann, Mr. Ernest Charles</td>
+      <td>male</td>
+      <td>21.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>A./5. 2152</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>39</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Planke, Miss. Augusta Maria</td>
+      <td>female</td>
+      <td>18.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>345764</td>
+      <td>18.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>40</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Nicola-Yarred, Miss. Jamila</td>
+      <td>female</td>
+      <td>14.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2651</td>
+      <td>11.2417</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Também posso usar para buscar apenas colunas específicas</span>
+<span class="n">base</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>30</th>
+      <td>Uruchurtu, Don. Manuel E</td>
+      <td>male</td>
+      <td>40.0</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Spencer, Mrs. William Augustus (Marie Eugenie)</td>
+      <td>female</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Glynn, Miss. Mary Agatha</td>
+      <td>female</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Wheadon, Mr. Edward H</td>
+      <td>male</td>
+      <td>66.0</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Meyer, Mr. Edgar Joseph</td>
+      <td>male</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Holverson, Mr. Alexander Oskar</td>
+      <td>male</td>
+      <td>42.0</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Mamee, Mr. Hanna</td>
+      <td>male</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Cann, Mr. Ernest Charles</td>
+      <td>male</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Vander Planke, Miss. Augusta Maria</td>
+      <td>female</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Nicola-Yarred, Miss. Jamila</td>
+      <td>female</td>
+      <td>14.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="por-fim-conseguimos-fazer-graficos-com-o-pandas-de-forma-bem-simples">
+<h2>Por fim, conseguimos fazer gráficos com o Pandas de forma bem simples<a class="headerlink" href="#por-fim-conseguimos-fazer-graficos-com-o-pandas-de-forma-bem-simples" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pandas.pydata.org/docs/user_guide/visualization.html">https://pandas.pydata.org/docs/user_guide/visualization.html</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># É possível fazer um histograma simples</span>
+<span class="n">base</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c99c2b2a7038a6e763ced45cbbd0e9a4a4c87a3392eab7275e3006878f39dce3.png" src="../../_images/c99c2b2a7038a6e763ced45cbbd0e9a4a4c87a3392eab7275e3006878f39dce3.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gráficos de barras</span>
+<span class="n">base</span><span class="o">.</span><span class="n">Pclass</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;Pclass&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/af2bb6a52ab29ca373f53c134abbf62fea35b4652efb45c79de7d07a0fe27ebd.png" src="../../_images/af2bb6a52ab29ca373f53c134abbf62fea35b4652efb45c79de7d07a0fe27ebd.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># E até gráficos mais complexos como o de densidade</span>
+<span class="n">base</span><span class="p">[</span><span class="s1">&#39;Fare&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">kde</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/dcf70492d3eeb3bedb20c10abd47e6dfad2da69f8bcef7540ea7b1429ea93c68.png" src="../../_images/dcf70492d3eeb3bedb20c10abd47e6dfad2da69f8bcef7540ea7b1429ea93c68.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/atividades"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Analise-Exploratoria-Parte2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Análise Exploratória dos Dados</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Aprendizado_Maquinas_Classificacao.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modelos de Classificação</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conseguimos-importar-praticamente-todas-as-bases-de-dados-usando-o-pandas">Conseguimos importar praticamente todas as bases de dados usando o pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-tambem-visualizar-todas-as-informacoes-sobre-essa-base">E também visualizar todas as informações sobre essa base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alem-disso-tambem-podemos-ver-as-informacoes-da-base">Além disso, também podemos ver as informações da base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principais-conceitos-estatisticos">Principais conceitos estatísticos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#escolhendo-colunas-da-base">Escolhendo colunas da base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tambem-conseguimos-fazer-filtros-na-base">Também conseguimos fazer filtros na base</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uma-forma-muito-util-de-fazer-selecao-de-dados-e-usando-o-loc-ou-o-iloc">Uma forma muito útil de fazer seleção de dados é usando o <font color="blue">.loc()</font> ou o <font color="blue">.iloc()</font></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#por-fim-conseguimos-fazer-graficos-com-o-pandas-de-forma-bem-simples">Por fim, conseguimos fazer gráficos com o Pandas de forma bem simples</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By yagoprssantos
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

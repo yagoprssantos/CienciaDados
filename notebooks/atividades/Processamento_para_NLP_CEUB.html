@@ -1,0 +1,1705 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introdução &#8212; CienciaDados</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/atividades/Processamento_para_NLP_CEUB';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pré Processamento dos Dados" href="SistemaRecomendacaoPythonCEUB_KNN.html" />
+    <link rel="prev" title="O Perceptron" href="O_Perceptron.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CienciaDados</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    CienciaDados
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Atividades</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="A_Regressao_Linear.html">A Regressão Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analise-Exploratoria-Financeira.html">Mentoria DATAUP - Aula02</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Analise-Exploratoria-Parte2.html">Análise Exploratória dos Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Analise_Exploratoria.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Aprendizado_Maquinas_Classificacao.html">Modelos de Classificação</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Classificacao_MLP.html">Multi Layer Perceptron ( MLP )  __________________________________</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="K_Means_Aprendizado_Nao_Supervisionado.html">Aprendizado Não Supervisionado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="O_Perceptron.html">O Perceptron</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introdução</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="SistemaRecomendacaoPythonCEUB_KNN.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="SistemaRecomendacaoPythonCEUB_KNN_e_KMeans.html">Pré Processamento dos Dados</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Tratamento_de_Dados.html">Tratamento de dados</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Estudos de Caso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso1.html">Estudo de Caso 1: Detecção de Transações Fraudulentas com Machine Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso2.html">Estudo de Caso 2: Previsão de Cancelamentos em Reservas de Hotel</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso3.html">Estudo de Caso 3: Análise Integrada do Mercado Imobiliário e Impactos da COVID-19</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso4.html">Estudo de Caso 4: Sistema de Recomendação Inteligente para E-commerce</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso5.html">Estudo de Caso 5: Previsão de Churn de Clientes com Redes Neurais</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../estudos_caso/EstudodeCaso6.html">Estudo de Caso 6: Análise de Sentimentos em Avaliações de Produtos com NLP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/atividades/Processamento_para_NLP_CEUB.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introdução</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introdução</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#funcoes-para-pre-processamento">Funções para Pré-Processamento</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limpeza-do-texto">Limpeza do texto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remocao-das-palavras-de-parada-stop-words">Remoção das Palavras de Parada (Stop Words)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lematizacao-e-stemizacao">Lematização e stemização</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nuvem-de-palavras">Nuvem de palavras</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#countvectorizer-e-tfidfvectorizer">CountVectorizer e TfidfVectorizer</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classe-de-pre-processamento-para-nlp">Classe de Pré-processamento para NLP</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>unidecode
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting unidecode
+  Downloading Unidecode-1.4.0-py3-none-any.whl.metadata (13 kB)
+Downloading Unidecode-1.4.0-py3-none-any.whl (235 kB)
+?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/235.8 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">235.8/235.8 kB</span> <span class=" -Color -Color-Red">11.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: unidecode
+Successfully installed unidecode-1.4.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">spacy</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">wordcloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">WordCloud</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">unidecode</span><span class="w"> </span><span class="kn">import</span> <span class="n">unidecode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">string</span><span class="w"> </span><span class="kn">import</span> <span class="n">punctuation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">CountVectorizer</span><span class="p">,</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk</span><span class="w"> </span><span class="kn">import</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">spacy.lang.pt.stop_words</span><span class="w"> </span><span class="kn">import</span> <span class="n">STOP_WORDS</span>
+
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading collection &#39;all&#39;
+[nltk_data]    | 
+[nltk_data]    | Downloading package abc to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/abc.zip.
+[nltk_data]    | Downloading package alpino to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/alpino.zip.
+[nltk_data]    | Downloading package averaged_perceptron_tagger to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping taggers/averaged_perceptron_tagger.zip.
+[nltk_data]    | Downloading package averaged_perceptron_tagger_eng to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping
+[nltk_data]    |       taggers/averaged_perceptron_tagger_eng.zip.
+[nltk_data]    | Downloading package averaged_perceptron_tagger_ru to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping
+[nltk_data]    |       taggers/averaged_perceptron_tagger_ru.zip.
+[nltk_data]    | Downloading package averaged_perceptron_tagger_rus to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping
+[nltk_data]    |       taggers/averaged_perceptron_tagger_rus.zip.
+[nltk_data]    | Downloading package basque_grammars to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping grammars/basque_grammars.zip.
+[nltk_data]    | Downloading package bcp47 to /root/nltk_data...
+[nltk_data]    | Downloading package biocreative_ppi to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/biocreative_ppi.zip.
+[nltk_data]    | Downloading package bllip_wsj_no_aux to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping models/bllip_wsj_no_aux.zip.
+[nltk_data]    | Downloading package book_grammars to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping grammars/book_grammars.zip.
+[nltk_data]    | Downloading package brown to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/brown.zip.
+[nltk_data]    | Downloading package brown_tei to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/brown_tei.zip.
+[nltk_data]    | Downloading package cess_cat to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/cess_cat.zip.
+[nltk_data]    | Downloading package cess_esp to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/cess_esp.zip.
+[nltk_data]    | Downloading package chat80 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/chat80.zip.
+[nltk_data]    | Downloading package city_database to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/city_database.zip.
+[nltk_data]    | Downloading package cmudict to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/cmudict.zip.
+[nltk_data]    | Downloading package comparative_sentences to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/comparative_sentences.zip.
+[nltk_data]    | Downloading package comtrans to /root/nltk_data...
+[nltk_data]    | Downloading package conll2000 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/conll2000.zip.
+[nltk_data]    | Downloading package conll2002 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/conll2002.zip.
+[nltk_data]    | Downloading package conll2007 to /root/nltk_data...
+[nltk_data]    | Downloading package crubadan to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/crubadan.zip.
+[nltk_data]    | Downloading package dependency_treebank to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/dependency_treebank.zip.
+[nltk_data]    | Downloading package dolch to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/dolch.zip.
+[nltk_data]    | Downloading package english_wordnet to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/english_wordnet.zip.
+[nltk_data]    | Downloading package europarl_raw to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/europarl_raw.zip.
+[nltk_data]    | Downloading package extended_omw to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    | Downloading package floresta to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/floresta.zip.
+[nltk_data]    | Downloading package framenet_v15 to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/framenet_v15.zip.
+[nltk_data]    | Downloading package framenet_v17 to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/framenet_v17.zip.
+[nltk_data]    | Downloading package gazetteers to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/gazetteers.zip.
+[nltk_data]    | Downloading package genesis to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/genesis.zip.
+[nltk_data]    | Downloading package gutenberg to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/gutenberg.zip.
+[nltk_data]    | Downloading package ieer to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/ieer.zip.
+[nltk_data]    | Downloading package inaugural to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/inaugural.zip.
+[nltk_data]    | Downloading package indian to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/indian.zip.
+[nltk_data]    | Downloading package jeita to /root/nltk_data...
+[nltk_data]    | Downloading package kimmo to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/kimmo.zip.
+[nltk_data]    | Downloading package knbc to /root/nltk_data...
+[nltk_data]    | Downloading package large_grammars to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping grammars/large_grammars.zip.
+[nltk_data]    | Downloading package lin_thesaurus to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/lin_thesaurus.zip.
+[nltk_data]    | Downloading package mac_morpho to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/mac_morpho.zip.
+[nltk_data]    | Downloading package machado to /root/nltk_data...
+[nltk_data]    | Downloading package masc_tagged to /root/nltk_data...
+[nltk_data]    | Downloading package maxent_ne_chunker to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping chunkers/maxent_ne_chunker.zip.
+[nltk_data]    | Downloading package maxent_ne_chunker_tab to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping chunkers/maxent_ne_chunker_tab.zip.
+[nltk_data]    | Downloading package maxent_treebank_pos_tagger to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping taggers/maxent_treebank_pos_tagger.zip.
+[nltk_data]    | Downloading package maxent_treebank_pos_tagger_tab to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping
+[nltk_data]    |       taggers/maxent_treebank_pos_tagger_tab.zip.
+[nltk_data]    | Downloading package mock_corpus to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/mock_corpus.zip.
+[nltk_data]    | Downloading package moses_sample to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping models/moses_sample.zip.
+[nltk_data]    | Downloading package movie_reviews to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/movie_reviews.zip.
+[nltk_data]    | Downloading package mte_teip5 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/mte_teip5.zip.
+[nltk_data]    | Downloading package mwa_ppdb to /root/nltk_data...
+[nltk_data]    |   Unzipping misc/mwa_ppdb.zip.
+[nltk_data]    | Downloading package names to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/names.zip.
+[nltk_data]    | Downloading package nombank.1.0 to /root/nltk_data...
+[nltk_data]    | Downloading package nonbreaking_prefixes to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/nonbreaking_prefixes.zip.
+[nltk_data]    | Downloading package nps_chat to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/nps_chat.zip.
+[nltk_data]    | Downloading package omw to /root/nltk_data...
+[nltk_data]    | Downloading package omw-1.4 to /root/nltk_data...
+[nltk_data]    | Downloading package opinion_lexicon to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/opinion_lexicon.zip.
+[nltk_data]    | Downloading package panlex_swadesh to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    | Downloading package paradigms to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/paradigms.zip.
+[nltk_data]    | Downloading package pe08 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/pe08.zip.
+[nltk_data]    | Downloading package perluniprops to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping misc/perluniprops.zip.
+[nltk_data]    | Downloading package pil to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/pil.zip.
+[nltk_data]    | Downloading package pl196x to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/pl196x.zip.
+[nltk_data]    | Downloading package porter_test to /root/nltk_data...
+[nltk_data]    |   Unzipping stemmers/porter_test.zip.
+[nltk_data]    | Downloading package ppattach to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/ppattach.zip.
+[nltk_data]    | Downloading package problem_reports to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/problem_reports.zip.
+[nltk_data]    | Downloading package product_reviews_1 to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/product_reviews_1.zip.
+[nltk_data]    | Downloading package product_reviews_2 to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/product_reviews_2.zip.
+[nltk_data]    | Downloading package propbank to /root/nltk_data...
+[nltk_data]    | Downloading package pros_cons to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/pros_cons.zip.
+[nltk_data]    | Downloading package ptb to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/ptb.zip.
+[nltk_data]    | Downloading package punkt to /root/nltk_data...
+[nltk_data]    |   Unzipping tokenizers/punkt.zip.
+[nltk_data]    | Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]    |   Unzipping tokenizers/punkt_tab.zip.
+[nltk_data]    | Downloading package qc to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/qc.zip.
+[nltk_data]    | Downloading package reuters to /root/nltk_data...
+[nltk_data]    | Downloading package rslp to /root/nltk_data...
+[nltk_data]    |   Unzipping stemmers/rslp.zip.
+[nltk_data]    | Downloading package rte to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/rte.zip.
+[nltk_data]    | Downloading package sample_grammars to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping grammars/sample_grammars.zip.
+[nltk_data]    | Downloading package semcor to /root/nltk_data...
+[nltk_data]    | Downloading package senseval to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/senseval.zip.
+[nltk_data]    | Downloading package sentence_polarity to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/sentence_polarity.zip.
+[nltk_data]    | Downloading package sentiwordnet to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/sentiwordnet.zip.
+[nltk_data]    | Downloading package shakespeare to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/shakespeare.zip.
+[nltk_data]    | Downloading package sinica_treebank to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/sinica_treebank.zip.
+[nltk_data]    | Downloading package smultron to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/smultron.zip.
+[nltk_data]    | Downloading package snowball_data to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    | Downloading package spanish_grammars to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping grammars/spanish_grammars.zip.
+[nltk_data]    | Downloading package state_union to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/state_union.zip.
+[nltk_data]    | Downloading package stopwords to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/stopwords.zip.
+[nltk_data]    | Downloading package subjectivity to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/subjectivity.zip.
+[nltk_data]    | Downloading package swadesh to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/swadesh.zip.
+[nltk_data]    | Downloading package switchboard to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/switchboard.zip.
+[nltk_data]    | Downloading package tagsets to /root/nltk_data...
+[nltk_data]    |   Unzipping help/tagsets.zip.
+[nltk_data]    | Downloading package tagsets_json to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping help/tagsets_json.zip.
+[nltk_data]    | Downloading package timit to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/timit.zip.
+[nltk_data]    | Downloading package toolbox to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/toolbox.zip.
+[nltk_data]    | Downloading package treebank to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/treebank.zip.
+[nltk_data]    | Downloading package twitter_samples to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/twitter_samples.zip.
+[nltk_data]    | Downloading package udhr to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/udhr.zip.
+[nltk_data]    | Downloading package udhr2 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/udhr2.zip.
+[nltk_data]    | Downloading package unicode_samples to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/unicode_samples.zip.
+[nltk_data]    | Downloading package universal_tagset to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping taggers/universal_tagset.zip.
+[nltk_data]    | Downloading package universal_treebanks_v20 to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    | Downloading package vader_lexicon to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    | Downloading package verbnet to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/verbnet.zip.
+[nltk_data]    | Downloading package verbnet3 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/verbnet3.zip.
+[nltk_data]    | Downloading package webtext to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/webtext.zip.
+[nltk_data]    | Downloading package wmt15_eval to /root/nltk_data...
+[nltk_data]    |   Unzipping models/wmt15_eval.zip.
+[nltk_data]    | Downloading package word2vec_sample to
+[nltk_data]    |     /root/nltk_data...
+[nltk_data]    |   Unzipping models/word2vec_sample.zip.
+[nltk_data]    | Downloading package wordnet to /root/nltk_data...
+[nltk_data]    | Downloading package wordnet2021 to /root/nltk_data...
+[nltk_data]    | Downloading package wordnet2022 to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/wordnet2022.zip.
+[nltk_data]    | Downloading package wordnet31 to /root/nltk_data...
+[nltk_data]    | Downloading package wordnet_ic to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/wordnet_ic.zip.
+[nltk_data]    | Downloading package words to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/words.zip.
+[nltk_data]    | Downloading package ycoe to /root/nltk_data...
+[nltk_data]    |   Unzipping corpora/ycoe.zip.
+[nltk_data]    | 
+[nltk_data]  Done downloading collection all
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="introducao">
+<h1>Introdução<a class="headerlink" href="#introducao" title="Link to this heading">#</a></h1>
+<p>Um dos problemas do NLP está na qualidade dos dados, principalmente quando se trabalha com textos não formais (como redes sociais). Além disso a quantidade de material replicável em português é escasso, o que atrapalha bastante na modelagem. Sendo assim, o objetivo deste notebook é criar ferramentas para o pré-processamento dos textos.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="funcoes-para-pre-processamento">
+<h1>Funções para Pré-Processamento<a class="headerlink" href="#funcoes-para-pre-processamento" title="Link to this heading">#</a></h1>
+<section id="limpeza-do-texto">
+<h2>Limpeza do texto<a class="headerlink" href="#limpeza-do-texto" title="Link to this heading">#</a></h2>
+<p>A primeira função, e talvez a mais importante, é para limpar o texto. Nesta etapa é tratado tudo o que pode atrapalhar no processo de modelagem. Além disso, acredito que ela possa ser utilizada em qualquer situação quando se trata de NLP.</p>
+<p>Na função abaixo são realizados os seguintes passos para limpeza do texto:</p>
+<ul class="simple">
+<li><p>Colocar o texto em caixa baixa (letras minúsculas);</p></li>
+<li><p>Excluir citações - útil para textos retirados de redes sociais;</p></li>
+<li><p>Excluir acentuação das palavras;</p></li>
+<li><p>Excluir html tags para textos retirados de fóruns e afins;</p></li>
+<li><p>Excluir números;</p></li>
+<li><p>Excluir URL’s;</p></li>
+<li><p>Excluir pontuação e caracteres especiais.</p></li>
+</ul>
+<p>Existem outras tratativas que podem ser adicionadas, mas algumas possuem restrições em questão de instalação (só funcionar no linux por exemplo) ou só ter disponível em inglês. Um exemplo é a função Speller da biblioteca autocorrect que corrige erros de digitação (com um erro logicamente) e só funciona em inglês.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">limpar_texto</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+
+    <span class="c1"># Colocando todas as letras do texto em caixa baixa:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># Excluindo citações com @:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;@[^\s]+&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Excluindo acentuação das palavras:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">unidecode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Excluindo html tags, como &lt;strong&gt;&lt;/strong&gt;:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&lt;[^&lt;]+&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Excluindo os números:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">())</span>
+    <span class="c1"># Excluindo URL&#39;s:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;((www\.[^\s]+)|(https?://[^\s]+)|(http?://[^\s]+))&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Excluindo pontuação:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">punctuation</span><span class="p">)</span>
+
+    <span class="c1"># Retornando o texto tratado tokenizado:</span>
+    <span class="k">return</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Testando a função:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># O texto abaixo contém todas as situações para que seja feita a limpeza:</span>
+
+<span class="n">texto</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;strong&gt;Olá&lt;/strong&gt; @usuario, vamos testar a função #clean_text?</span>
+<span class="s2">Caso tenha dúvidas, uma boa pesquisa no www.google.com pode ajudar!</span>
+<span class="s2">Mesmo que você tenha que pesquisar 100 vezes!</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">texto_limpo</span> <span class="o">=</span> <span class="n">limpar_texto</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texto_limpo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ola&#39;, &#39;vamos&#39;, &#39;testar&#39;, &#39;a&#39;, &#39;funcao&#39;, &#39;cleantext&#39;, &#39;caso&#39;, &#39;tenha&#39;, &#39;duvidas&#39;, &#39;uma&#39;, &#39;boa&#39;, &#39;pesquisa&#39;, &#39;no&#39;, &#39;pode&#39;, &#39;ajudar&#39;, &#39;mesmo&#39;, &#39;que&#39;, &#39;voce&#39;, &#39;tenha&#39;, &#39;que&#39;, &#39;pesquisar&#39;, &#39;vezes&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="remocao-das-palavras-de-parada-stop-words">
+<h2>Remoção das Palavras de Parada (Stop Words)<a class="headerlink" href="#remocao-das-palavras-de-parada-stop-words" title="Link to this heading">#</a></h2>
+<p>As palavras de parada são aquelas que, dependendo do caso, podem ser consideradas irrelevantes para o conjunto de resultados a ser exibido em uma busca realizada em uma <em>search engine</em>. Por exemplo: o, para, com, foi.</p>
+<p><strong>Quando removê-las de um texto?</strong></p>
+<p>Quando se remove as palavras de parada geralmente o texto perde o seu contexto (ou sentido), o que pode atrapalhar alguns algoritmos de descoberta, principalmente aqueles que trabalham com redes neurais. Então é importante ter atenção.</p>
+<p>Agora, quando montamos um <strong>saco de palavras</strong> (Bag-of-Words) as palavras de maior frequência provavelmente serão palavras de parada. Portanto, neste caso, removê-las é uma boa prática.</p>
+<p><strong>Diferenças de linguagens e bibliotecas</strong></p>
+<p>Cada linguagem possui as suas palavras de parada e a qualidade da remoção depende de vários fatores, dentre eles o quão correto está escrito o texto. Então, dependendo de onde ele foi coletado (redes sociais por exemplo), poderão aparecer ruídos após a remoção.
+As duas principais bibliotecas que possuem funções para remoção de palavras de parada são spacy e nltk. Além disso, é possível (e recomendado pelo menos considerar) criar a própria lista de palavras para remover do texto nesta etapa.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Removendo as stopwords utilizando a lista do nltk e do spacy:</span>
+
+<span class="n">sw</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;portuguese&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOP_WORDS</span><span class="p">)))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_stop_words</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">stopwords</span><span class="o">=</span><span class="n">sw</span><span class="p">):</span>
+
+    <span class="n">new_texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">:</span>
+           <span class="n">new_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">new_texts</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos ver a nossa lista de palavras de parada:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;teve&#39;, &#39;for&#39;, &#39;tanta&#39;, &#39;porque&#39;, &#39;porquê&#39;, &#39;bastante&#39;, &#39;nosso&#39;, &#39;fôramos&#39;, &#39;suas&#39;, &#39;iniciar&#39;, &#39;aquele&#39;, &#39;dela&#39;, &#39;tiverem&#39;, &#39;tendes&#39;, &#39;vinte&#39;, &#39;tivermos&#39;, &#39;nenhuma&#39;, &#39;sois&#39;, &#39;vários&#39;, &#39;têm&#39;, &#39;sejamos&#39;, &#39;aquilo&#39;, &#39;usa&#39;, &#39;as&#39;, &#39;disso&#39;, &#39;conhecida&#39;, &#39;tenham&#39;, &#39;baixo&#39;, &#39;estas&#39;, &#39;estiveste&#39;, &#39;novo&#39;, &#39;ser&#39;, &#39;nossos&#39;, &#39;estivessem&#39;, &#39;exemplo&#39;, &#39;tive&#39;, &#39;bom&#39;, &#39;teriam&#39;, &#39;eventual&#39;, &#39;estivéssemos&#39;, &#39;te&#39;, &#39;algo&#39;, &#39;primeiro&#39;, &#39;máximo&#39;, &#39;quanto&#39;, &#39;houverão&#39;, &#39;quem&#39;, &#39;tanto&#39;, &#39;obrigada&#39;, &#39;tarde&#39;, &#39;põe&#39;, &#39;quinze&#39;, &#39;quinto&#39;, &#39;poder&#39;, &#39;fazer&#39;, &#39;quarta&#39;, &#39;próprio&#39;, &#39;estivéramos&#39;, &#39;hajam&#39;, &#39;forma&#39;, &#39;minha&#39;, &#39;nuns&#39;, &#39;sexto&#39;, &#39;desse&#39;, &#39;contudo&#39;, &#39;tivéssemos&#39;, &#39;vais&#39;, &#39;tivesse&#39;, &#39;algumas&#39;, &#39;posição&#39;, &#39;ver&#39;, &#39;lá&#39;, &#39;primeira&#39;, &#39;sim&#39;, &#39;vosso&#39;, &#39;conselho&#39;, &#39;estivera&#39;, &#39;eram&#39;, &#39;estivemos&#39;, &#39;números&#39;, &#39;forem&#39;, &#39;oitava&#39;, &#39;mal&#39;, &#39;partir&#39;, &#39;elas&#39;, &#39;antes&#39;, &#39;talvez&#39;, &#39;ponto&#39;, &#39;tente&#39;, &#39;tivera&#39;, &#39;estivestes&#39;, &#39;estejamos&#39;, &#39;estiveram&#39;, &#39;tempo&#39;, &#39;haver&#39;, &#39;parte&#39;, &#39;vinda&#39;, &#39;isto&#39;, &#39;dá&#39;, &#39;lhe&#39;, &#39;tão&#39;, &#39;tivessem&#39;, &#39;momento&#39;, &#39;apoio&#39;, &#39;maiorias&#39;, &#39;oito&#39;, &#39;certeza&#39;, &#39;dessa&#39;, &#39;você&#39;, &#39;irá&#39;, &#39;pouca&#39;, &#39;puderam&#39;, &#39;ademais&#39;, &#39;houveremos&#39;, &#39;onze&#39;, &#39;vós&#39;, &#39;comprido&#39;, &#39;adeus&#39;, &#39;mas&#39;, &#39;houvessem&#39;, &#39;poderá&#39;, &#39;grupo&#39;, &#39;nesse&#39;, &#39;sou&#39;, &#39;aí&#39;, &#39;naquela&#39;, &#39;pode&#39;, &#39;bem&#39;, &#39;oitavo&#39;, &#39;umas&#39;, &#39;de&#39;, &#39;deles&#39;, &#39;estive&#39;, &#39;nesta&#39;, &#39;fará&#39;, &#39;longe&#39;, &#39;nove&#39;, &#39;tal&#39;, &#39;tenhamos&#39;, &#39;fora&#39;, &#39;tivestes&#39;, &#39;local&#39;, &#39;numa&#39;, &#39;coisa&#39;, &#39;segunda&#39;, &#39;houverei&#39;, &#39;essas&#39;, &#39;tem&#39;, &#39;só&#39;, &#39;tu&#39;, &#39;teu&#39;, &#39;sexta&#39;, &#39;houverá&#39;, &#39;é&#39;, &#39;ligado&#39;, &#39;nossa&#39;, &#39;nem&#39;, &#39;diz&#39;, &#39;faz&#39;, &#39;aos&#39;, &#39;apoia&#39;, &#39;na&#39;, &#39;cada&#39;, &#39;serão&#39;, &#39;debaixo&#39;, &#39;grande&#39;, &#39;houvesse&#39;, &#39;sempre&#39;, &#39;final&#39;, &#39;estar&#39;, &#39;desde&#39;, &#39;tiver&#39;, &#39;meses&#39;, &#39;estejam&#39;, &#39;pelos&#39;, &#39;relação&#39;, &#39;fazem&#39;, &#39;cuja&#39;, &#39;pegar&#39;, &#39;tivéramos&#39;, &#39;obrigado&#39;, &#39;houver&#39;, &#39;tinham&#39;, &#39;caminho&#39;, &#39;três&#39;, &#39;nada&#39;, &#39;quieta&#39;, &#39;terá&#39;, &#39;sobre&#39;, &#39;teria&#39;, &#39;dele&#39;, &#39;com&#39;, &#39;era&#39;, &#39;foi&#39;, &#39;vos&#39;, &#39;isso&#39;, &#39;nós&#39;, &#39;dezasseis&#39;, &#39;num&#39;, &#39;seus&#39;, &#39;dois&#39;, &#39;pela&#39;, &#39;terceira&#39;, &#39;mês&#39;, &#39;tiveste&#39;, &#39;podia&#39;, &#39;ao&#39;, &#39;seis&#39;, &#39;atrás&#39;, &#39;me&#39;, &#39;és&#39;, &#39;próxima&#39;, &#39;tipo&#39;, &#39;tinha&#39;, &#39;pois&#39;, &#39;cima&#39;, &#39;grandes&#39;, &#39;outras&#39;, &#39;estado&#39;, &#39;possível&#39;, &#39;veja&#39;, &#39;sejam&#39;, &#39;tivemos&#39;, &#39;uma&#39;, &#39;fossem&#39;, &#39;teríamos&#39;, &#39;eles&#39;, &#39;depois&#39;, &#39;o&#39;, &#39;nos&#39;, &#39;foste&#39;, &#39;aquelas&#39;, &#39;a&#39;, &#39;houveríamos&#39;, &#39;dezassete&#39;, &#39;favor&#39;, &#39;hei&#39;, &#39;somos&#39;, &#39;muitos&#39;, &#39;ele&#39;, &#39;estamos&#39;, &#39;vai&#39;, &#39;todos&#39;, &#39;apenas&#39;, &#39;aqueles&#39;, &#39;vocês&#39;, &#39;quando&#39;, &#39;dentro&#39;, &#39;acerca&#39;, &#39;estivesse&#39;, &#39;ainda&#39;, &#39;daquele&#39;, &#39;falta&#39;, &#39;terão&#39;, &#39;ontem&#39;, &#39;se&#39;, &#39;sabe&#39;, &#39;das&#39;, &#39;do&#39;, &#39;terei&#39;, &#39;tudo&#39;, &#39;estes&#39;, &#39;doze&#39;, &#39;houveria&#39;, &#39;houveram&#39;, &#39;será&#39;, &#39;todas&#39;, &#39;breve&#39;, &#39;fim&#39;, &#39;fazia&#39;, &#39;deverá&#39;, &#39;quieto&#39;, &#39;após&#39;, &#39;deve&#39;, &#39;uns&#39;, &#39;duas&#39;, &#39;des&#39;, &#39;tentaram&#39;, &#39;não&#39;, &#39;houvemos&#39;, &#39;zero&#39;, &#39;ir&#39;, &#39;neste&#39;, &#39;fôssemos&#39;, &#39;cinco&#39;, &#39;pontos&#39;, &#39;quatro&#39;, &#39;questão&#39;, &#39;fui&#39;, &#39;este&#39;, &#39;mesmo&#39;, &#39;no&#39;, &#39;nível&#39;, &#39;vossa&#39;, &#39;houvera&#39;, &#39;serei&#39;, &#39;um&#39;, &#39;meus&#39;, &#39;eu&#39;, &#39;sem&#39;, &#39;tentei&#39;, &#39;também&#39;, &#39;põem&#39;, &#39;seu&#39;, &#39;delas&#39;, &#39;outra&#39;, &#39;são&#39;, &#39;e&#39;, &#39;houvéramos&#39;, &#39;logo&#39;, &#39;estou&#39;, &#39;haja&#39;, &#39;até&#39;, &#39;área&#39;, &#39;cedo&#39;, &#39;faço&#39;, &#39;cá&#39;, &#39;todo&#39;, &#39;vens&#39;, &#39;estiver&#39;, &#39;inicio&#39;, &#39;meu&#39;, &#39;temos&#39;, &#39;sétima&#39;, &#39;teremos&#39;, &#39;seria&#39;, &#39;tuas&#39;, &#39;portanto&#39;, &#39;aqui&#39;, &#39;estávamos&#39;, &#39;para&#39;, &#39;tenha&#39;, &#39;meio&#39;, &#39;terceiro&#39;, &#39;inclusive&#39;, &#39;agora&#39;, &#39;essa&#39;, &#39;muito&#39;, &#39;nas&#39;, &#39;houve&#39;, &#39;quarto&#39;, &#39;segundo&#39;, &#39;dez&#39;, &#39;pelas&#39;, &#39;além&#39;, &#39;boa&#39;, &#39;direita&#39;, &#39;esteve&#39;, &#39;corrente&#39;, &#39;ou&#39;, &#39;está&#39;, &#39;por&#39;, &#39;menos&#39;, &#39;dezoito&#39;, &#39;lhes&#39;, &#39;teus&#39;, &#39;treze&#39;, &#39;porquanto&#39;, &#39;valor&#39;, &#39;através&#39;, &#39;pelo&#39;, &#39;posso&#39;, &#39;geral&#39;, &#39;sei&#39;, &#39;maioria&#39;, &#39;alguns&#39;, &#39;mais&#39;, &#39;daquela&#39;, &#39;esse&#39;, &#39;ora&#39;, &#39;houveriam&#39;, &#39;qual&#39;, &#39;apontar&#39;, &#39;toda&#39;, &#39;devem&#39;, &#39;tém&#39;, &#39;sete&#39;, &#39;cento&#39;, &#39;estás&#39;, &#39;usar&#39;, &#39;maior&#39;, &#39;vem&#39;, &#39;vossas&#39;, &#39;há&#39;, &#39;tentar&#39;, &#39;como&#39;, &#39;ter&#39;, &#39;lugar&#39;, &#39;nossas&#39;, &#39;esteja&#39;, &#39;já&#39;, &#39;seremos&#39;, &#39;os&#39;, &#39;estará&#39;, &#39;esta&#39;, &#39;onde&#39;, &#39;assim&#39;, &#39;houvéssemos&#39;, &#39;saber&#39;, &#39;enquanto&#39;, &#39;houvermos&#39;, &#39;nova&#39;, &#39;tens&#39;, &#39;da&#39;, &#39;somente&#39;, &#39;quero&#39;, &#39;pouco&#39;, &#39;perto&#39;, &#39;estavam&#39;, &#39;ambos&#39;, &#39;formos&#39;, &#39;estiverem&#39;, &#39;tínhamos&#39;, &#39;dar&#39;, &#39;dão&#39;, &#39;outros&#39;, &#39;minhas&#39;, &#39;nessa&#39;, &#39;tiveram&#39;, &#39;hajamos&#39;, &#39;ambas&#39;, &#39;naquele&#39;, &#39;vindo&#39;, &#39;tenho&#39;, &#39;demais&#39;, &#39;menor&#39;, &#39;em&#39;, &#39;fez&#39;, &#39;sétimo&#39;, &#39;ela&#39;, &#39;ali&#39;, &#39;certamente&#39;, &#39;sob&#39;, &#39;dizem&#39;, &#39;deste&#39;, &#39;quais&#39;, &#39;embora&#39;, &#39;parece&#39;, &#39;desta&#39;, &#39;entre&#39;, &#39;foram&#39;, &#39;quê&#39;, &#39;novas&#39;, &#39;fazemos&#39;, &#39;estivermos&#39;, &#39;próximo&#39;, &#39;podem&#39;, &#39;havemos&#39;, &#39;vão&#39;, &#39;possivelmente&#39;, &#39;que&#39;, &#39;dezanove&#39;, &#39;vez&#39;, &#39;mil&#39;, &#39;sistema&#39;, &#39;esses&#39;, &#39;comprida&#39;, &#39;quer&#39;, &#39;aquela&#39;, &#39;vêm&#39;, &#39;qualquer&#39;, &#39;último&#39;, &#39;nunca&#39;, &#39;hão&#39;, &#39;custa&#39;, &#39;contra&#39;, &#39;éramos&#39;, &#39;dos&#39;, &#39;tua&#39;, &#39;seríamos&#39;, &#39;vezes&#39;, &#39;tais&#39;, &#39;houverem&#39;, &#39;fostes&#39;, &#39;quinta&#39;, &#39;fomos&#39;, &#39;fosse&#39;, &#39;sua&#39;, &#39;número&#39;, &#39;povo&#39;, &#39;novos&#39;, &#39;seriam&#39;, &#39;querem&#39;, &#39;conhecido&#39;, &#39;às&#39;, &#39;catorze&#39;, &#39;fazeis&#39;, &#39;à&#39;, &#39;estão&#39;, &#39;diante&#39;, &#39;fazes&#39;, &#39;lado&#39;, &#39;estava&#39;, &#39;dizer&#39;, &#39;vossos&#39;, &#39;pôde&#39;, &#39;seja&#39;, &#39;porém&#39;, &#39;cujo&#39;, &#39;então&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Agora vamos aplicá-la no texto de saída da função de limpeza:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texto_sem_stop_words</span> <span class="o">=</span> <span class="n">remove_stop_words</span><span class="p">(</span><span class="n">texto_limpo</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texto_sem_stop_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ola&#39;, &#39;vamos&#39;, &#39;testar&#39;, &#39;funcao&#39;, &#39;cleantext&#39;, &#39;caso&#39;, &#39;duvidas&#39;, &#39;pesquisa&#39;, &#39;ajudar&#39;, &#39;voce&#39;, &#39;pesquisar&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se estivéssemos criando um modelo a palavra ‘cleantext’ talvez não fosse importante. Vamos adicioná-la na nossa lista de palavras de palavra rodar novamente a função:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texto_sem_stop_words</span> <span class="o">=</span> <span class="n">remove_stop_words</span><span class="p">(</span><span class="n">texto_limpo</span><span class="p">,</span> <span class="n">sw</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;cleantext&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texto_sem_stop_words</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ola&#39;, &#39;vamos&#39;, &#39;testar&#39;, &#39;funcao&#39;, &#39;caso&#39;, &#39;duvidas&#39;, &#39;pesquisa&#39;, &#39;ajudar&#39;, &#39;voce&#39;, &#39;pesquisar&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lematizacao-e-stemizacao">
+<h2>Lematização e stemização<a class="headerlink" href="#lematizacao-e-stemizacao" title="Link to this heading">#</a></h2>
+<p>Lematização e stemização são processos que reduzem as palavras. A vantagem de utilizá-los é a redução do vocabulário e abstração de significado. No caso do texto que estamos usando como exemplo, as palavras ‘pesquisa’ e ‘pesquisar’ poderiam ser reduzidas, pois em questão de significado elas agregam de forma igual no processo de modelagem.</p>
+<ul class="simple">
+<li><p>A lematização reduz a palavra ao seu lema, que é a forma no masculino e singular. No caso de verbos o lema é o infinitivo. Por exemplo, as palavras “menino”, “meninos”, “menininhos” são todas formas do lema: “menino”.</p></li>
+<li><p>A stemização reduz a palavra ao seu radical. Por exemplo, as palavras “menino”, “meninos”, “menininhos” são todas formas do lema: “menin”.</p></li>
+</ul>
+<p>Um dos problemas de utilizar estas funções, principalmente a lematização, é que ele pode retornar alguns resultados estranhos, podendo perder o contexto do original. Mas mesmo assim o contexto ficará melhor do que extrair o radical.</p>
+<p>Em termos de velocidade de processamento, extrair os radicais vai fazer com que mais palavras se agrupem e, consequentemente, uma possível modelagem fique mais rápida. Mas não quer dizer que a qualidade da predição vai ficar boa.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># primeiramente é necessário realizar a instalação abaixo:</span>
+
+<span class="o">!</span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>pt_core_news_sm
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting pt-core-news-sm==3.8.0
+  Downloading https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl (13.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">13.0/13.0 MB</span> <span class=" -Color -Color-Red">73.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: pt-core-news-sm
+Successfully installed pt-core-news-sm-3.8.0
+<span class=" -Color -Color-C2">✔ Download and installation successful</span>
+You can now load the package via spacy.load(&#39;pt_core_news_sm&#39;)
+<span class=" -Color -Color-C3">⚠ Restart to reload dependencies</span>
+If you are in a Jupyter or Colab notebook, you may need to restart Python in
+order to load all the package&#39;s dependencies. You can do this by selecting the
+&#39;Restart kernel&#39; or &#39;Restart runtime&#39; option.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vamos criar uma função que mostra o texto original, a interpretação - da função - semântica dela e o lema</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pt_core_news_sm&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">verificar_lemma</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">lemma</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">nlp</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+        <span class="n">text</span> <span class="o">+=</span> <span class="n">word</span><span class="o">.</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="n">word</span><span class="o">.</span><span class="n">pos_</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+        <span class="n">lemma</span> <span class="o">+=</span> <span class="n">word</span><span class="o">.</span><span class="n">lemma_</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">lemma</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos verificar como ficaria a extração do lema em algumas frases:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">verificar_lemma</span><span class="p">(</span><span class="s1">&#39;o sentido desta frase está errado&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>o	sentido	desta	frase	está	errado	
+DET	NOUN	ADP	NOUN	AUX	VERB	
+o	sentido	de este	frase	estar	errado	
+</pre></div>
+</div>
+</div>
+</div>
+<p>Neste caso a função extraiu erroneamente o lema da palavra <strong>sentido</strong>, pois ela é um substantivo neste caso e o lema seria sentido. Além disso, separou a palavra desta em <strong>d</strong> e <strong>esta</strong>, sendo que o lema seria <strong>deste</strong>. Para as demais palavras a extração do lema funcionou corretamente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">verificar_lemma</span><span class="p">(</span><span class="s1">&#39;você está se sentindo bem?&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>você	está	se	sentindo	bem	?	
+PRON	AUX	PRON	VERB	ADV	PUNCT	
+você	estar	se	sentir	bem	?	
+</pre></div>
+</div>
+</div>
+</div>
+<p>Neste caso a função extraiu o lema corretamente. O problema é que em um dataset com as duas frases, a palavra sentido seria agrupada, sendo que o lema das duas não é o mesmo, o que poderia acarretar em problemas em um algoritmo de aprendizagem. Agora vamos ver os radicais.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vamos criar uma função que mostra o texto original e o stem de cada palavra</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">verificar_radical</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+
+    <span class="n">stemmer</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">SnowballStemmer</span><span class="p">(</span><span class="s1">&#39;portuguese&#39;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">stem</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+
+        <span class="n">text</span> <span class="o">+=</span> <span class="n">word</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+        <span class="n">stem</span> <span class="o">+=</span> <span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stem</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos verificar a extração do radical com as mesmas frases que utilizamos na função de lema:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">verificar_radical</span><span class="p">(</span><span class="s1">&#39;o sentido desta frase está errado&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>o	sentido	desta	frase	está	errado	
+o	sent	dest	fras	está	errad	
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">verificar_radical</span><span class="p">(</span><span class="s1">&#39;você está se sentindo bem?&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>você	está	se	sentindo	bem	?	
+voc	está	se	sent	bem	?	
+</pre></div>
+</div>
+</div>
+</div>
+<p>Novamente a palavra <strong>sentido</strong> seria agrupada, mas neste caso, como é o radical, está correto.</p>
+<p>Para concluir, utilizar ou não as funções de lema e radical é de escolha de quem está desenvolvendo. Caso seja escolhido por utilizar, aconselho dar uma atenção na qualidade das extrações.</p>
+</section>
+<section id="nuvem-de-palavras">
+<h2>Nuvem de palavras<a class="headerlink" href="#nuvem-de-palavras" title="Link to this heading">#</a></h2>
+<p>Uma nuvem de palavras é uma boa maneira de verificar quais palavras são mais ou menos relevantes em um dataset. Trata-se de um gráfico que <em>plota</em> as palavras indicando através de seu tamanho a quantidade de vezes que apareceu em todos os textos. Outra utilidade é adicionar novas palavras na lista de stop words que por ventura podem aparecer como relevante e não estarem na lista.</p>
+<p>Abaixo temos uma função que cria uma nuvem de palavras:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">nuvem_palavras</span><span class="p">(</span><span class="n">textos</span><span class="p">):</span>
+
+    <span class="c1"># Juntando todos os textos na mesma string</span>
+    <span class="n">todas_palavras</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">texto</span> <span class="k">for</span> <span class="n">texto</span> <span class="ow">in</span> <span class="n">textos</span><span class="p">])</span>
+    <span class="c1"># Gerando a nuvem de palavras</span>
+    <span class="n">nuvem_palvras</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span><span class="o">=</span> <span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+                              <span class="n">max_font_size</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
+                              <span class="n">collocations</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">todas_palavras</span><span class="p">)</span>
+    <span class="c1"># Plotando nuvem de palavras</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">nuvem_palvras</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos testar as funções de nuvem de palavras, CountVectorizer e TfidfVectorizer em um dataset de reviews traduzidos do imdb:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../data/databaseIMDB.csv&#39;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># vamos ver as primeiras cinco linhas do dataset:</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-8a0c4c99-553d-4680-a044-0206194f3ca8" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>text_en</th>
+      <th>text_pt</th>
+      <th>sentiment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Once again Mr. Costner has dragged out a movie...</td>
+      <td>Mais uma vez, o Sr. Costner arrumou um filme p...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>This is an example of why the majority of acti...</td>
+      <td>Este é um exemplo do motivo pelo qual a maiori...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>First of all I hate those moronic rappers, who...</td>
+      <td>Primeiro de tudo eu odeio esses raps imbecis, ...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Not even the Beatles could write songs everyon...</td>
+      <td>Nem mesmo os Beatles puderam escrever músicas ...</td>
+      <td>neg</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Brass pictures movies is not a fitting word fo...</td>
+      <td>Filmes de fotos de latão não é uma palavra apr...</td>
+      <td>neg</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-8a0c4c99-553d-4680-a044-0206194f3ca8')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-8a0c4c99-553d-4680-a044-0206194f3ca8 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-8a0c4c99-553d-4680-a044-0206194f3ca8');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    <div id="df-6d72f7ad-106c-4eef-a36d-d6959be20e71">
+      <button class="colab-df-quickchart" onclick="quickchart('df-6d72f7ad-106c-4eef-a36d-d6959be20e71')"
+                title="Suggest charts"
+                style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+      </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+      <script>
+        async function quickchart(key) {
+          const quickchartButtonEl =
+            document.querySelector('#' + key + ' button');
+          quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+          quickchartButtonEl.classList.add('colab-df-spinner');
+          try {
+            const charts = await google.colab.kernel.invokeFunction(
+                'suggestCharts', [key], {});
+          } catch (error) {
+            console.error('Error during call to suggestCharts:', error);
+          }
+          quickchartButtonEl.classList.remove('colab-df-spinner');
+          quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+        }
+        (() => {
+          let quickchartButtonEl =
+            document.querySelector('#df-6d72f7ad-106c-4eef-a36d-d6959be20e71 button');
+          quickchartButtonEl.style.display =
+            google.colab.kernel.accessAllowed ? 'block' : 'none';
+        })();
+      </script>
+    </div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construindo a nuvem de palavras:</span>
+<span class="n">nuvem_palavras</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;text_pt&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f7f4b69bcc196eed093db68916e9bb9854440982c630606c5a1aa4780439de7d.png" src="../../_images/f7f4b69bcc196eed093db68916e9bb9854440982c630606c5a1aa4780439de7d.png" />
+</div>
+</div>
+<p>Podemos observar que aparecem várias palavras de parada como relevantes no dataset. Portanto seria interessante removê-las, talvez adicionando a palavra “filme”, pois se trata de <em>reviews</em> de filmes.</p>
+</section>
+<section id="countvectorizer-e-tfidfvectorizer">
+<h2>CountVectorizer e TfidfVectorizer<a class="headerlink" href="#countvectorizer-e-tfidfvectorizer" title="Link to this heading">#</a></h2>
+<p>Após a realização da limpeza dos textos é necessário transformar o dataset número para aplicar algum algoritmo de aprendizagem. Para tal, vamos apresentar duas técnicas: <strong>CountVectorizer</strong> e <strong>TfidfVectorizer</strong>.</p>
+<p>O CountVectorizer agrupa todas as palavras e faz uma contagem da frequência de cada uma.</p>
+<p>O TfidfVectorizer é um índice no qual o valor aumenta proporcionalmente à contagem das palavras, mas é compensado pela frequência da palavra no corpus (conjunto de todas as palavras do dataset). Este é o IDF, que significa <em>inverse document frequency part</em> - parte inversa da frequência no documento. A vantagem de usá-lo está no fato de que ele vai dar menos importância para palavras como as <em>stopwords</em>.</p>
+<p>Abaixo temos funções para as duas técnicas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">countvectorizer</span><span class="p">(</span><span class="n">textos</span><span class="p">):</span>
+
+    <span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
+    <span class="n">text_vect</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">textos</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">text_vect</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tfidfvectorizer</span><span class="p">(</span><span class="n">textos</span><span class="p">):</span>
+
+    <span class="n">vect</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">text_vect</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">textos</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">text_vect</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Neste caso não iremos aplicá-las, pois não estamos interessados neste notebook em avançar para a etapa de criação de modelos, mas sim em preparar um dataset limpo para tal. Ao invés disso, vamos juntar todas as funções em uma classe e aplicá-las ao dataset do imdb.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="classe-de-pre-processamento-para-nlp">
+<h1>Classe de Pré-processamento para NLP<a class="headerlink" href="#classe-de-pre-processamento-para-nlp" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">preprocess_nlp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">stopwords</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lemma</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wordcloud</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="s1">&#39;tfidf&#39;</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">texts</span> <span class="o">=</span> <span class="n">texts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span> <span class="o">=</span> <span class="n">stopwords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lemma</span> <span class="o">=</span> <span class="n">lemma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wordcloud</span> <span class="o">=</span> <span class="n">wordcloud</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numeric</span> <span class="o">=</span> <span class="n">numeric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopwords_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">new_texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">texts</span><span class="p">:</span>
+
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;@[^\s]+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">unidecode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&lt;[^&lt;]+?&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">())</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;((www\.[^\s]+)|(https?://[^\s]+)|(http?://[^\s]+))&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">punctuation</span><span class="p">)</span>
+            <span class="n">new_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span> <span class="o">=</span> <span class="n">new_texts</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_stopwords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">stop_words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;portuguese&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">STOP_WORDS</span><span class="p">)))</span>
+
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">stopwords_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unidecode</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_stopword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopwords_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">word</span><span class="p">]</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_stopwords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">new_texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span><span class="p">:</span>
+
+            <span class="n">new_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+
+                <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopwords_list</span><span class="p">:</span>
+
+                    <span class="n">new_text</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">word</span>
+
+            <span class="n">new_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_text</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span> <span class="o">=</span> <span class="n">new_texts</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_lemma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+        <span class="n">new_texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">texts</span><span class="p">:</span>
+
+            <span class="n">new_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+
+                <span class="n">new_text</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">word</span><span class="o">.</span><span class="n">lemma_</span>
+
+            <span class="n">new_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_text</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span> <span class="o">=</span> <span class="n">new_texts</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_stem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">stemmer</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">SnowballStemmer</span><span class="p">(</span><span class="s1">&#39;portuguese&#39;</span><span class="p">)</span>
+        <span class="n">new_texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">texts</span><span class="p">:</span>
+
+            <span class="n">new_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+
+                <span class="n">new_text</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+            <span class="n">new_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_text</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span> <span class="o">=</span> <span class="n">new_texts</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">word_cloud</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">all_words</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">text</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span><span class="p">])</span>
+        <span class="n">word_cloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">width</span><span class="o">=</span> <span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+                               <span class="n">max_font_size</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
+                               <span class="n">collocations</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">all_words</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">word_cloud</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">countvectorizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
+        <span class="n">text_vect</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">text_vect</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">tfidfvectorizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">vect</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="n">text_vect</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new_texts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">text_vect</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clean_text</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_stopwords</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_stopwords</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lemma</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_lemma</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_stem</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wordcloud</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">word_cloud</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numeric</span> <span class="o">==</span> <span class="s1">&#39;tfidf&#39;</span><span class="p">:</span>
+            <span class="n">text_vect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfidfvectorizer</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">numeric</span> <span class="o">==</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span>
+            <span class="n">text_vect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">countvectorizer</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;metodo nao mapeado!&#39;</span><span class="p">)</span>
+            <span class="n">exit</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">text_vect</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Na criação desta classe coloquei alguns argumentos opcionais em relação à quais funções serão executadas no pré-processamento. O padrão será remover as palavras de parada, fazer a limpeza do texto, apresentar a nuvem de palavras e aplicar o TfidfVectorizer.</p>
+<p>Agora vamos aplicar na base do imdb:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prepro</span> <span class="o">=</span> <span class="n">preprocess_nlp</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;text_pt&#39;</span><span class="p">],</span> <span class="n">numeric</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+<span class="c1">#adicionando as palavras filme e filmes na lista de palavras de parada, pois elas são irrelevantes neste contexto</span>
+<span class="n">prepro</span><span class="o">.</span><span class="n">add_stopword</span><span class="p">(</span><span class="s1">&#39;filme&#39;</span><span class="p">)</span>
+<span class="n">prepro</span><span class="o">.</span><span class="n">add_stopword</span><span class="p">(</span><span class="s1">&#39;filmes&#39;</span><span class="p">)</span>
+<span class="n">sparse_matrix</span> <span class="o">=</span> <span class="n">prepro</span><span class="o">.</span><span class="n">preprocess</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4177779cb2d306e91055e3deaba846e968533ffa5acb8babc9a5b19cfc1e757e.png" src="../../_images/4177779cb2d306e91055e3deaba846e968533ffa5acb8babc9a5b19cfc1e757e.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Compressed Sparse Row sparse matrix of dtype &#39;int64&#39;
+	with 79738 stored elements and shape (1000, 19110)&gt;
+  Coords	Values
+  (0, 16956)	1
+  (0, 4428)	3
+  (0, 1370)	1
+  (0, 12522)	1
+  (0, 17586)	1
+  (0, 16378)	1
+  (0, 15444)	1
+  (0, 11491)	1
+  (0, 14161)	1
+  (0, 16598)	1
+  (0, 9539)	1
+  (0, 12567)	1
+  (0, 13743)	1
+  (0, 7741)	2
+  (0, 1274)	2
+  (0, 13741)	2
+  (0, 4427)	1
+  (0, 15032)	1
+  (0, 7085)	1
+  (0, 9536)	1
+  (0, 5568)	1
+  (0, 9532)	1
+  (0, 1354)	1
+  (0, 17213)	1
+  (0, 1406)	1
+  :	:
+  (999, 12013)	1
+  (999, 2739)	1
+  (999, 17012)	1
+  (999, 3724)	1
+  (999, 10467)	1
+  (999, 2782)	1
+  (999, 6857)	1
+  (999, 18985)	1
+  (999, 12123)	1
+  (999, 9344)	1
+  (999, 15589)	1
+  (999, 669)	1
+  (999, 15673)	1
+  (999, 13730)	1
+  (999, 4492)	1
+  (999, 15507)	1
+  (999, 1953)	1
+  (999, 16079)	1
+  (999, 10373)	1
+  (999, 4493)	1
+  (999, 13269)	1
+  (999, 13838)	1
+  (999, 765)	1
+  (999, 13731)	1
+  (999, 1588)	1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusao">
+<h1>Conclusão<a class="headerlink" href="#conclusao" title="Link to this heading">#</a></h1>
+<p>Neste documento abordamos algumas funções de pré-processamento de textos para análise de sentimento onde foi possível notar que existe uma gama enorme de possibilidades para tal. Ao final, criamos uma classe, sem aprofundar muito em cada função, para realizar a tratativa de um dataframe de textos com algumas opções e aplicamos em um dataset selecionado.
+A partir daí é possível realizar estudos exploratórios e preditivos na base resultante.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/atividades"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="O_Perceptron.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">O Perceptron</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="SistemaRecomendacaoPythonCEUB_KNN.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Pré Processamento dos Dados</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introdução</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#funcoes-para-pre-processamento">Funções para Pré-Processamento</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limpeza-do-texto">Limpeza do texto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remocao-das-palavras-de-parada-stop-words">Remoção das Palavras de Parada (Stop Words)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lematizacao-e-stemizacao">Lematização e stemização</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nuvem-de-palavras">Nuvem de palavras</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#countvectorizer-e-tfidfvectorizer">CountVectorizer e TfidfVectorizer</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classe-de-pre-processamento-para-nlp">Classe de Pré-processamento para NLP</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By yagoprssantos
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
