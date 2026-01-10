@@ -1,0 +1,28 @@
+# Jupyter Book configuration
+# Docs: https://jupyterbook.org/en/stable/customize/config.html
+
+title: CienciaDados
+author: yagoprssantos
+
+execute:
+  execute_notebooks: off
+
+# Keep the build fast and focused on the repo content we care about.
+# (Notebooks already contain rendered outputs.)
+exclude_patterns:
+  - .venv
+  - venv
+  - .git
+  - .github
+  - README.md
+  - data/**
+  - docs/**
+  - notebooks/estudos_caso/notebookBase.ipynb
+
+repository:
+  url: https://github.com/yagoprssantos/CienciaDados
+
+sphinx:
+  config:
+    html_title: CienciaDados
+    html_show_copyright: false

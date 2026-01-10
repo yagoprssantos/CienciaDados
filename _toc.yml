@@ -1,0 +1,11 @@
+format: jb-book
+root: intro
+
+parts:
+  - caption: Atividades
+    chapters:
+      - glob: notebooks/atividades/*
+
+  - caption: Estudos de Caso
+    chapters:
+      - glob: notebooks/estudos_caso/EstudodeCaso*
